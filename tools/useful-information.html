@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — Useful Information</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page:      #05050f;
+      --slate-900:    #0f172a;
+      --slate-800:    #1e293b;
+      --slate-400:    #94a3b8;
+      --slate-300:    #cbd5e1;
+      --white:        #ffffff;
+      --cyan-300:     #67e8f9;
+      --cyan-400:     #22d3ee;
+      --purple-400:   #c084fc;
+      --purple-500:   #a855f7;
+      --emerald-400:  #34d399;
+      --red-400:      #f87171;
+      --amber-400:    #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .glass {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .home-btn {
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .home-btn:hover {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 8px #00f7ff);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage05.png" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:sticky; top:0; z-index:50;">
+    <div style="max-width:1536px; margin:0 auto; padding:1rem 2.5rem; display:flex; align-items:center; gap:1.5rem;">
+
+      <!-- Home button -->
+      <a href="../index.html" class="home-btn" title="Back to Home">
+        <img src="../assets/homebutton.png" alt="Home" style="height:48px; width:auto; display:block;">
+      </a>
+
+      <!-- Page title -->
+      <h1 class="title-font" style="font-size:3rem; letter-spacing:4px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center;">
+        USEFUL INFORMATION
+      </h1>
+
+    </div>
+  </header>
+
+  <style>
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 540px) {
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+
+    .tool-card {
+      position: relative;
+      display: block;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      background: rgba(15,23,42,0.5);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 0 24px rgba(0, 247, 255, 0.35);
+      border-color: rgba(0, 247, 255, 0.5);
+    }
+
+    .tool-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .tool-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5rem 0.75rem;
+      background: linear-gradient(to top, rgba(5,5,15,0.90) 0%, transparent 100%);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  </style>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:1536px; margin:0 auto; padding:2.5rem; display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- Intro text block — edit this area freely -->
+    <div style="padding:0.5rem 0 0 0;">
+      <h2 style="text-transform:uppercase; font-size:0.75rem; letter-spacing:0.2em; color:var(--cyan-400); font-weight:500; margin:0 0 1rem 0;">
+        Useful Tools &amp; Resources
+      </h2>
+      <p style="color:var(--slate-300); font-size:0.9rem; line-height:1.7; margin:0;">
+        Browse the tools below. Click any card to open the corresponding resource.
+      </p>
+
+      <!-- 4 × 3 Tool Grid -->
+      <div class="tools-grid">
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+        <a href="#" class="tool-card">
+          <img src="../assets/usefulltoolsimage.png" alt="Tool">
+          <span class="tool-card-label">TBC</span>
+        </a>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.5rem; text-align:center; color:var(--slate-400); font-size:0.875rem;">
+    TheFaminator 2.0
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAMINATOR'S — TIN'S BY COUNTRY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page:      #05050f;
+      --slate-900:    #0f172a;
+      --slate-800:    #1e293b;
+      --slate-400:    #94a3b8;
+      --slate-300:    #cbd5e1;
+      --white:        #ffffff;
+      --cyan-300:     #67e8f9;
+      --cyan-400:     #22d3ee;
+      --purple-400:   #c084fc;
+      --purple-500:   #a855f7;
+      --emerald-400:  #34d399;
+      --red-400:      #f87171;
+      --amber-400:    #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .glass {
+      background: rgba(0, 0, 0, 0.40);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Country grid ── */
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.25rem;
+      animation: fadeIn 0.5s ease both;
+    }
+
+    .country-card {
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .country-card:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 0 28px -4px #00f7ff, 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .country-card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      display: block;
+    }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      animation: fadeIn 0.2s ease both;
+    }
+
+    .modal-box {
+      background: rgba(10, 18, 38, 0.97);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2rem;
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 60px -10px #00f7ff, 0 32px 80px rgba(0,0,0,0.8);
+      animation: slideUp 0.28s cubic-bezier(0.22,1,0.36,1) both;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--slate-400);
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1;
+    }
+    .modal-close:hover { background: rgba(248,113,113,0.15); color: var(--red-400); border-color: rgba(248,113,113,0.35); }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .modal-flag {
+      width: 96px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+    }
+
+    .modal-country-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 0.25rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+    }
+
+    .modal-region {
+      font-size: 0.8rem;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.70);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-400);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-card .stat-value {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--cyan-300);
+    }
+
+    .section-label {
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan-400);
+      font-weight: 500;
+      margin: 0 0 1rem;
+    }
+
+    .tin-block {
+      background: rgba(15, 23, 42, 0.60);
+      border: 1px solid rgba(34,211,238,0.18);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .tin-block:last-child { margin-bottom: 0; }
+
+    .tin-type-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+    .tin-type-badge.individual {
+      background: rgba(34,211,238,0.12);
+      border: 1px solid rgba(34,211,238,0.35);
+      color: var(--cyan-400);
+    }
+    .tin-type-badge.entity {
+      background: rgba(168,85,247,0.12);
+      border: 1px solid rgba(168,85,247,0.35);
+      color: var(--purple-400);
+    }
+
+    .tin-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+      letter-spacing: 1px;
+    }
+
+    .tin-format {
+      font-size: 0.78rem;
+      color: var(--emerald-400);
+      font-family: monospace;
+      margin-bottom: 0.75rem;
+      background: rgba(52,211,153,0.08);
+      border: 1px solid rgba(52,211,153,0.18);
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      border-radius: 0.4rem;
+    }
+
+    .tin-desc {
+      font-size: 0.85rem;
+      color: var(--slate-300);
+      line-height: 1.65;
+    }
+
+    .fun-fact-box {
+      background: rgba(168,85,247,0.08);
+      border: 1px solid rgba(168,85,247,0.20);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--slate-300);
+      line-height: 1.6;
+    }
+    .fun-fact-box strong {
+      color: var(--purple-400);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage05.png" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../index.html" style="transition:transform 0.2s ease, filter 0.2s ease; display:block;"
+         onmouseover="this.style.transform='scale(1.08)';this.style.filter='drop-shadow(0 0 8px #00f7ff)'"
+         onmouseout="this.style.transform='scale(1)';this.style.filter='none'">
+        <img src="../assets/homebutton.png" alt="Home" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(1.2rem, 3.5vw, 3rem); letter-spacing:4px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        TIN'S BY COUNTRY
+      </h1>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main style="max-width:1536px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2.5rem; flex:1; width:100%;">
+
+    <!-- Intro panel -->
+    <div class="glass" style="padding:2rem 2.5rem;">
+      <p class="section-label">Overview</p>
+      <p class="title-font" style="font-size:1.5rem; margin:0 0 0.6rem; letter-spacing:2px;">Tax Identification Numbers by Country</p>
+      <p style="color:var(--slate-400); font-size:0.9rem; line-height:1.7; margin:0; max-width:680px;">
+        Click any country flag below to explore its TIN structure, format rules, and interesting facts.
+        Each country has its own unique approach to tax identification — from Norway's birth-date-encoded
+        personal number to the USA's Social Security Number system.
+      </p>
+    </div>
+
+    <!-- Countries grid -->
+    <div class="glass" style="padding:2rem 2.5rem;">
+      <p class="section-label" id="grid-label">Loading countries…</p>
+      <div class="countries-grid" id="countriesGrid"></div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem; flex-shrink:0;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="../index.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="global-tin-validator.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Global TIN Validator</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="countries.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">TIN's by Country</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+      <p style="margin:0; font-size:0.72rem; color:var(--slate-400); max-width:640px; line-height:1.6;">
+        For reference purposes only. Always verify TIN requirements with the relevant tax authority.
+      </p>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-box" id="modalBox">
+      <button class="modal-close" onclick="closeModalDirect()" aria-label="Close">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Load country modules — single source of truth for all TIN data -->
+  <script>
+    // Supported countries: add more codes here as _check.js files are created
+    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI'];
+
+    // Load all country scripts and then render the grid
+    let loaded = 0;
+    window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
+
+    function onCountryLoaded() {
+      loaded++;
+      if (loaded === SUPPORTED_COUNTRIES.length) renderGrid();
+    }
+
+    SUPPORTED_COUNTRIES.forEach(code => {
+      const s = document.createElement('script');
+      s.src = `js/countries/${code.toLowerCase()}_check.js`;
+      s.onload  = onCountryLoaded;
+      s.onerror = onCountryLoaded; // still render even if one fails
+      document.head.appendChild(s);
+    });
+
+    function renderGrid() {
+      const grid  = document.getElementById('countriesGrid');
+      const label = document.getElementById('grid-label');
+      const countries = SUPPORTED_COUNTRIES
+        .filter(code => window.TIN_COUNTRIES[code])
+        .map(code => ({ code, ...window.TIN_COUNTRIES[code] }));
+
+      label.textContent = `Select a Country — ${countries.length} supported`;
+
+      countries.forEach((c, i) => {
+        const card = document.createElement('div');
+        card.className = 'country-card';
+        card.style.animation = `fadeIn 0.4s ease ${i * 0.08}s both`;
+        card.innerHTML = `<img src="${c.flag}" alt="${c.name} flag" onerror="this.style.opacity='0.3'">`;
+        card.addEventListener('click', () => openModal(c));
+        grid.appendChild(card);
+      });
+
+      // Auto-open modal if ?country=XX is in the URL (e.g. linked from the validator)
+      const params = new URLSearchParams(window.location.search);
+      const autoCode = params.get('country');
+      if (autoCode && window.TIN_COUNTRIES[autoCode]) {
+        openModal({ code: autoCode, ...window.TIN_COUNTRIES[autoCode] });
+      }
+    }
+
+    function openModal(c) {
+      const m = c.metadata || {};
+      const tinsHtml = Object.entries(c.tin_types || {}).map(([typeName, t]) => `
+        <div class="tin-block">
+          <span class="tin-type-badge ${typeName.toLowerCase()}">${typeName}</span>
+          <div class="tin-name">${t.name}</div>
+          <div class="tin-format">${t.format}</div>
+          <div class="tin-desc">${t.description}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('modalContent').innerHTML = `
+        <div class="modal-header">
+          <img class="modal-flag" src="${c.flag}" alt="${c.name} flag" onerror="this.style.display='none'">
+          <div>
+            <div class="modal-country-name">${c.name}</div>
+            <div class="modal-region">${m.region || ''} &nbsp;·&nbsp; ${c.code}</div>
+          </div>
+        </div>
+
+        ${m.capital ? `
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Capital</div><div class="stat-value">${m.capital}</div></div>
+          <div class="stat-card"><div class="stat-label">Population</div><div class="stat-value">${m.population}</div></div>
+          <div class="stat-card"><div class="stat-label">Currency</div><div class="stat-value">${m.currency}</div></div>
+          <div class="stat-card"><div class="stat-label">GDP per Capita</div><div class="stat-value">${m.gdpPerCapita}</div></div>
+        </div>` : ''}
+
+        <p class="section-label">TIN Information</p>
+        ${tinsHtml}
+
+        ${m.funFact ? `
+        <div class="fun-fact-box">
+          <strong>Did you know?</strong>
+          ${m.funFact}
+        </div>` : ''}
+      `;
+
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+    }
+
+    function closeModalDirect() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+  </script>
+
+</body>
+</html>

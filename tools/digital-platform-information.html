@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — Digital Platform Information</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page:     #05050f;
+      --slate-900:   #0f172a;
+      --slate-800:   #1e293b;
+      --slate-400:   #94a3b8;
+      --slate-300:   #cbd5e1;
+      --white:       #ffffff;
+      --cyan-300:    #67e8f9;
+      --cyan-400:    #22d3ee;
+      --purple-400:  #c084fc;
+      --purple-500:  #a855f7;
+      --emerald-400: #34d399;
+      --red-400:     #f87171;
+      --amber-400:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 8px #00f7ff);
+    }
+
+    /* Cards — dark overlay improves readability while keeping background visible */
+    .card {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2.5rem;
+      background: rgba(5, 5, 15, 0.55);
+    }
+
+    .card-cyan {
+      border-color: rgba(34, 211, 238, 0.30);
+      box-shadow: 0 0 30px -8px rgba(0, 247, 255, 0.35), 0 0 12px -4px rgba(0, 247, 255, 0.20);
+    }
+
+    .card-purple {
+      border-color: rgba(168, 85, 247, 0.30);
+      box-shadow: 0 0 30px -8px rgba(168, 85, 247, 0.35), 0 0 12px -4px rgba(168, 85, 247, 0.20);
+    }
+
+    /* Section label */
+    .section-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin: 0 0 1.25rem;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    /* Relevant activities list */
+    .activity-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 600px) {
+      .activity-list { grid-template-columns: 1fr; }
+    }
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      border-radius: 0.875rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .activity-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .activity-text strong {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .activity-text span {
+      font-size: 0.75rem;
+      color: var(--slate-400);
+      line-height: 1.5;
+    }
+
+    /* Decision tree grid */
+    .tree-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .tree-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Tree inner content */
+    .tree-body { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    /* Tree title */
+    .tree-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin: 0 0 0.25rem;
+      line-height: 1.4;
+    }
+    .tree-subtitle {
+      font-size: 0.8rem;
+      color: var(--slate-400);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Step indicator */
+    .step-indicator {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    /* Question */
+    .tree-question {
+      font-size: 0.9rem;
+      color: var(--white);
+      line-height: 1.75;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    /* Hint */
+    .tree-hint {
+      font-size: 0.775rem;
+      color: var(--slate-400);
+      line-height: 1.65;
+      padding: 0.7rem 0.9rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Answer buttons */
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    .btn-yes {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      color: #000;
+      border: none;
+      border-radius: 0.875rem;
+      padding: 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      transition: opacity 0.2s ease;
+    }
+    .btn-yes:hover { opacity: 0.85; }
+
+    .btn-no {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
+      border-radius: 0.875rem;
+      padding: 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .btn-no:hover {
+      border-color: var(--purple-400);
+      color: var(--purple-400);
+    }
+
+    /* Start button */
+    .btn-start {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      color: #000;
+      border: none;
+      border-radius: 0.875rem;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      transition: opacity 0.2s ease;
+      width: 100%;
+    }
+    .btn-start:hover { opacity: 0.85; }
+
+    /* Back / reset text buttons */
+    .btn-text {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate-400);
+      transition: color 0.2s ease;
+    }
+    .btn-text:hover { color: var(--cyan-300); }
+
+    /* Outcome panel */
+    .outcome-panel {
+      border-radius: 0.875rem;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .outcome-icon  { font-size: 1.4rem; line-height: 1; }
+    .outcome-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .outcome-msg {
+      font-size: 0.82rem;
+      color: var(--slate-300);
+      line-height: 1.7;
+    }
+
+    /* Nav row under question / outcome */
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Answer path display */
+    .answer-path {
+      font-size: 0.68rem;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .answer-path .yes-ans { color: var(--cyan-300); }
+    .answer-path .no-ans  { color: var(--slate-400); }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+
+    /* ── Timeline ─────────────────────────────────── */
+    .step-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 700px) {
+      .step-flow { grid-template-columns: repeat(2, 1fr); }
+    }
+    .step-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 1.1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* ── Seller data tabs ─────────────────────────── */
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 0.75rem;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: var(--slate-400);
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      border-color: transparent;
+      color: #000;
+    }
+    .tab-btn:not(.active):hover {
+      border-color: var(--cyan-400);
+      color: var(--cyan-300);
+    }
+
+    .field-group-label {
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+      margin: 1rem 0 0.3rem;
+    }
+    .field-group-label:first-child { margin-top: 0; }
+
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.8rem;
+      color: var(--slate-300);
+      line-height: 1.55;
+    }
+    .field-item:last-child { border-bottom: none; }
+    .field-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.47rem;
+    }
+    .field-note {
+      font-size: 0.72rem;
+      color: var(--slate-400);
+    }
+
+    /* ── Verification steps ───────────────────────── */
+    .verify-step {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .verify-step:last-child { border-bottom: none; }
+    .verify-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.65rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    /* ── Definitions accordion ────────────────────── */
+    .def-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 3rem;
+    }
+    @media (max-width: 700px) {
+      .def-grid { grid-template-columns: 1fr; }
+    }
+    details.def-item { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    details.def-item:last-child { border-bottom: none; }
+    details.def-item summary {
+      padding: 0.85rem 0;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--white);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      gap: 0.5rem;
+    }
+    details.def-item summary::-webkit-details-marker { display: none; }
+    details.def-item summary::after {
+      content: '+';
+      font-family: monospace;
+      font-size: 1rem;
+      color: var(--slate-400);
+      flex-shrink: 0;
+    }
+    details.def-item[open] summary::after { content: '−'; }
+    details.def-item[open] summary { color: var(--cyan-300); }
+    details.def-item .def-body {
+      font-size: 0.8rem;
+      color: var(--slate-300);
+      line-height: 1.72;
+      padding: 0 1rem 0.875rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage04.png" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+
+      <a href="../index.html" class="home-btn" title="Back to Home">
+        <img src="../assets/homebutton.png" alt="Home" style="height:48px; width:auto; display:block;">
+      </a>
+
+      <h1 class="title-font" style="font-size:clamp(1rem, 3vw, 2.5rem); letter-spacing:4px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        DIGITAL PLATFORM INFORMATION
+      </h1>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:1280px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">OECD Model Rules for Digital Platforms</span>
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0 0 1.25rem;">
+        The <strong style="color:var(--white);">OECD Model Rules for Reporting by Platform Operators (MRDP)</strong> require digital platforms to collect, verify, and report information about sellers earning income through their platforms. Now enacted across many jurisdictions — including EU member states under <strong style="color:var(--white);">DAC7</strong> — the rules ensure sellers pay the correct tax on platform income. Use the decision tools below to find out whether the rules apply to your platform and which sellers must be reported.
+      </p>
+
+      <span class="section-label" style="color:var(--purple-400); margin-bottom:0.75rem;">The Four Relevant Activities</span>
+      <div class="activity-list">
+        <div class="activity-item">
+          <span class="activity-icon">🏠</span>
+          <div class="activity-text">
+            <strong>Rental of Immovable Property</strong>
+            <span>Short-term and long-term rentals of residential and commercial property, including parking spaces.</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <span class="activity-icon">👤</span>
+          <div class="activity-text">
+            <strong>Personal Services</strong>
+            <span>Time- or task-based work performed by an individual, such as freelance, gig, or on-demand services.</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <span class="activity-icon">📦</span>
+          <div class="activity-text">
+            <strong>Sale of Goods</strong>
+            <span>Sale of any tangible personal property through the platform, subject to a de minimis threshold.</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <span class="activity-icon">🚗</span>
+          <div class="activity-text">
+            <strong>Rental of Any Mode of Transport</strong>
+            <span>Short-term rental of vehicles, boats, bicycles, and other transport modes facilitated through the platform.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECISION TREES -->
+    <div class="tree-grid">
+
+      <!-- TREE 1: Am I a Reportable Platform Operator? -->
+      <div class="card card-cyan">
+        <span class="section-label" style="color:var(--cyan-400);">Decision Tool 1</span>
+        <h2 class="tree-title">Am I a Reportable Platform Operator?</h2>
+        <hr class="divider" style="margin:0.25rem 0 0.5rem;">
+        <div id="tree-platformOperator" class="tree-body"></div>
+      </div>
+
+      <!-- TREE 2: Is this seller a Reportable Seller? -->
+      <div class="card card-purple">
+        <span class="section-label" style="color:var(--purple-400);">Decision Tool 2</span>
+        <h2 class="tree-title">Is this seller a Reportable Seller?</h2>
+        <hr class="divider" style="margin:0.25rem 0 0.5rem;">
+        <div id="tree-reportableSeller" class="tree-body"></div>
+      </div>
+
+    </div>
+
+    <!-- REPORTING TIMELINE -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">Reporting Timeline</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.5rem; line-height:1.65;">Platform operators follow a four-phase annual cycle, from collecting seller data throughout the year through to automatic exchange of information between tax authorities.</p>
+      <div class="step-flow">
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--cyan-400),#0ea5e9);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#000;flex-shrink:0;">1</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--cyan-300);">Collect</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">Throughout the year</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Gather seller identity, tax residency, and financial account information. Collect all required information from sellers at the point of registration.</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--purple-400),var(--purple-500));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#fff;flex-shrink:0;">2</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--purple-400);">Verify</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">Ongoing — complete by 31 Dec</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Validate seller information via plausibility checks, TIN validation, and registry lookups. All due diligence must be complete before year-end.</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,var(--amber-400));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#000;flex-shrink:0;">3</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--amber-400);">Report</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">31 January (following year)</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Submit the annual report to your competent authority covering all reportable sellers from the preceding calendar year (1 Jan – 31 Dec).</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--emerald-400),#059669);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#000;flex-shrink:0;">4</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--emerald-400);">Exchange</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">By 28/29 February</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Your tax authority automatically exchanges the reported data with the tax authorities of each seller's jurisdiction of residence.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SELLER DATA REQUIREMENTS -->
+    <div class="card card-cyan">
+      <span class="section-label" style="color:var(--cyan-400);">Seller Data Requirements</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">The information you must collect differs between individual and entity sellers. For sellers renting out property, additional per-listing fields apply on top of the standard requirements.</p>
+
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <button id="tab-individual" class="tab-btn active" onclick="switchSellerTab('individual')">Individual Seller</button>
+        <button id="tab-entity"     class="tab-btn"        onclick="switchSellerTab('entity')">Entity Seller</button>
+      </div>
+
+      <!-- Individual -->
+      <div id="panel-individual">
+        <div class="field-group-label">Identity &amp; Tax Residence</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Full legal name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Primary residential address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Date of birth</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Jurisdiction(s) of tax residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Tax Identification Number (TIN) for each jurisdiction of residence</div></div>
+
+        <div class="field-group-label">Financial Account</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Financial account identifier (e.g. IBAN or equivalent)<br><span class="field-note">Where collected or available to the platform operator</span></div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Name of account holder if different from seller</div></div>
+
+        <div class="field-group-label">Reporting Period — Per Quarter</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Aggregate consideration paid or credited to the seller</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Number of relevant activities performed</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Fees, commissions, and taxes withheld or charged by the platform</div></div>
+      </div>
+
+      <!-- Entity -->
+      <div id="panel-entity" style="display:none;">
+        <div class="field-group-label">Identity &amp; Tax Residence</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Full legal name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Primary registered business address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Jurisdiction(s) of tax residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Tax Identification Number (TIN) for each jurisdiction of residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Business registration number</div></div>
+
+        <div class="field-group-label">Financial Account</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Financial account identifier (e.g. IBAN or equivalent)<br><span class="field-note">Where collected or available to the platform operator</span></div></div>
+
+        <div class="field-group-label">Reporting Period — Per Quarter</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Aggregate consideration paid or credited to the seller</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Number of relevant activities performed</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Fees, commissions, and taxes withheld or charged by the platform</div></div>
+      </div>
+
+      <!-- Property rental additions -->
+      <div style="margin-top:1.75rem; padding:1.25rem 1.5rem; background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.22); border-radius:1rem;">
+        <span class="section-label" style="color:var(--purple-400); margin-bottom:0.75rem;">Additional Requirements — Rental of Immovable Property</span>
+        <p style="font-size:0.78rem; color:var(--slate-400); margin:0 0 0.5rem; line-height:1.65;">These fields apply on top of the standard requirements above for any seller — individual or entity — whose activity includes the rental of immovable property. Each property listing must be reported separately.</p>
+        <div class="field-group-label" style="margin-top:0.5rem;">Per Property Listing</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Full address of the property listing</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Land registration number <span class="field-note">(where available in the relevant jurisdiction)</span></div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Type of property <span class="field-note">(e.g. residential, commercial, parking space, land, storage)</span></div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Number of days rented during the reporting period</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Aggregate consideration per property address per quarter <span class="field-note">(reported per listing — not aggregated across all properties)</span></div></div>
+      </div>
+    </div>
+
+    <!-- VERIFICATION GUIDELINES -->
+    <div class="card card-purple">
+      <span class="section-label" style="color:var(--purple-400);">Seller Verification Guidelines</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 0.5rem; line-height:1.65;">Collecting seller information is only the first step. The OECD Model Rules require platform operators to verify that information is accurate and reliable. The following steps reflect the due diligence procedures under the rules.</p>
+
+      <div class="verify-step">
+        <div class="verify-num" style="background:linear-gradient(135deg,var(--cyan-400),#0ea5e9);color:#000;">1</div>
+        <div>
+          <p style="font-size:0.85rem;font-weight:600;color:var(--white);margin:0 0 0.3rem;">Collect Seller Information at Registration</p>
+          <p style="font-size:0.8rem;color:var(--slate-300);margin:0;line-height:1.68;">At the point of registration, collect the required information from each seller — name, address, jurisdiction(s) of tax residence, and TIN — before the seller's first transaction. Retain all collected information as part of your due diligence records.</p>
+        </div>
+      </div>
+
+      <div class="verify-step">
+        <div class="verify-num" style="background:linear-gradient(135deg,#7c3aed,var(--purple-500));color:#fff;">2</div>
+        <div>
+          <p style="font-size:0.85rem;font-weight:600;color:var(--white);margin:0 0 0.3rem;">Plausibility Check</p>
+          <p style="font-size:0.8rem;color:var(--slate-300);margin:0;line-height:1.68;">Compare the information provided by the seller against other data you hold — bank account country, registered address, IP address, or property location. If anything appears inconsistent, request clarification or corrected information from the seller before treating it as reliable.</p>
+        </div>
+      </div>
+
+      <div class="verify-step">
+        <div class="verify-num" style="background:linear-gradient(135deg,var(--cyan-400),var(--purple-500));color:#000;">3</div>
+        <div>
+          <p style="font-size:0.85rem;font-weight:600;color:var(--white);margin:0 0 0.3rem;">TIN Format Validation</p>
+          <p style="font-size:0.8rem;color:var(--slate-300);margin:0;line-height:1.68;">Verify that the TIN matches the correct format for the seller's stated jurisdiction — an incorrect format is a strong signal the information provided may be unreliable. Use the <a href="global-tin-validator.html" style="color:var(--cyan-300);text-decoration:none;border-bottom:1px solid rgba(103,232,249,0.35);">Global TIN Validator</a> on this platform for supported jurisdictions.</p>
+        </div>
+      </div>
+
+      <div class="verify-step">
+        <div class="verify-num" style="background:linear-gradient(135deg,var(--purple-400),#7c3aed);color:#fff;">4</div>
+        <div>
+          <p style="font-size:0.85rem;font-weight:600;color:var(--white);margin:0 0 0.3rem;">Entity Registry Verification</p>
+          <p style="font-size:0.8rem;color:var(--slate-300);margin:0;line-height:1.68;">For entity sellers, confirm legal existence via publicly available business registries and check that name, registration number, and address match the information provided by the seller. Examples: Brønnøysundregistrene (Norway), Bolagsverket (Sweden), Companies House (UK), Handelsregister (Germany).</p>
+        </div>
+      </div>
+
+      <div class="verify-step">
+        <div class="verify-num" style="background:linear-gradient(135deg,#f59e0b,var(--amber-400));color:#000;">5</div>
+        <div>
+          <p style="font-size:0.85rem;font-weight:600;color:var(--white);margin:0 0 0.3rem;">Document-Based Verification</p>
+          <p style="font-size:0.8rem;color:var(--slate-300);margin:0;line-height:1.68;">Where the plausibility check raises concerns or the seller is high-volume, request supporting documents. Individuals: government-issued photo ID and proof of address (within 3 years). Entities: certificate of incorporation or tax registration certificate.</p>
+        </div>
+      </div>
+
+      <div class="verify-step">
+        <div class="verify-num" style="background:linear-gradient(135deg,var(--emerald-400),#059669);color:#000;">6</div>
+        <div>
+          <p style="font-size:0.85rem;font-weight:600;color:var(--white);margin:0 0 0.3rem;">Annual Review &amp; Update</p>
+          <p style="font-size:0.8rem;color:var(--slate-300);margin:0;line-height:1.68;">Review seller information annually, or whenever circumstances suggest it may have changed, and collect updated information from the seller where needed. Sellers who fail to provide required information should be reported with available data and, where your jurisdiction requires it, have their account restricted.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEY DEFINITIONS -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">Key Definitions</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">Select a term to expand its definition under the OECD Model Rules.</p>
+      <div class="def-grid">
+
+        <div>
+          <details class="def-item">
+            <summary>Platform</summary>
+            <div class="def-body">Any software, including a website or part of one, and applications, including mobile applications, accessible by users and allowing Sellers to be connected to other users for the purpose of carrying out a Relevant Activity. Software used exclusively for processing payments or for listing and advertising a Relevant Activity (without facilitating the underlying transaction) does not qualify as a Platform.</div>
+          </details>
+          <details class="def-item">
+            <summary>Platform Operator</summary>
+            <div class="def-body">An entity that contracts with Sellers to make all or part of a Platform available to such Sellers. A Platform Operator may itself be a Seller on its own Platform — for example, a marketplace that also sells its own products alongside third-party sellers.</div>
+          </details>
+          <details class="def-item">
+            <summary>Reportable Platform Operator</summary>
+            <div class="def-body">A Platform Operator that is (a) resident for tax purposes in a Reportable Jurisdiction; (b) incorporated under the laws of a Reportable Jurisdiction; or (c) has its place of effective management in a Reportable Jurisdiction. Excluded Platform Operators are not Reportable Platform Operators.</div>
+          </details>
+          <details class="def-item">
+            <summary>Excluded Platform Operator</summary>
+            <div class="def-body">A Platform Operator that has demonstrated to the relevant competent authority that its entire business model is such that it does not have Reportable Sellers — for example, a platform that connects only large businesses that are themselves excluded from the rules as Governmental Entities or Publicly Traded Corporations.</div>
+          </details>
+          <details class="def-item">
+            <summary>Seller</summary>
+            <div class="def-body">A user of the Platform — whether an individual or an entity — who is registered at any point during the reporting period and who carries out a Relevant Activity for Consideration. A Seller does not have to be resident in a Reportable Jurisdiction to be a Seller; residency determines whether they are a Reportable Seller.</div>
+          </details>
+        </div>
+
+        <div>
+          <details class="def-item">
+            <summary>Active Seller</summary>
+            <div class="def-body">A Seller who, during the reporting period, has performed at least one Relevant Activity or has received Consideration for a Relevant Activity facilitated through the Platform. Sellers with zero transactions and zero payments in the period are not Active Sellers and fall outside the scope of reporting requirements.</div>
+          </details>
+          <details class="def-item">
+            <summary>Reportable Seller</summary>
+            <div class="def-body">An Active Seller who is not an Excluded Seller and who is resident for tax purposes in a Reportable Jurisdiction, or who rents out immovable property located in a Reportable Jurisdiction. Each Reportable Seller must be individually identified and reported to the competent authority in the Platform Operator's jurisdiction.</div>
+          </details>
+          <details class="def-item">
+            <summary>Excluded Seller</summary>
+            <div class="def-body">A Seller that falls into one of three categories: (a) a Governmental Entity; (b) an entity whose stock is regularly traded on an established securities market, or a Related Entity of such a corporation; or (c) an entity for which the Platform facilitated more than 2,000 property rental transactions during the reporting period. Excluded Sellers are exempt from reporting, but the basis for exclusion should be documented.</div>
+          </details>
+          <details class="def-item">
+            <summary>Consideration</summary>
+            <div class="def-body">Any compensation, in any form, paid or credited to a Seller in connection with a Relevant Activity — net of fees, commissions, or taxes withheld or charged by the Platform Operator. Consideration is reported in the currency in which it was paid, broken down per quarter. For property rental, it is reported per property address.</div>
+          </details>
+          <details class="def-item">
+            <summary>De Minimis Threshold (Goods Sellers)</summary>
+            <div class="def-body">For Sellers whose Relevant Activity consists exclusively of the sale of goods: no reporting is required if the Seller completed fewer than 30 transactions AND received less than EUR 2,000 in aggregate Consideration during the reporting period. Both thresholds must be met simultaneously. If either is exceeded, full reporting applies.</div>
+          </details>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:700px; margin:0 auto; padding-bottom:1rem;">
+      This information is for guidance purposes only and does not constitute legal or tax advice.
+      Rules, deadlines, and thresholds may vary by jurisdiction. Always consult the applicable legislation
+      or a qualified adviser for your specific situation.
+    </p>
+
+    <script>
+      function switchSellerTab(tab) {
+        document.getElementById('panel-individual').style.display = tab === 'individual' ? 'block' : 'none';
+        document.getElementById('panel-entity').style.display     = tab === 'entity'     ? 'block' : 'none';
+        document.getElementById('tab-individual').classList.toggle('active', tab === 'individual');
+        document.getElementById('tab-entity').classList.toggle('active',     tab === 'entity');
+      }
+    </script>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.5rem; text-align:center; color:var(--slate-400); font-size:0.875rem;">
+    TheFaminator 2.0
+  </footer>
+
+
+  <script>
+    // ─── TREE DATA ────────────────────────────────────────────────────────────
+
+    const TREES = {
+
+      platformOperator: {
+        description: "Answer four questions to find out whether your platform has reporting obligations under the OECD Model Rules.",
+        start: "q1",
+        nodes: {
+          q1: {
+            question: "Does your business operate a digital platform — a website, app, or software interface — through which sellers can interact with buyers, service users, or lessees?",
+            hint: "This includes online marketplaces, booking platforms, rental platforms, gig economy apps, and similar services.",
+            yes: "q2",
+            no:  "out_notInScope"
+          },
+          q2: {
+            question: "Does the platform facilitate any of the four Relevant Activities: rental of property, personal services, sale of goods, or rental of transport?",
+            hint: "The four Relevant Activities are listed in the introduction panel above. If your platform facilitates at least one, answer Yes.",
+            yes: "q3",
+            no:  "out_notInScope"
+          },
+          q3: {
+            question: "Is your business resident for tax purposes, incorporated, or effectively managed in a jurisdiction that has adopted the OECD Model Rules or equivalent legislation (e.g. EU DAC7)?",
+            hint: "If you are unsure, check whether your country has enacted reporting obligations for digital platform operators. EU-based platforms are covered by DAC7.",
+            yes: "q4",
+            no:  "out_monitor"
+          },
+          q4: {
+            question: "Does your entire business model prevent sellers from earning a profit or receiving any compensation through the platform (for example, a purely non-commercial or charitable platform)?",
+            hint: "This exclusion is narrow. Most commercial platforms — even non-profit marketplaces where sellers receive payment — do not qualify.",
+            yes: "out_excluded",
+            no:  "out_reportable"
+          }
+        },
+        outcomes: {
+          out_reportable: {
+            color: "emerald",
+            icon:  "✓",
+            title: "Reportable Platform Operator",
+            message: "Based on your answers, your platform is likely a Reportable Platform Operator. You are required to collect and verify seller information, carry out due diligence, and submit an annual report to the relevant tax authority."
+          },
+          out_excluded: {
+            color: "amber",
+            icon:  "⊘",
+            title: "Excluded Platform Operator",
+            message: "Your platform may qualify as an Excluded Platform Operator because its business model prevents sellers from earning profit or compensation. You should document this position carefully in case of a review."
+          },
+          out_notInScope: {
+            color: "slate",
+            icon:  "○",
+            title: "Not in Scope",
+            message: "Based on your answers, the OECD Model Rules do not appear to apply to your platform. No reporting obligations arise under these rules. Review this if your platform's activities change."
+          },
+          out_monitor: {
+            color: "amber",
+            icon:  "⚠",
+            title: "Not Currently Reportable — Monitor",
+            message: "Your jurisdiction does not currently appear to have adopted the OECD Model Rules. The rules are being implemented in a growing number of countries. We recommend monitoring legislative developments and reassessing regularly."
+          }
+        }
+      },
+
+      reportableSeller: {
+        description: "For platform operators: work through these questions to assess whether a specific seller must be included in your annual report.",
+        start: "q1",
+        nodes: {
+          q1: {
+            question: "Did this seller perform any Relevant Activity on your platform, or receive any compensation through it, during the reporting period?",
+            hint: "A seller with zero transactions and zero compensation in the period is not an Active Seller and is out of scope for reporting.",
+            yes: "q2",
+            no:  "out_notActive"
+          },
+          q2: {
+            question: "Is the seller a government entity, a publicly listed company (or a related entity of one), or a real estate entity with more than 2,000 property listings on your platform?",
+            hint: "These categories are Excluded Sellers under the OECD Model Rules. If the seller falls into any of these categories, it is exempt from reporting.",
+            yes: "out_excluded",
+            no:  "q3"
+          },
+          q3: {
+            question: "Based on your due diligence, is this seller resident for tax purposes in a jurisdiction that participates in the automatic exchange of information under the OECD Model Rules?",
+            hint: "If the seller's tax residency cannot be determined, or is in a non-participating jurisdiction, they are generally not reportable under these rules.",
+            yes: "q4",
+            no:  "out_notReportable"
+          },
+          q4: {
+            question: "Does this seller's activity on your platform consist exclusively of selling physical goods?",
+            hint: "Goods sellers benefit from a de minimis threshold that does not apply to sellers of personal services, property rental, or transport rental.",
+            yes: "q5",
+            no:  "out_reportable"
+          },
+          q5: {
+            question: "In the reporting period, did this seller exceed BOTH thresholds: more than 30 completed transactions AND more than €2,000 in gross proceeds from goods sales?",
+            hint: "Both conditions must be met for reporting to be required. If either threshold is not exceeded, the de minimis exclusion applies.",
+            yes: "out_reportable",
+            no:  "out_deMinimis"
+          }
+        },
+        outcomes: {
+          out_reportable: {
+            color: "emerald",
+            icon:  "✓",
+            title: "Reportable Seller",
+            message: "Based on your answers, this seller is a Reportable Seller. You must collect and verify their information and include them in your annual report to the relevant tax authority."
+          },
+          out_excluded: {
+            color: "amber",
+            icon:  "⊘",
+            title: "Excluded Seller",
+            message: "This seller falls into an excluded category under the OECD Model Rules. No reporting is required for this seller. Document the basis for the exclusion in your records."
+          },
+          out_notActive: {
+            color: "slate",
+            icon:  "○",
+            title: "Not an Active Seller",
+            message: "This seller had no Relevant Activity and received no compensation during the reporting period. They are not an Active Seller and no reporting is required."
+          },
+          out_notReportable: {
+            color: "slate",
+            icon:  "○",
+            title: "Not a Reportable Seller",
+            message: "This seller does not appear to be resident in a participating jurisdiction. No reporting obligation arises under the OECD Model Rules for this seller. Ensure your due diligence documentation supports this conclusion."
+          },
+          out_deMinimis: {
+            color: "amber",
+            icon:  "⚠",
+            title: "De Minimis Exclusion Applies",
+            message: "This goods seller does not exceed both the 30-transaction and €2,000 gross-proceeds thresholds. The de minimis exclusion applies and no reporting is required for this reporting period. Reassess in subsequent periods."
+          }
+        }
+      }
+
+    };
+
+    // ─── STATE ────────────────────────────────────────────────────────────────
+
+    const treeState = {
+      platformOperator: { phase: 'idle', currentNode: null, history: [], outcome: null },
+      reportableSeller: { phase: 'idle', currentNode: null, history: [], outcome: null }
+    };
+
+    // ─── ACTIONS ──────────────────────────────────────────────────────────────
+
+    function startTree(id) {
+      treeState[id] = { phase: 'active', currentNode: TREES[id].start, history: [], outcome: null };
+      renderTree(id);
+    }
+
+    function answer(id, val) {
+      const s    = treeState[id];
+      const tree = TREES[id];
+      const node = tree.nodes[s.currentNode];
+      const next = val === 'yes' ? node.yes : node.no;
+
+      s.history.push({ nodeId: s.currentNode, answer: val });
+
+      if (tree.outcomes[next]) {
+        s.phase   = 'done';
+        s.outcome = next;
+        s.currentNode = null;
+      } else {
+        s.currentNode = next;
+      }
+      renderTree(id);
+    }
+
+    function goBack(id) {
+      const s = treeState[id];
+      if (s.history.length === 0) return;
+      const prev    = s.history.pop();
+      s.currentNode = prev.nodeId;
+      s.phase       = 'active';
+      s.outcome     = null;
+      renderTree(id);
+    }
+
+    function resetTree(id) {
+      treeState[id] = { phase: 'idle', currentNode: null, history: [], outcome: null };
+      renderTree(id);
+    }
+
+    // ─── RENDERING ────────────────────────────────────────────────────────────
+
+    function outcomeStyle(color) {
+      switch (color) {
+        case 'emerald': return {
+          bg: 'rgba(52,211,153,0.10)', border: 'rgba(52,211,153,0.35)', text: 'var(--emerald-400)'
+        };
+        case 'amber': return {
+          bg: 'rgba(251,191,36,0.10)', border: 'rgba(251,191,36,0.35)', text: 'var(--amber-400)'
+        };
+        default: return {
+          bg: 'rgba(148,163,184,0.06)', border: 'rgba(148,163,184,0.22)', text: 'var(--slate-300)'
+        };
+      }
+    }
+
+    function renderTree(id) {
+      const el   = document.getElementById('tree-' + id);
+      const s    = treeState[id];
+      const tree = TREES[id];
+      let html   = '';
+
+      if (s.phase === 'idle') {
+        html = `
+          <p style="font-size:0.82rem; color:var(--slate-300); line-height:1.75; margin:0;">${tree.description}</p>
+          <button class="btn-start" onclick="startTree('${id}')">Start Assessment</button>
+        `;
+
+      } else if (s.phase === 'active') {
+        const node    = tree.nodes[s.currentNode];
+        const stepNum = s.history.length + 1;
+        html = `
+          <div class="step-indicator">Question ${stepNum}</div>
+          <p class="tree-question">${node.question}</p>
+          ${node.hint ? `<div class="tree-hint">${node.hint}</div>` : ''}
+          <div class="btn-row">
+            <button class="btn-yes" onclick="answer('${id}', 'yes')">Yes</button>
+            <button class="btn-no"  onclick="answer('${id}', 'no')">No</button>
+          </div>
+          <div class="nav-row">
+            ${s.history.length > 0
+              ? `<button class="btn-text" onclick="goBack('${id}')">← Back</button>`
+              : `<span></span>`}
+            <button class="btn-text" onclick="resetTree('${id}')">✕ Start Over</button>
+          </div>
+        `;
+
+      } else if (s.phase === 'done') {
+        const outcome = tree.outcomes[s.outcome];
+        const style   = outcomeStyle(outcome.color);
+        const path    = s.history.map(h =>
+          `<span class="${h.answer === 'yes' ? 'yes-ans' : 'no-ans'}">${h.answer.toUpperCase()}</span>`
+        ).join(' <span style="color:rgba(255,255,255,0.2);">›</span> ');
+
+        html = `
+          <div class="outcome-panel" style="background:${style.bg}; border:1px solid ${style.border};">
+            <div class="outcome-icon">${outcome.icon}</div>
+            <div class="outcome-title" style="color:${style.text};">${outcome.title}</div>
+            <div class="outcome-msg">${outcome.message}</div>
+          </div>
+          <div class="answer-path">Path: ${path}</div>
+          <div class="nav-row">
+            <button class="btn-text" onclick="goBack('${id}')">← Revise Last Answer</button>
+            <button class="btn-text" onclick="resetTree('${id}')">↺ Start Over</button>
+          </div>
+        `;
+      }
+
+      el.innerHTML = html;
+    }
+
+    // ─── INIT ─────────────────────────────────────────────────────────────────
+
+    renderTree('platformOperator');
+    renderTree('reportableSeller');
+  </script>
+
+</body>
+</html>

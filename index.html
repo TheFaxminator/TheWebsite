@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAMINATOR'S REPORTING TOOLS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page:      #05050f;
+      --slate-900:    #0f172a;
+      --slate-800:    #1e293b;
+      --slate-400:    #94a3b8;
+      --slate-300:    #cbd5e1;
+      --white:        #ffffff;
+      --cyan-300:     #67e8f9;
+      --cyan-400:     #22d3ee;
+      --purple-400:   #c084fc;
+      --purple-500:   #a855f7;
+      --emerald-400:  #34d399;
+      --red-400:      #f87171;
+      --amber-400:    #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .glass {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+    .neon-cyan {
+      box-shadow: 0 0 25px -5px #00f7ff, 0 0 10px -2px #00f7ff;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* About modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open {
+      display: flex;
+      animation: fadeIn 0.2s ease both;
+    }
+    .modal-box {
+      background: rgba(10, 18, 38, 0.97);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2rem;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 60px -10px #00f7ff, 0 32px 80px rgba(0,0,0,0.8);
+      animation: slideUp 0.28s cubic-bezier(0.22,1,0.36,1) both;
+      padding: 2.5rem;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #94a3b8;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      line-height: 1;
+    }
+    .modal-close:hover { background: rgba(248,113,113,0.15); color: #f87171; border-color: rgba(248,113,113,0.35); }
+    .about-section {
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .about-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .about-section-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--cyan-400);
+      font-weight: 500;
+      margin: 0 0 0.6rem;
+    }
+    .about-section-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin: 0 0 0.6rem;
+    }
+    .about-section p {
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      line-height: 1.75;
+      margin: 0;
+    }
+    .tool-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(34,211,238,0.08);
+      border: 1px solid rgba(34,211,238,0.22);
+      color: var(--cyan-300);
+      font-size: 0.75rem;
+      font-family: 'Cinzel Decorative', cursive;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      margin: 0.3rem 0.3rem 0 0;
+      display: inline-block;
+    }
+
+    /* Tool card grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      width: min(560px, 100%);
+      margin: 0 0 0 auto;
+    }
+
+    /* Downloads grid */
+    .downloads-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 560px;
+      margin: 0 0 0 auto;
+    }
+
+    /* Tool card */
+    .tool-card {
+      position: relative;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .tool-card:not(.coming-soon):hover {
+      transform: scale(1.02);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 25px -5px #00f7ff, 0 0 10px -2px #00f7ff;
+    }
+    .tool-card.coming-soon {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .tool-card .tool-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tool-card .tool-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: -1px;
+      color: #fff;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    /* Coming soon badge */
+    .coming-soon-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber-400);
+      background: rgba(245, 158, 11, 0.20);
+      border: 1px solid rgba(251, 191, 36, 0.30);
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Download card */
+    .download-card {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .download-btn {
+      margin-top: 1rem;
+      border: 1px solid var(--slate-400);
+      color: #fff;
+      padding: 0.6rem 1.25rem;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      background: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s ease, color 0.2s ease;
+      align-self: flex-start;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .download-btn:hover:not(.disabled) {
+      border-color: var(--cyan-400);
+      color: var(--cyan-400);
+    }
+    .download-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Section label */
+    .section-label {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan-400);
+      font-weight: 500;
+      margin: 0 0 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE — fixed layer that covers the full viewport on any screen size -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="assets/backgroundimage.png" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:sticky; top:0; z-index:50;">
+    <div style="max-width:1536px; margin:0 auto; padding:1.5rem 2.5rem; display:flex; align-items:center; justify-content:center;">
+      <div>
+        <h1 class="title-font" style="font-size:3rem; letter-spacing:4px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; text-align:center; width:100%;">
+          THEFAXMINATOR
+        </h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:1536px; margin:0 auto; padding:2.5rem; display:flex; flex-direction:column; gap:3rem; flex:1; width:100%;">
+
+    <!-- Tools Grid -->
+    <div class="tools-grid">
+
+      <!-- GLOBAL TIN VALIDATOR -->
+      <a href="tools/global-tin-validator.html" style="display:block; border-radius:1.5rem; overflow:hidden; height:220px; transition:transform 0.2s ease, box-shadow 0.2s ease; cursor:pointer;"
+         onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 0 25px -5px #00f7ff, 0 0 10px -2px #00f7ff';"
+         onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
+        <img src="assets/globaltinvalidator.png" alt="TIN Validator" style="width:100%; height:100%; display:block; object-fit:cover;">
+      </a>
+
+      <!-- TIN'S BY COUNTRY -->
+      <a href="tools/countries.html" style="display:block; border-radius:1.5rem; overflow:hidden; height:220px; transition:transform 0.2s ease, box-shadow 0.2s ease; cursor:pointer;"
+         onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 0 25px -5px #00f7ff, 0 0 10px -2px #00f7ff';"
+         onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
+        <img src="assets/tinsbycountry.png" alt="TIN's by Country" style="width:100%; height:100%; display:block; object-fit:cover;">
+      </a>
+
+      <!-- ABOUT -->
+      <a onclick="openAbout(); return false;" href="#" style="display:block; border-radius:1.5rem; overflow:hidden; height:220px; transition:transform 0.2s ease, box-shadow 0.2s ease; cursor:pointer;"
+         onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 0 25px -5px #00f7ff, 0 0 10px -2px #00f7ff';"
+         onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
+        <img src="assets/aboutthefaxminator.png" alt="About TheFaxminator" style="width:100%; height:100%; display:block; object-fit:cover;">
+      </a>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem; flex-shrink:0;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="index.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="tools/global-tin-validator.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Global TIN Validator</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="tools/countries.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">TIN's by Country</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+      <p style="margin:0; font-size:0.72rem; color:var(--slate-400); max-width:640px; line-height:1.6;">
+        For reference purposes only. Always verify TIN requirements with the relevant tax authority.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ABOUT MODAL -->
+  <div class="modal-overlay" id="aboutOverlay" onclick="if(event.target===this) closeAbout()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeAbout()">✕</button>
+
+      <!-- Header -->
+      <div style="margin-bottom:2rem; padding-bottom:1.75rem; border-bottom:1px solid rgba(255,255,255,0.08);">
+        <p style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.2em; color:var(--cyan-400); margin:0 0 0.5rem;">About</p>
+        <h2 class="title-font" style="font-size:1.5rem; letter-spacing:3px; color:#00f7ff; text-shadow:0 0 20px #00f7ff; margin:0 0 0.75rem;">THEFAXMINATOR</h2>
+        <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0;">
+          TheFaxminator is a professional-grade reference and validation platform for international
+          tax identification numbers. Built for finance, compliance, and reporting professionals
+          who work across borders and need fast, reliable answers on TIN structures and formats.
+        </p>
+      </div>
+
+      <!-- Tools -->
+      <div class="about-section">
+        <p class="about-section-label">Available Tools</p>
+        <div class="about-section-title">What's on the Platform</div>
+        <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0 0 1rem;">
+          The platform currently offers two core tools, with more planned:
+        </p>
+        <span class="tool-pill">Global TIN Validator</span>
+        <span class="tool-pill">TIN's by Country</span>
+        <p style="font-size:0.8rem; color:#94a3b8; line-height:1.7; margin:1rem 0 0;">
+          The <strong style="color:#fff;">Global TIN Validator</strong> lets you validate any tax identification
+          number against the official format rules and check digit algorithms for that country —
+          instantly flagging valid, invalid, or unrecognised numbers.<br><br>
+          <strong style="color:#fff;">TIN's by Country</strong> is a growing reference library where each
+          supported country has a dedicated profile covering its TIN types, formats, issuing authority,
+          and key facts.
+        </p>
+      </div>
+
+      <!-- Data -->
+      <div class="about-section">
+        <p class="about-section-label">Data & Architecture</p>
+        <div class="about-section-title">Single Source of Truth</div>
+        <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0;">
+          All TIN data — descriptions, format rules, validation logic, and country metadata — lives in
+          dedicated per-country modules. Both the validator and the country reference pages read from
+          the same source, so information is always consistent across the platform.
+          New countries are added by creating a single file.
+        </p>
+      </div>
+
+      <!-- Version -->
+      <div class="about-section">
+        <p class="about-section-label">Version</p>
+        <div class="about-section-title">TheFaxminator 2.0</div>
+        <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0;">
+          Built as a self-contained web platform — no frameworks, no build steps, no external dependencies.
+          Runs entirely in the browser. Country coverage is actively expanding.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function openAbout() {
+      document.getElementById('aboutOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAbout() {
+      document.getElementById('aboutOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAbout(); });
+  </script>
+
+</body>
+</html>

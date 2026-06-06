@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — Common Reporting Standard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page:     #05050f;
+      --slate-900:   #0f172a;
+      --slate-800:   #1e293b;
+      --slate-400:   #94a3b8;
+      --slate-300:   #cbd5e1;
+      --white:       #ffffff;
+      --cyan-300:    #67e8f9;
+      --cyan-400:    #22d3ee;
+      --purple-400:  #c084fc;
+      --purple-500:  #a855f7;
+      --emerald-400: #34d399;
+      --red-400:     #f87171;
+      --amber-400:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 8px #00f7ff);
+    }
+
+    .card {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2.5rem;
+      background: rgba(5, 5, 15, 0.55);
+    }
+
+    .card-cyan {
+      border-color: rgba(34, 211, 238, 0.30);
+      box-shadow: 0 0 30px -8px rgba(0, 247, 255, 0.35), 0 0 12px -4px rgba(0, 247, 255, 0.20);
+    }
+
+    .card-purple {
+      border-color: rgba(168, 85, 247, 0.30);
+      box-shadow: 0 0 30px -8px rgba(168, 85, 247, 0.35), 0 0 12px -4px rgba(168, 85, 247, 0.20);
+    }
+
+    .card-emerald {
+      border-color: rgba(52, 211, 153, 0.30);
+      box-shadow: 0 0 30px -8px rgba(52, 211, 153, 0.30), 0 0 12px -4px rgba(52, 211, 153, 0.18);
+    }
+
+    .section-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin: 0 0 1.25rem;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+
+    /* ── FI type cards ────────────────────────────── */
+    .fi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 700px) {
+      .fi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .fi-card {
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    /* ── Decision trees ───────────────────────────── */
+    .tree-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .tree-grid-3 { grid-template-columns: 1fr; }
+    }
+
+    .tree-body { display: flex; flex-direction: column; gap: 1.25rem; }
+    .tree-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin: 0 0 0.25rem;
+      line-height: 1.4;
+    }
+
+    .step-indicator {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    .tree-question {
+      font-size: 0.9rem;
+      color: var(--white);
+      line-height: 1.75;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .tree-hint {
+      font-size: 0.775rem;
+      color: var(--slate-400);
+      line-height: 1.65;
+      padding: 0.7rem 0.9rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    .btn-yes {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      color: #000;
+      border: none;
+      border-radius: 0.875rem;
+      padding: 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      transition: opacity 0.2s ease;
+    }
+    .btn-yes:hover { opacity: 0.85; }
+
+    .btn-no {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: #fff;
+      border-radius: 0.875rem;
+      padding: 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .btn-no:hover { border-color: var(--purple-400); color: var(--purple-400); }
+
+    .btn-start {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      color: #000;
+      border: none;
+      border-radius: 0.875rem;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      transition: opacity 0.2s ease;
+      width: 100%;
+    }
+    .btn-start:hover { opacity: 0.85; }
+
+    .btn-text {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate-400);
+      transition: color 0.2s ease;
+    }
+    .btn-text:hover { color: var(--cyan-300); }
+
+    .nav-row { display: flex; justify-content: space-between; align-items: center; }
+
+    .outcome-panel {
+      border-radius: 0.875rem;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .outcome-icon  { font-size: 1.4rem; line-height: 1; }
+    .outcome-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .outcome-msg { font-size: 0.82rem; color: var(--slate-300); line-height: 1.7; }
+
+    .answer-path {
+      font-size: 0.68rem;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .yes-ans { color: var(--cyan-300); }
+    .no-ans  { color: var(--slate-400); }
+
+    /* ── Reporting timeline ───────────────────────── */
+    .step-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 700px) {
+      .step-flow { grid-template-columns: repeat(2, 1fr); }
+    }
+    .step-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 1.1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* ── Thresholds grid ──────────────────────────── */
+    .threshold-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 700px) {
+      .threshold-grid { grid-template-columns: 1fr; }
+    }
+    .threshold-card {
+      padding: 1.25rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .threshold-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.8rem;
+    }
+    .threshold-row:last-child { border-bottom: none; }
+    .threshold-label { color: var(--slate-400); }
+    .threshold-value { color: var(--white); font-weight: 500; text-align: right; }
+
+    /* ── Account info tabs ────────────────────────── */
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 0.75rem;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: var(--slate-400);
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      border-color: transparent;
+      color: #000;
+    }
+    .tab-btn:not(.active):hover {
+      border-color: var(--cyan-400);
+      color: var(--cyan-300);
+    }
+
+    .field-group-label {
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+      margin: 1rem 0 0.3rem;
+    }
+    .field-group-label:first-child { margin-top: 0; }
+
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.8rem;
+      color: var(--slate-300);
+      line-height: 1.55;
+    }
+    .field-item:last-child { border-bottom: none; }
+    .field-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.47rem;
+    }
+    .field-note { font-size: 0.72rem; color: var(--slate-400); }
+
+    /* ── Definitions accordion ────────────────────── */
+    .def-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 3rem;
+    }
+    @media (max-width: 700px) {
+      .def-grid { grid-template-columns: 1fr; }
+    }
+    details.def-item { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    details.def-item:last-child { border-bottom: none; }
+    details.def-item summary {
+      padding: 0.85rem 0;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--white);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      gap: 0.5rem;
+    }
+    details.def-item summary::-webkit-details-marker { display: none; }
+    details.def-item summary::after {
+      content: '+';
+      font-family: monospace;
+      font-size: 1rem;
+      color: var(--slate-400);
+      flex-shrink: 0;
+    }
+    details.def-item[open] summary::after { content: '−'; }
+    details.def-item[open] summary { color: var(--cyan-300); }
+    details.def-item .def-body {
+      font-size: 0.8rem;
+      color: var(--slate-300);
+      line-height: 1.72;
+      padding: 0 1rem 0.875rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage02.png" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../index.html" class="home-btn" title="Back to Home">
+        <img src="../assets/homebutton.png" alt="Home" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(1rem, 3vw, 2.5rem); letter-spacing:4px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        COMMON REPORTING STANDARD
+      </h1>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:1280px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">OECD Common Reporting Standard</span>
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0 0 1.25rem;">
+        The <strong style="color:var(--white);">Common Reporting Standard (CRS)</strong> is the global framework developed by the OECD for the automatic exchange of financial account information between tax authorities. Adopted by over 100 jurisdictions, CRS requires Financial Institutions — banks, brokers, investment managers, and certain insurance companies — to collect and verify the tax residency of their account holders, and to report financial account information to their local tax authority for onward exchange with other participating jurisdictions.
+      </p>
+
+      <span class="section-label" style="color:var(--purple-400); margin-bottom:0.75rem;">Financial Institution Categories</span>
+      <div class="fi-grid">
+        <div class="fi-card">
+          <span style="font-size:1.2rem;">🏦</span>
+          <strong style="font-size:0.8rem; color:var(--white);">Depository Institution</strong>
+          <span style="font-size:0.75rem; color:var(--slate-400); line-height:1.5;">Accepts deposits in the ordinary course of a banking or similar business.</span>
+        </div>
+        <div class="fi-card">
+          <span style="font-size:1.2rem;">📂</span>
+          <strong style="font-size:0.8rem; color:var(--white);">Custodial Institution</strong>
+          <span style="font-size:0.75rem; color:var(--slate-400); line-height:1.5;">Holds financial assets for the account of others as a substantial part of its business.</span>
+        </div>
+        <div class="fi-card">
+          <span style="font-size:1.2rem;">📈</span>
+          <strong style="font-size:0.8rem; color:var(--white);">Investment Entity</strong>
+          <span style="font-size:0.75rem; color:var(--slate-400); line-height:1.5;">Primarily invests, reinvests, or trades in financial assets and is managed by another FI.</span>
+        </div>
+        <div class="fi-card">
+          <span style="font-size:1.2rem;">🛡</span>
+          <strong style="font-size:0.8rem; color:var(--white);">Specified Insurance Company</strong>
+          <span style="font-size:0.75rem; color:var(--slate-400); line-height:1.5;">Issues insurance or annuity contracts with a cash value component.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECISION TREES -->
+    <div class="tree-grid-3">
+
+      <!-- TREE 1 -->
+      <div class="card card-cyan">
+        <span class="section-label" style="color:var(--cyan-400);">Decision Tool 1</span>
+        <h2 class="tree-title">Am I a Reporting Financial Institution?</h2>
+        <hr class="divider" style="margin:0.25rem 0 0.5rem;">
+        <div id="tree-isRFI" class="tree-body"></div>
+      </div>
+
+      <!-- TREE 2 -->
+      <div class="card card-purple">
+        <span class="section-label" style="color:var(--purple-400);">Decision Tool 2</span>
+        <h2 class="tree-title">Is this individual account reportable?</h2>
+        <hr class="divider" style="margin:0.25rem 0 0.5rem;">
+        <div id="tree-individualAccount" class="tree-body"></div>
+      </div>
+
+      <!-- TREE 3 -->
+      <div class="card card-emerald">
+        <span class="section-label" style="color:var(--emerald-400);">Decision Tool 3</span>
+        <h2 class="tree-title">Entity accounts &amp; Controlling Persons</h2>
+        <hr class="divider" style="margin:0.25rem 0 0.5rem;">
+        <div id="tree-entityAccount" class="tree-body"></div>
+      </div>
+
+    </div>
+
+    <!-- REPORTING TIMELINE -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">Reporting Timeline</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.5rem; line-height:1.65;">CRS obligations follow an annual cycle. Exact reporting deadlines vary by jurisdiction — check your local implementing legislation for the precise dates applicable to you.</p>
+      <div class="step-flow">
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--cyan-400),#0ea5e9);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#000;flex-shrink:0;">1</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--cyan-300);">Collect</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">Throughout the year</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Obtain self-certifications for all new accounts at opening. Apply due diligence procedures to pre-existing accounts. Monitor for changes in circumstances.</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--purple-400),var(--purple-500));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#fff;flex-shrink:0;">2</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--purple-400);">Review</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">By 31 December</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Complete annual review of all High Value individual accounts (≥ USD 1,000,000). Confirm year-end account balances and income/proceeds for all reportable accounts.</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,var(--amber-400));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#000;flex-shrink:0;">3</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--amber-400);">Report</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">Typically by 30 June</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Submit the annual CRS return to your competent authority. Covers all Reportable Accounts as at 31 December of the preceding calendar year.</p>
+        </div>
+
+        <div class="step-card">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.2rem;">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--emerald-400),#059669);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:0.62rem;font-weight:700;color:#000;flex-shrink:0;">4</div>
+            <span style="font-family:'Cinzel Decorative',cursive;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--emerald-400);">Exchange</span>
+          </div>
+          <p style="font-size:0.75rem;font-weight:600;color:var(--white);margin:0 0 0.2rem;">Typically by 30 September</p>
+          <p style="font-size:0.75rem;color:var(--slate-400);line-height:1.6;margin:0;">Your competent authority automatically exchanges the reported information with the tax authorities of the account holders' jurisdictions of residence.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DUE DILIGENCE THRESHOLDS -->
+    <div class="card card-cyan">
+      <span class="section-label" style="color:var(--cyan-400);">Due Diligence Thresholds</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">CRS due diligence requirements differ depending on whether an account is new or pre-existing, and whether it is held by an individual or entity. Balance thresholds determine the level of procedures required.</p>
+      <div class="threshold-grid">
+
+        <div class="threshold-card">
+          <span style="font-family:'Cinzel Decorative',cursive; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--cyan-300); font-weight:700;">Individual Accounts</span>
+          <div class="threshold-row">
+            <span class="threshold-label">New account</span>
+            <span class="threshold-value">Self-certification required — no threshold</span>
+          </div>
+          <div class="threshold-row">
+            <span class="threshold-label">Pre-existing — Lower Value</span>
+            <span class="threshold-value">Balance &lt; USD 1,000,000 — residence address review</span>
+          </div>
+          <div class="threshold-row">
+            <span class="threshold-label">Pre-existing — High Value</span>
+            <span class="threshold-value">Balance ≥ USD 1,000,000 — enhanced due diligence + relationship manager enquiry</span>
+          </div>
+        </div>
+
+        <div class="threshold-card">
+          <span style="font-family:'Cinzel Decorative',cursive; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--purple-400); font-weight:700;">Entity Accounts</span>
+          <div class="threshold-row">
+            <span class="threshold-label">New account</span>
+            <span class="threshold-value">Self-certification required — no threshold</span>
+          </div>
+          <div class="threshold-row">
+            <span class="threshold-label">Pre-existing — below threshold</span>
+            <span class="threshold-value">Balance ≤ USD 250,000 — no due diligence required</span>
+          </div>
+          <div class="threshold-row">
+            <span class="threshold-label">Pre-existing — above threshold</span>
+            <span class="threshold-value">Balance &gt; USD 250,000 — full entity due diligence required</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ACCOUNT INFORMATION REQUIREMENTS -->
+    <div class="card card-purple">
+      <span class="section-label" style="color:var(--purple-400);">Account Information Requirements</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">The information reported to the competent authority differs between individual account holders, entity account holders, and the Controlling Persons of Passive NFEs.</p>
+
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <button id="tab-ai" class="tab-btn active" onclick="switchAccountTab('ai')">Individual</button>
+        <button id="tab-ae" class="tab-btn"        onclick="switchAccountTab('ae')">Entity</button>
+        <button id="tab-cp" class="tab-btn"        onclick="switchAccountTab('cp')">Controlling Person</button>
+      </div>
+
+      <!-- Individual -->
+      <div id="panel-ai">
+        <div class="field-group-label">Identity &amp; Tax Residence</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Full name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Residential address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Jurisdiction(s) of tax residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Tax Identification Number (TIN) for each jurisdiction of residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Date and place of birth</div></div>
+        <div class="field-group-label">Account Details</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Account number (or functional equivalent)</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Account balance or value as at 31 December (or closing balance if closed during the year)</div></div>
+        <div class="field-group-label">Income &amp; Proceeds (where applicable, per account)</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Total gross interest paid or credited (Depository accounts)</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Total gross dividends paid or credited</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Total gross proceeds from sale or redemption of financial assets</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Total gross amount paid or credited in respect of insurance or annuity contracts</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Other income paid or credited to the account</div></div>
+      </div>
+
+      <!-- Entity -->
+      <div id="panel-ae" style="display:none;">
+        <div class="field-group-label">Identity &amp; Tax Residence</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Full legal name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Registered address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Jurisdiction(s) of tax residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Tax Identification Number (TIN) for each jurisdiction of residence</div></div>
+        <div class="field-group-label">Account Details</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Account number (or functional equivalent)</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Account balance or value as at 31 December (or closing balance)</div></div>
+        <div class="field-group-label">Income &amp; Proceeds (where applicable)</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Total gross interest, dividends, and other income paid or credited</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Total gross proceeds from sale or redemption of financial assets</div></div>
+        <p style="font-size:0.78rem; color:var(--slate-400); margin:0.75rem 0 0; line-height:1.65; padding:0.7rem 0.9rem; background:rgba(255,255,255,0.03); border-radius:0.75rem; border:1px solid rgba(255,255,255,0.06);">For Passive NFEs: the Controlling Persons tab shows the additional information required for each Controlling Person who is a Reportable Person.</p>
+      </div>
+
+      <!-- Controlling Person -->
+      <div id="panel-cp" style="display:none;">
+        <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 0.75rem; line-height:1.65;">Controlling Persons are the natural persons who exercise control over a Passive NFE. Where a Passive NFE is a Reportable Account, or where its Controlling Persons are resident in a Reportable Jurisdiction, the following information must be reported for each relevant Controlling Person.</p>
+        <div class="field-group-label" style="margin-top:0.25rem;">Per Controlling Person</div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Full name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Residential address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Jurisdiction(s) of tax residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Tax Identification Number (TIN) for each jurisdiction of residence</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div>Date and place of birth</div></div>
+        <p style="font-size:0.78rem; color:var(--slate-400); margin:0.75rem 0 0; line-height:1.65; padding:0.7rem 0.9rem; background:rgba(255,255,255,0.03); border-radius:0.75rem; border:1px solid rgba(255,255,255,0.06);">Controlling Person information is reported alongside the entity account information — it does not replace it. Both the entity-level and Controlling Person-level fields must be included in the CRS return.</p>
+      </div>
+    </div>
+
+    <!-- KEY DEFINITIONS -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">Key Definitions</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">Select a term to expand its definition under the OECD Common Reporting Standard.</p>
+      <div class="def-grid">
+
+        <div>
+          <details class="def-item">
+            <summary>Reporting Financial Institution (RFI)</summary>
+            <div class="def-body">A Financial Institution that is resident in a Reportable Jurisdiction and is not a Non-Reporting Financial Institution. RFIs are obligated to perform due diligence on their account holders and report Reportable Accounts to their competent authority annually.</div>
+          </details>
+          <details class="def-item">
+            <summary>Non-Reporting Financial Institution</summary>
+            <div class="def-body">A Financial Institution that is exempt from CRS reporting obligations. Examples include governmental entities, international organisations, central banks, broad participation retirement funds, and certain low-risk collective investment vehicles. The full list is defined in each jurisdiction's implementing legislation.</div>
+          </details>
+          <details class="def-item">
+            <summary>Account Holder</summary>
+            <div class="def-body">The person listed or identified as the holder of a Financial Account by the Financial Institution that maintains the account. A person holding a Financial Account for the benefit of another person as agent, custodian, nominee, signatory, or legal guardian is not treated as the Account Holder — the beneficiary is.</div>
+          </details>
+          <details class="def-item">
+            <summary>Reportable Account</summary>
+            <div class="def-body">A Financial Account that is held by one or more Reportable Persons, or by a Passive NFE with one or more Controlling Persons who are Reportable Persons, and has been identified as such under the applicable due diligence procedures.</div>
+          </details>
+          <details class="def-item">
+            <summary>Self-Certification</summary>
+            <div class="def-body">A declaration provided directly by an account holder (or Controlling Person) to a Reporting Financial Institution confirming their jurisdiction(s) of tax residence and Tax Identification Number(s). Under CRS, a self-certification is required for all new accounts at the time of opening. The RFI must verify the reasonableness of the self-certification based on information collected during account opening.</div>
+          </details>
+          <details class="def-item">
+            <summary>Pre-existing Account</summary>
+            <div class="def-body">A Financial Account maintained by a Reporting Financial Institution as of the date immediately before CRS implementation in the relevant jurisdiction. The due diligence procedures and timelines applicable to pre-existing accounts differ from those for new accounts, and balance thresholds apply for certain account types.</div>
+          </details>
+        </div>
+
+        <div>
+          <details class="def-item">
+            <summary>Non-Financial Entity (NFE)</summary>
+            <div class="def-body">Any entity that is not a Financial Institution. NFEs are classified as either Active or Passive, which determines the due diligence obligations applicable when an NFE holds an account at a Reporting Financial Institution.</div>
+          </details>
+          <details class="def-item">
+            <summary>Active NFE</summary>
+            <div class="def-body">An NFE where less than 50% of its gross income for the preceding calendar year is passive income (e.g. dividends, interest, royalties) AND less than 50% of the assets held during the preceding year are assets that produce or are held for the production of passive income. Active NFEs are not subject to Controlling Person identification requirements.</div>
+          </details>
+          <details class="def-item">
+            <summary>Passive NFE</summary>
+            <div class="def-body">Any NFE that is not an Active NFE — i.e. 50% or more of its gross income is passive, or 50% or more of its assets produce or are held for passive income. For Passive NFEs, the Reporting FI must identify the Controlling Persons and determine whether any are Reportable Persons. Holding companies, shell companies, and investment vehicles typically qualify as Passive NFEs.</div>
+          </details>
+          <details class="def-item">
+            <summary>Controlling Person</summary>
+            <div class="def-body">The natural persons who exercise control over an entity. For companies: typically those holding more than 25% of shares or voting rights. For trusts: the settlor(s), trustee(s), protector(s), beneficiaries or class of beneficiaries, and any other natural person exercising ultimate effective control. For other legal arrangements: persons in equivalent positions. Where no natural person is identified as a Controlling Person, the senior managing official of the entity is treated as the Controlling Person.</div>
+          </details>
+          <details class="def-item">
+            <summary>Indicia of Residence</summary>
+            <div class="def-body">Indicators found in account records suggesting that an account holder may be tax resident in a Reportable Jurisdiction. Indicia include: a Reportable Jurisdiction address or residence address; a Reportable Jurisdiction telephone number; standing instructions to transfer funds to an account in a Reportable Jurisdiction; a currently effective power of attorney granted to a person with a Reportable Jurisdiction address; and a hold mail instruction or in-care-of address in a Reportable Jurisdiction.</div>
+          </details>
+          <details class="def-item">
+            <summary>Change in Circumstances</summary>
+            <div class="def-body">Any change that results in the addition of information relevant to an account holder's status or that is otherwise inconsistent with the account holder's status on file. Examples include a change of address, a new telephone number in a different country, a new power of attorney, or new standing instructions to transfer funds. Upon detecting a change in circumstances, the RFI must obtain a new self-certification or other documentation.</div>
+          </details>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:700px; margin:0 auto; padding-bottom:1rem;">
+      This information is for guidance purposes only and does not constitute legal or tax advice.
+      CRS implementation details, thresholds, and deadlines vary by jurisdiction. Always consult the applicable legislation or a qualified adviser for your specific situation.
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.5rem; text-align:center; color:var(--slate-400); font-size:0.875rem;">
+    TheFaminator 2.0
+  </footer>
+
+
+  <script>
+    // ─── TREE DATA ────────────────────────────────────────────────────────────
+
+    const TREES = {
+
+      isRFI: {
+        description: "Work through these questions to determine your institution's classification under the OECD Common Reporting Standard.",
+        start: "q1",
+        nodes: {
+          q1: {
+            question: "Does your entity accept deposits in the ordinary course of a banking or similar business?",
+            hint: "This covers commercial banks, savings institutions, credit unions, and similar deposit-taking businesses.",
+            yes: "out_depository",
+            no:  "q2"
+          },
+          q2: {
+            question: "Do you hold financial assets for the account of others as a substantial part of your business?",
+            hint: "This covers brokers, custodians, clearing houses, and similar businesses where holding client assets is a core activity.",
+            yes: "out_custodial",
+            no:  "q3"
+          },
+          q3: {
+            question: "Is your entity primarily managed by another Financial Institution and does it primarily conduct business by investing, reinvesting, or trading in financial assets?",
+            hint: "This typically covers investment funds, collective investment vehicles, and managed accounts. The 'managed by another FI' condition is important — self-managed investment entities may be treated differently.",
+            yes: "out_investment",
+            no:  "q4"
+          },
+          q4: {
+            question: "Do you issue insurance or annuity contracts that have a cash value component?",
+            hint: "This covers life insurance policies and annuities with a cash surrender value. Pure term insurance with no savings element is generally excluded.",
+            yes: "out_insurance",
+            no:  "q5"
+          },
+          q5: {
+            question: "Does your entity qualify as a Non-Reporting Financial Institution under your jurisdiction's CRS rules (e.g. governmental entity, international organisation, central bank, or certain pension fund)?",
+            hint: "Non-Reporting FIs are exempt from most CRS obligations. The categories are defined in your jurisdiction's implementing legislation — if unsure, seek local advice.",
+            yes: "out_nonReporting",
+            no:  "out_nfe"
+          }
+        },
+        outcomes: {
+          out_depository: {
+            color: "emerald", icon: "✓",
+            title: "Depository Institution — Reporting FI",
+            message: "Your entity is a Depository Institution and a Reporting Financial Institution under CRS. You are subject to full CRS due diligence and reporting obligations for all Financial Accounts you maintain."
+          },
+          out_custodial: {
+            color: "emerald", icon: "✓",
+            title: "Custodial Institution — Reporting FI",
+            message: "Your entity is a Custodial Institution and a Reporting Financial Institution under CRS. You are subject to full CRS due diligence and reporting obligations for all Financial Accounts you maintain."
+          },
+          out_investment: {
+            color: "emerald", icon: "✓",
+            title: "Investment Entity — Reporting FI",
+            message: "Your entity is likely an Investment Entity and a Reporting Financial Institution under CRS. Confirm whether it meets the 'managed by another FI' condition in your jurisdiction — this affects how the entity is classified and may affect whether it reports directly or through its managing FI."
+          },
+          out_insurance: {
+            color: "emerald", icon: "✓",
+            title: "Specified Insurance Company — Reporting FI",
+            message: "Your entity is a Specified Insurance Company and a Reporting Financial Institution for CRS purposes in respect of contracts with a cash value. You must apply due diligence and report on those contracts."
+          },
+          out_nonReporting: {
+            color: "amber", icon: "⊘",
+            title: "Non-Reporting Financial Institution",
+            message: "Your entity appears to qualify as a Non-Reporting Financial Institution and is generally exempt from CRS reporting obligations. Document your exempt status carefully and confirm it with reference to your jurisdiction's implementing legislation."
+          },
+          out_nfe: {
+            color: "slate", icon: "○",
+            title: "Non-Financial Entity (NFE)",
+            message: "Your entity does not appear to be a Financial Institution under CRS. It is a Non-Financial Entity (NFE). As an NFE, you are not directly subject to CRS reporting obligations, but accounts you hold at Reporting FIs may be subject to due diligence under those FIs' CRS obligations."
+          }
+        }
+      },
+
+      individualAccount: {
+        description: "For Reporting Financial Institutions: assess whether a pre-existing or new individual account must be reported under CRS.",
+        start: "q1",
+        nodes: {
+          q1: {
+            question: "Is this a New Account — opened after your jurisdiction's CRS implementation date?",
+            hint: "New accounts require a self-certification at the time of account opening. There is no balance threshold — due diligence applies to all new individual accounts regardless of value.",
+            yes: "out_newIndividual",
+            no:  "q2"
+          },
+          q2: {
+            question: "Does the account have a balance or value of USD 1,000,000 or more (High Value Account)?",
+            hint: "Balances are aggregated across all accounts held by the same individual at your institution (and related entities, where applicable). The High Value threshold triggers enhanced due diligence procedures.",
+            yes: "q3",
+            no:  "q4"
+          },
+          q3: {
+            question: "Has the enhanced due diligence review — including electronic record search, paper record search where applicable, and a relationship manager enquiry — identified any indication of tax residence in a Reportable Jurisdiction?",
+            hint: "Indicia include: a Reportable Jurisdiction address, telephone number, standing payment instructions, power of attorney, or hold-mail instruction. For High Value accounts, the relationship manager must also consider whether they have knowledge of the account holder's residence.",
+            yes: "out_reportable",
+            no:  "out_monitorHV"
+          },
+          q4: {
+            question: "Based on information in your records (residence address, telephone number, standing instructions, or other indicia), does the account holder appear to be resident in a Reportable Jurisdiction?",
+            hint: "For Lower Value pre-existing accounts, the residence address test is the primary procedure. If the address on file is in a Reportable Jurisdiction, the account is treated as reportable unless a valid self-certification or other evidence indicates otherwise.",
+            yes: "out_reportable",
+            no:  "out_notReportable"
+          }
+        },
+        outcomes: {
+          out_newIndividual: {
+            color: "amber", icon: "⚠",
+            title: "New Account — Self-Certification Required",
+            message: "This is a new individual account. Obtain a self-certification from the account holder at opening confirming their jurisdiction(s) of tax residence and TIN(s). There is no balance threshold for new individual accounts — due diligence is required regardless of account value."
+          },
+          out_reportable: {
+            color: "emerald", icon: "✓",
+            title: "Reportable Account",
+            message: "This account must be reported to your competent authority. Report the account holder's name, address, date and place of birth, jurisdiction(s) of residence, TIN(s), account number, year-end balance, and relevant income and gross proceeds."
+          },
+          out_monitorHV: {
+            color: "amber", icon: "⚠",
+            title: "High Value — No Current Indicia, Annual Review Required",
+            message: "No indicia of reportable residence found at this time. However, High Value Accounts must be reviewed annually. If indicia are identified in a subsequent review, the account becomes reportable from that reporting period."
+          },
+          out_notReportable: {
+            color: "slate", icon: "○",
+            title: "Not Currently Reportable",
+            message: "No indicia of residence in a Reportable Jurisdiction found. This Lower Value Account is not currently reportable. No further action is required unless the balance crosses the High Value threshold or a change in circumstances is detected."
+          }
+        }
+      },
+
+      entityAccount: {
+        description: "For Reporting Financial Institutions: assess whether an entity account — and its Controlling Persons — require reporting under CRS.",
+        start: "q1",
+        nodes: {
+          q1: {
+            question: "Is this a New Entity Account — opened after your jurisdiction's CRS implementation date?",
+            hint: "For new entity accounts, a self-certification must be obtained at account opening to determine whether the entity is a Financial Institution, Active NFE, or Passive NFE, and — for Passive NFEs — to identify Controlling Persons.",
+            yes: "out_newEntity",
+            no:  "q2"
+          },
+          q2: {
+            question: "Does the entity account have a balance or value exceeding USD 250,000?",
+            hint: "Pre-existing entity accounts at or below USD 250,000 are not subject to due diligence requirements. If the balance later exceeds this threshold, full due diligence must then be applied.",
+            yes: "q3",
+            no:  "out_belowThreshold"
+          },
+          q3: {
+            question: "Is the entity Account Holder itself a Financial Institution (bank, broker, fund, insurance company, or similar)?",
+            hint: "If the entity is a Financial Institution, it is handled differently from NFEs. You generally do not need to report individual account details — instead, obtain the entity's GIIN or confirmation of its status as a Non-Reporting FI.",
+            yes: "out_entityFI",
+            no:  "q4"
+          },
+          q4: {
+            question: "Is the entity an Active NFE — meaning less than 50% of its gross income is passive AND less than 50% of its assets are held for the production of passive income?",
+            hint: "Active NFEs include operating companies, start-ups, and holding companies that primarily hold shares in active subsidiaries. Passive NFEs include holding vehicles, shell companies, and entities whose income is primarily dividends, interest, or royalties.",
+            yes: "out_activeNFE",
+            no:  "q5"
+          },
+          q5: {
+            question: "Is the Passive NFE itself resident in a Reportable Jurisdiction, or are any of its Controlling Persons resident in a Reportable Jurisdiction?",
+            hint: "Both the entity and its Controlling Persons must be considered separately. A Passive NFE that is not itself in a Reportable Jurisdiction may still trigger reporting if a Controlling Person is.",
+            yes: "out_passiveReportable",
+            no:  "out_notReportableEntity"
+          }
+        },
+        outcomes: {
+          out_newEntity: {
+            color: "amber", icon: "⚠",
+            title: "New Entity Account — Self-Certification Required",
+            message: "Obtain a self-certification from the entity at account opening. Determine whether it is a Financial Institution, Active NFE, or Passive NFE. For Passive NFEs, also identify all Controlling Persons and collect their jurisdiction(s) of residence and TINs."
+          },
+          out_belowThreshold: {
+            color: "slate", icon: "○",
+            title: "Below USD 250,000 Threshold",
+            message: "No due diligence is required for this pre-existing entity account at this time. If the account balance later exceeds USD 250,000, full entity due diligence must be applied at that point."
+          },
+          out_entityFI: {
+            color: "amber", icon: "⊘",
+            title: "Entity is a Financial Institution",
+            message: "The entity account holder is itself a Financial Institution. Obtain its Global Intermediary Identification Number (GIIN) or confirmation that it is a Non-Reporting FI. Individual account holder reporting is generally not required for FI counterparties — document the entity's FI status in your records."
+          },
+          out_activeNFE: {
+            color: "slate", icon: "○",
+            title: "Active NFE — Not Reportable",
+            message: "The entity is an Active NFE. It is not a Reportable Account and no Controlling Person identification is required. Document the basis for your Active NFE determination in your due diligence records."
+          },
+          out_passiveReportable: {
+            color: "emerald", icon: "✓",
+            title: "Passive NFE — Reporting Required",
+            message: "This Passive NFE requires reporting. Report the entity if it is resident in a Reportable Jurisdiction. Additionally, report each Controlling Person who is resident in a Reportable Jurisdiction. Both entity-level and Controlling Person-level information must be included in your CRS return."
+          },
+          out_notReportableEntity: {
+            color: "slate", icon: "○",
+            title: "Passive NFE — Not Currently Reportable",
+            message: "Neither the Passive NFE nor its Controlling Persons appear to be resident in a Reportable Jurisdiction. Not currently reportable. Retain your due diligence documentation and reassess if a change in circumstances is detected."
+          }
+        }
+      }
+
+    };
+
+    // ─── STATE ────────────────────────────────────────────────────────────────
+
+    const treeState = {
+      isRFI:             { phase: 'idle', currentNode: null, history: [], outcome: null },
+      individualAccount: { phase: 'idle', currentNode: null, history: [], outcome: null },
+      entityAccount:     { phase: 'idle', currentNode: null, history: [], outcome: null }
+    };
+
+    // ─── ACTIONS ──────────────────────────────────────────────────────────────
+
+    function startTree(id) {
+      treeState[id] = { phase: 'active', currentNode: TREES[id].start, history: [], outcome: null };
+      renderTree(id);
+    }
+
+    function answer(id, val) {
+      const s    = treeState[id];
+      const tree = TREES[id];
+      const node = tree.nodes[s.currentNode];
+      const next = val === 'yes' ? node.yes : node.no;
+      s.history.push({ nodeId: s.currentNode, answer: val });
+      if (tree.outcomes[next]) {
+        s.phase = 'done'; s.outcome = next; s.currentNode = null;
+      } else {
+        s.currentNode = next;
+      }
+      renderTree(id);
+    }
+
+    function goBack(id) {
+      const s = treeState[id];
+      if (s.history.length === 0) return;
+      const prev = s.history.pop();
+      s.currentNode = prev.nodeId; s.phase = 'active'; s.outcome = null;
+      renderTree(id);
+    }
+
+    function resetTree(id) {
+      treeState[id] = { phase: 'idle', currentNode: null, history: [], outcome: null };
+      renderTree(id);
+    }
+
+    // ─── RENDERING ────────────────────────────────────────────────────────────
+
+    function outcomeStyle(color) {
+      switch (color) {
+        case 'emerald': return { bg: 'rgba(52,211,153,0.10)',  border: 'rgba(52,211,153,0.35)',  text: 'var(--emerald-400)' };
+        case 'amber':   return { bg: 'rgba(251,191,36,0.10)',  border: 'rgba(251,191,36,0.35)',  text: 'var(--amber-400)'   };
+        default:        return { bg: 'rgba(148,163,184,0.06)', border: 'rgba(148,163,184,0.22)', text: 'var(--slate-300)'   };
+      }
+    }
+
+    function renderTree(id) {
+      const el   = document.getElementById('tree-' + id);
+      const s    = treeState[id];
+      const tree = TREES[id];
+      let html   = '';
+
+      if (s.phase === 'idle') {
+        html = `
+          <p style="font-size:0.82rem; color:var(--slate-300); line-height:1.75; margin:0;">${tree.description}</p>
+          <button class="btn-start" onclick="startTree('${id}')">Start Assessment</button>
+        `;
+      } else if (s.phase === 'active') {
+        const node    = tree.nodes[s.currentNode];
+        const stepNum = s.history.length + 1;
+        html = `
+          <div class="step-indicator">Question ${stepNum}</div>
+          <p class="tree-question">${node.question}</p>
+          ${node.hint ? `<div class="tree-hint">${node.hint}</div>` : ''}
+          <div class="btn-row">
+            <button class="btn-yes" onclick="answer('${id}', 'yes')">Yes</button>
+            <button class="btn-no"  onclick="answer('${id}', 'no')">No</button>
+          </div>
+          <div class="nav-row">
+            ${s.history.length > 0 ? `<button class="btn-text" onclick="goBack('${id}')">← Back</button>` : '<span></span>'}
+            <button class="btn-text" onclick="resetTree('${id}')">✕ Start Over</button>
+          </div>
+        `;
+      } else if (s.phase === 'done') {
+        const outcome = tree.outcomes[s.outcome];
+        const style   = outcomeStyle(outcome.color);
+        const path    = s.history.map(h =>
+          `<span class="${h.answer === 'yes' ? 'yes-ans' : 'no-ans'}">${h.answer.toUpperCase()}</span>`
+        ).join(' <span style="color:rgba(255,255,255,0.2);">›</span> ');
+        html = `
+          <div class="outcome-panel" style="background:${style.bg}; border:1px solid ${style.border};">
+            <div class="outcome-icon">${outcome.icon}</div>
+            <div class="outcome-title" style="color:${style.text};">${outcome.title}</div>
+            <div class="outcome-msg">${outcome.message}</div>
+          </div>
+          <div class="answer-path">Path: ${path}</div>
+          <div class="nav-row">
+            <button class="btn-text" onclick="goBack('${id}')">← Revise Last Answer</button>
+            <button class="btn-text" onclick="resetTree('${id}')">↺ Start Over</button>
+          </div>
+        `;
+      }
+
+      el.innerHTML = html;
+    }
+
+    // ─── ACCOUNT INFO TABS ────────────────────────────────────────────────────
+
+    function switchAccountTab(tab) {
+      ['ai','ae','cp'].forEach(t => {
+        document.getElementById('panel-' + t).style.display = t === tab ? 'block' : 'none';
+        document.getElementById('tab-'   + t).classList.toggle('active', t === tab);
+      });
+    }
+
+    // ─── INIT ─────────────────────────────────────────────────────────────────
+
+    renderTree('isRFI');
+    renderTree('individualAccount');
+    renderTree('entityAccount');
+  </script>
+
+</body>
+</html>
