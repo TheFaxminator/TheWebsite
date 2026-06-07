@@ -15,34 +15,34 @@ window.TIN_COUNTRIES['IS'] = {
     population:   "370K",
     currency:     "ISK",
     gdpPerCapita: "$76,000",
-    funFact: "Iceland's kennitala (identification number) is used for virtually every interaction with public and private institutions — from filing taxes and visiting a doctor to borrowing library books — making it one of the most pervasive civil ID systems in the world."
+    funFact: "Iceland has no public railway system and hasn't had a passenger train in its entire modern history. " +
+      "Because of the island's tiny population, massive volcanic fields, and constant geothermal shifting, building a train network has never been practical or safe. " +
+      "Instead, locals and tourists rely entirely on a single main highway, Route 1 (the Ring Road), to drive around the country."
   },
 
   tin_types: {
 
     Individual: {
-      name: "Kennitala (einstaklingar)",
-      format: "YYMMDD-NNNN or YYMMDNNNN",
-      description: "The Icelandic personal identification number (kennitala) is a 10-digit number assigned to all " +
-        "individuals registered in Iceland. The first six digits represent the date of birth in YYMMDD order, " +
-        "followed by an optional hyphen and a four-digit individual number. The ninth digit encodes the birth " +
-        "century (9 = 1900s, 0 = 2000s) and the tenth is a check digit. Issued and maintained by " +
-        "Þjóðskrá Íslands (Statistics Iceland / National Registry).",
+      name: "Kennitala",
+      format: "DDMMYY-NNNN or DDMMYYNNNN",
+      description: "The Icelandic identification number (kennitala) is a 10-digit identifier assigned to individuals. " +
+        "The first six digits represent the date of birth (DDMMYY), followed by four additional digits.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected kennitala format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
           return { valid: false, message: "TIN must not contain spaces." };
         }
 
-        // Strip optional hyphen for length/digit check
         const digits = tin.replace("-", "");
 
         if (!/^\d{10}$/.test(digits)) {
           return { valid: false, message: "Does not match the Icelandic Individual TIN format." };
         }
 
-        // Format: YYMMDD-NNNN — validate with or without hyphen
-        if (!/^[0-9]\d(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])-?\d{4}$/.test(tin)) {
+        // Format: DDMMYY-NNNN — validate with or without hyphen
+        if (!/^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])\d{2}-?\d{4}$/.test(tin)) {
           return { valid: false, message: "Does not match the Icelandic Individual TIN format." };
         }
 
@@ -51,13 +51,12 @@ window.TIN_COUNTRIES['IS'] = {
     },
 
     Entity: {
-      name: "Kennitala (lögaðilar)",
-      format: "YYMMDD-NNNN or YYMMDNNNN (first digit +4)",
-      description: "Legal entities registered in Iceland use the same kennitala format as individuals, but with " +
-        "4 added to the first digit of the number. This shifts the first digit into the range 4–9, making it " +
-        "possible to distinguish entity kennitölu from individual kennitölu at a glance. The remaining digits " +
-        "follow the YYMMDD-NNNN structure based on the entity's registration date. Issued by " +
-        "Fyrirtækjaskrá (the Companies Registry) under Skatturinn (the Icelandic Tax Authority).",
+      name: "Kennitala",
+      format: "NNNNNN-NNNN or NNNNNNNNNN",
+      description: "The Icelandic identification number (kennitala) is a 10-digit identifier assigned to companies, " +
+        "organisations, and other legal entities registered in Iceland.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected kennitala format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -70,8 +69,8 @@ window.TIN_COUNTRIES['IS'] = {
           return { valid: false, message: "Does not match the Icelandic Entity TIN format." };
         }
 
-        // First digit must be 4–9 (original first digit 0–5 with 4 added)
-        if (!/^[4-9]\d(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])-?\d{4}$/.test(tin)) {
+        // First digit is DD's tens digit + 4 (e.g. day 01–09 → 41–49, day 30–31 → 70–71)
+        if (!/^(4[1-9]|[56]\d|7[01])(0[1-9]|1[0-2])\d{2}-?\d{4}$/.test(tin)) {
           return { valid: false, message: "Does not match the Icelandic Entity TIN format." };
         }
 

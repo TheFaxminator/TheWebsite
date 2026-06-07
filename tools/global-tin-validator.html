@@ -338,6 +338,7 @@
   <!-- Shared utilities (always loaded) -->
   <script src="js/utils/date-utils.js"></script>
   <script src="js/utils/checksum-utils.js"></script>
+  <script src="js/utils/tin-format-legend.js"></script>
   <!-- Engine: lazy-loads per-country modules on demand -->
   <script src="js/tin-engine.js"></script>
 
@@ -446,7 +447,8 @@
             <span class="tin-info-label">Submitted TIN</span>
             <span class="tin-info-value" style="font-family:monospace; letter-spacing:0.08em;">${escapeHtml(r.submittedTin.toUpperCase())}</span>
           </div>
-          ${r.description ? `<div class="tin-description">${escapeHtml(r.description)}</div>` : ''}
+          ${r.description ? `<div class="tin-description">${formatDesc(r.description)}</div>` : ''}
+          ${TINFormatLegend.renderCard()}
           ${guideLink}
         `;
       } else {
@@ -458,6 +460,10 @@
       return String(str)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function formatDesc(str) {
+      return escapeHtml(str).replace(/\n\n/g, '<br><br>');
     }
 
     function resetSingle() {

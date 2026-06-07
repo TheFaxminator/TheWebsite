@@ -369,6 +369,8 @@
     </div>
   </div>
 
+  <script src="js/utils/tin-format-legend.js"></script>
+
   <!-- Load country modules — single source of truth for all TIN data -->
   <script>
     // Supported countries: add more codes here as _check.js files are created
@@ -424,7 +426,7 @@
           <span class="tin-type-badge ${typeName.toLowerCase()}">${typeName}</span>
           <div class="tin-name">${t.name}</div>
           <div class="tin-format">${t.format}</div>
-          <div class="tin-desc">${t.description}</div>
+          <div class="tin-desc">${t.description.replace(/\n\n/g, '<br><br>')}</div>
         </div>
       `).join('');
 
@@ -447,6 +449,7 @@
 
         <p class="section-label">TIN Information</p>
         ${tinsHtml}
+        ${TINFormatLegend.renderCard()}
 
         ${m.funFact ? `
         <div class="fun-fact-box">

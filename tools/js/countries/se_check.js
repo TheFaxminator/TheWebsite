@@ -14,7 +14,10 @@ window.TIN_COUNTRIES['SE'] = {
     population:   "10.5M",
     currency:     "SEK",
     gdpPerCapita: "$55,400",
-    funFact: "Sweden introduced its personal identity number (personnummer) system in 1947, making it one of the earliest countries in the world to assign a unique numeric identifier to every resident — a system that underpins everything from healthcare and banking to tax filing today."
+    funFact: "On September 3, 1967 (Dagen H), Sweden switched from left-hand to right-hand driving. " +
+      "Despite fears of total chaos on the roads, traffic accidents actually dropped to an all-time low with zero fatalities over the weekend. " +
+      "Because drivers were so anxious about the change, they paid hyper-focused attention and drove incredibly safely — " +
+      "though accident rates slowly returned to normal once everyone got comfortable."
   },
 
   tin_types: {
@@ -22,10 +25,12 @@ window.TIN_COUNTRIES['SE'] = {
     Individual: {
       name: "Personnummer",
       format: "YYMMDD-NNNN or YYYYMMDD-NNNN",
-      description: "The Swedish personal identity number (personnummer) is assigned to all persons registered " +
-        "in Sweden. It consists of a date of birth component followed by a dash and a four-digit suffix. " +
-        "The short form uses a two-digit year (YYMMDD-NNNN) and the long form uses a four-digit year (YYYYMMDD-NNNN). " +
-        "Issued by the Swedish Tax Agency (Skatteverket).",
+      description: "A Swedish taxpayer identification number for individuals may be either a personal identity number " +
+        "(personnummer) or a coordination number (samordningsnummer). Personal identity numbers are assigned to individuals " +
+        "registered in Sweden. Coordination numbers are assigned to individuals who need a Swedish identification number " +
+        "but are not registered in Sweden. The first six or eight digits represent the date of birth (YYMMDD/YYYYMMDD).\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected Swedish TIN format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -50,11 +55,12 @@ window.TIN_COUNTRIES['SE'] = {
 
     Entity: {
       name: "Organisationsnummer",
-      format: "YYMMDD-NNNN",
-      description: "The Swedish organisation number (organisationsnummer) follows the same structure as the " +
-        "personnummer and is assigned to all legal entities registered in Sweden. " +
-        "It consists of six date-based digits, a dash, and a four-digit suffix. " +
-        "Issued by the Swedish Companies Registration Office (Bolagsverket).",
+      format: "NNNNNN-NNNN",
+      description: "A Swedish organisation number (organisationsnummer) is a 10-digit identifier assigned to companies, " +
+        "organisations, and other legal entities. Organisation numbers follow the same general format as Swedish personal " +
+        "identity numbers but are not based on a date of birth.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected Swedish organisation number format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

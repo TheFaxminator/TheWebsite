@@ -15,21 +15,19 @@ window.TIN_COUNTRIES['FI'] = {
     population:   "5.6M",
     currency:     "EUR",
     gdpPerCapita: "$55,000",
-    funFact: "Finland's personal identity code (henkilötunnus) encodes both the date of birth and the birth century in a single separator character — a '+' indicates the 1800s, '-' the 1900s, and letters like 'A' the 2000s — making the century immediately readable without any additional digits."
+    funFact: "Did you know that Finland is the undisputed world capital of heavy metal? The country boasts over 50 bands per 100,000 citizens—more than anywhere else on Earth. Even their children's music scene features a wildly popular heavy metal band called Hevisaurus, whose members dress up as dinosaurs. This deep love for heavy riffs might just be the secret to their legendary happiness, as Finland has also been ranked the world's happiest country for several years in a row!"
   },
 
   tin_types: {
 
     Individual: {
-      name: "Henkilötunnus (HETU)",
-      format: "DDMMYY[+\\-YXWVUABCDEF]NNNC",
-      description: "The Finnish personal identity code (henkilötunnus, HETU) is an 11-character identifier " +
-        "assigned to all persons registered in Finland. The first six digits represent the date of birth " +
-        "(DDMMYY), followed by a century separator character ('+' for 1800s, '-' for 1900s, 'A' for 2000s, " +
-        "with additional letters Y X W V U B C D E F reserved for future centuries), three digits that " +
-        "distinguish individuals born on the same date (odd numbers for males, even for females), and a " +
-        "single alphanumeric check character. Issued by the Digital and Population Data Services Agency " +
-        "(Digi- ja väestötietovirasto, DVV).",
+      name: "Social Security number",
+      format: "DDMMYY[+\\-YXWVUABCDEF]NNNA",
+      description: "The Finnish Personal Identity Code is an identifier assigned to individuals registered in Finland. " +
+        "The first six characters represent the date of birth (DDMMYY), followed by a character (+, -, Y, X, W, V, U, A, B, C, D, E, or F) " +
+        "and four additional characters.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected Personal Identity Code format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -45,14 +43,12 @@ window.TIN_COUNTRIES['FI'] = {
     },
 
     Entity: {
-      name: "Y-tunnus (Business ID)",
+      name: "Business Identity Code",
       format: "NNNNNNN-N",
-      description: "The Finnish business identifier (Y-tunnus) is a 9-character code assigned to all legal " +
-        "entities registered in Finland. It consists of seven digits, a hyphen, and a single check digit " +
-        "computed using a weighted modulo-11 algorithm. The Y-tunnus is used across all official registers " +
-        "and serves as both the business registration number and the tax identification number for entities. " +
-        "Issued by the Finnish Patent and Registration Office (Patentti- ja rekisterihallitus, PRH) in " +
-        "cooperation with the Finnish Tax Administration (Verohallinto).",
+      description: "The Finnish Business ID is an 8-character identifier assigned to companies, organisations, " +
+        "and other legal entities registered in Finland.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected Business ID format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

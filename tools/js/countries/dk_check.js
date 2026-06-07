@@ -14,7 +14,8 @@ window.TIN_COUNTRIES['DK'] = {
     population:   "5.9M",
     currency:     "DKK",
     gdpPerCapita: "$68,000",
-    funFact: "Denmark's personal identification number (CPR-nummer) has been in use since 1968 and is one of the most comprehensive civil registration systems in the world — it is used for everything from tax filings and healthcare to library cards and voting registration."
+    funFact: "The most staggering fraud in Denmark's history is a tax heist where a small network of foreign traders " +
+      "essentially treated the Danish treasury like a free ATM, stealing over $1.4 billion (DKK 12.7 billion)."
   },
 
   tin_types: {
@@ -22,10 +23,11 @@ window.TIN_COUNTRIES['DK'] = {
     Individual: {
       name: "CPR-nummer",
       format: "DDMMYY-NNNN",
-      description: "The Danish personal identification number (CPR-nummer, Det Centrale Personregister) is assigned " +
-        "to all persons registered in Denmark. It consists of a date of birth component (DDMMYY) followed by a " +
-        "dash and a four-digit individual number. Issued and maintained by the Danish Civil Registration System " +
-        "under the Ministry of the Interior and Housing.",
+      description: "The Danish Personal Identification Number (CPR number) is a 10-digit identifier assigned to individuals " +
+        "registered in the Danish Civil Registration System. The first six digits represent the date of birth (DDMMYY), " +
+        "followed by four additional digits.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected CPR number format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -46,10 +48,10 @@ window.TIN_COUNTRIES['DK'] = {
     Entity: {
       name: "CVR-nummer",
       format: "NNNNNNNN",
-      description: "The Danish business registration number (CVR-nummer, Det Centrale Virksomhedsregister) is an " +
-        "8-digit number assigned to all legal entities registered in Denmark. It serves as both the business " +
-        "registration number and the tax identification number for entities. " +
-        "Issued by the Danish Business Authority (Erhvervsstyrelsen).",
+      description: "The Danish Central Business Register Number (CVR number) is an 8-digit identifier assigned to " +
+        "businesses and other legal entities registered in Denmark.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected CVR number format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

@@ -15,7 +15,9 @@ window.TIN_COUNTRIES['NO'] = {
     population:   "5.5M",
     currency:     "NOK",
     gdpPerCapita: "$101,800",
-    funFact: "Norway has one of the world's most transparent tax systems — every citizen's tax return is publicly accessible online, making it possible to look up anyone's income and taxes paid."
+    funFact: "When Disney was developing Frozen, the creative team took a research trip to Norway to soak up the landscape, culture, " + 
+	"and architecture. Rather than copying just one location, they stitched the fictional kingdom of Arendelle together from several " + 
+	"different Norwegian gems.",
   },
 
   tin_types: {
@@ -23,11 +25,14 @@ window.TIN_COUNTRIES['NO'] = {
     Individual: {
       name: "Fødselsnummer / D-nummer",
       format: "DDMMYYNNNNN",
-      description: "The Norwegian personal identification number (fødselsnummer) is an 11-digit number assigned " +
-        "to all residents of Norway. The first six digits represent the date of birth (DDMMYY), followed by a " +
-        "three-digit individual number and two check digits computed via the Mod-11 algorithm. " +
-        "Non-residents who need a Norwegian identity number may be assigned a D-number, where the value 4 is " +
-        "added to the first digit of the birth date. Both formats are issued by the Norwegian Tax Administration (Skatteetaten).",
+      description: "The Norwegian personal identification number (fødselsnummer or D-number) consists of 11 digits. " +
+        "The first six digits represent the date of birth (DDMMYY), followed by five additional digits.\n\n" +
+        "D-numbers are assigned to individuals who need and are entitled to a Norwegian identification number but do not meet the criteria " +
+        "for receiving a national identity number. They may be issued in connection with applications for tax deduction cards or at the " +
+        "request of other authorities for various purposes. In a D-number, the first digit of the day of birth is increased by 4 " +
+        "(for example, 01 becomes 41). Both fødselsnummer and D-numbers are issued by the Norwegian Tax Administration (Skatteetaten).\n\n" +
+        "Validation scope: This validation checks whether the entered value matches the expected Norwegian TIN format. " +
+        "It does not verify any check digits, the number has been issued or is valid in official records.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -43,12 +48,14 @@ window.TIN_COUNTRIES['NO'] = {
 
     Entity: {
       name: "Organisasjonsnummer",
-      format: "NNNNNNNNN or NNNNNNNNNMVA",
-      description: "The Norwegian organisation number (organisasjonsnummer) is a 9-digit number assigned to all " +
-        "legal entities registered in the Brønnøysund Register Centre (Brønnøysundregistrene). It serves as both " +
-        "the business registration number and the tax identification number for entities. When used as a VAT number " +
-        "it is suffixed with 'MVA' (e.g. 123456789MVA) and you must have had a turnover of 50 000 kroner. " +
-        "This validation only use regular expressions to validate the TIN.",
+      format: "[8,9]NNNNNNNN or [8,9]NNNNNNNN[MVA]",
+      description: "A Norwegian organisation number (organisasjonsnummer) consists of 9 digits and is assigned to businesses, " +
+        "organizations, and other registered entities by the Brønnøysund Register Centre (Brønnøysundregistrene). " +
+        "Organisation numbers typically begin with 8 or 9.\n\n" +
+        "Entities that are registered for VAT use the same organisation number followed by the suffix MVA " +
+        "(for example, 999999999MVA). The MVA suffix is optional.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected organisation number format. " +
+        "It does not confirm that the organisation exists, that the number is active, or that VAT registration status is valid.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

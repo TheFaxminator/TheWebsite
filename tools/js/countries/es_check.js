@@ -16,7 +16,7 @@ window.TIN_COUNTRIES['ES'] = {
     population:   "47.4M",
     currency:     "EUR",
     gdpPerCapita: "$32,000",
-    funFact: "Spain uses three distinct individual tax identification formats — the DNI for nationals, and two variants of the NIE for foreign residents — all validated by the same modulo-23 check-letter algorithm, making the letter suffix the key integrity check across all formats."
+    funFact: "Every year, the small Spanish town of Buñol hosts La Tomatina, the world's largest organized food fight. For exactly one hour, over 20,000 festival-goers pelt each other with roughly 120 tons of overripe, squashed tomatoes. The chaotic tradition started completely by accident in 1945 during a parade scuffle and has grown into a massive global attraction. Once the hour is up, fire trucks hose down the streets, and the natural acidity of the tomatoes leaves the town's historic pathways incredibly clean."
   },
 
   tin_types: {
@@ -24,12 +24,13 @@ window.TIN_COUNTRIES['ES'] = {
     Individual: {
       name: "NIF / DNI / NIE",
       format: "NNNNNNNNL  or  [KLM]NNNNNNNL  or  [XYZ]NNNNNNNL",
-      description: "Spain issues three individual tax identification formats under the umbrella of the NIF " +
-        "(Número de Identificación Fiscal). Spanish nationals hold a DNI (Documento Nacional de Identidad): " +
-        "8 digits followed by a check letter computed via a modulo-23 algorithm. Foreign residents are issued " +
-        "a NIE (Número de Identidad de Extranjero): a leading letter (K or L for certain minors and residents, " +
-        "X / Y / Z for general foreign nationals), 7 digits, and a check letter. All formats are issued and " +
-        "managed by the Agencia Tributaria (Spanish Tax Agency).",
+      description: "The Spanish Tax Identification Number (Número de Identificación Fiscal, NIF) is assigned to individuals " +
+        "for tax and identification purposes. Spanish nationals typically use a National Identity Document number (DNI) as their NIF, " +
+        "while foreign nationals use a Foreign Identity Number (NIE).\n\n" +
+        "For Spanish nationals, the NIF consists of 8 digits followed by a letter. For foreign nationals, the NIF begins with a letter, " +
+        "followed by 7 digits, and ends with a letter.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected NIF format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -49,13 +50,14 @@ window.TIN_COUNTRIES['ES'] = {
     },
 
     Entity: {
-      name: "CIF — Código de Identificación Fiscal",
-      format: "LNNNNNNN[L|N]",
-      description: "Legal entities in Spain are identified by the CIF (Código de Identificación Fiscal), " +
-        "now officially referred to as the NIF for legal persons. It consists of a letter denoting the entity " +
-        "type (A = S.A., B = S.L., C = Collective society, etc.), followed by 7 digits and a final control " +
-        "character that is either a letter or a digit depending on the entity type. Valid opening letters are " +
-        "A, B, C, D, E, F, G, H, J, P, Q, R, S, U, V, W, and N. Issued by the Agencia Tributaria.",
+      name: "NIF",
+      format: "LNNNNNNNA",
+      description: "The Spanish Tax Identification Number (Número de Identificación Fiscal, NIF) is assigned to companies, " +
+        "organisations, and other legal entities registered in Spain.\n\n" +
+        "Entity NIFs begin with a letter that identifies the type of entity, followed by 7 digits. Depending on the type of entity, " +
+        "the identifier may end with either a letter or a digit.\n\n" +
+        "Validation scope: This check verifies only that the value follows the expected entity NIF format. " +
+        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
