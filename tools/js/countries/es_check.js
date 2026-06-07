@@ -8,7 +8,7 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 window.TIN_COUNTRIES['ES'] = {
 
   name: "Spain",
-  flag: "../assets/countries/029-es-spain.png",
+  flag: "../assets/countries/029-es-spain.webp",
 
   metadata: {
     region:       "Southern Europe",

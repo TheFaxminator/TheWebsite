@@ -7,7 +7,7 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 window.TIN_COUNTRIES['IS'] = {
 
   name: "Iceland",
-  flag: "../assets/countries/005-is-iceland.png",
+  flag: "../assets/countries/005-is-iceland.webp",
 
   metadata: {
     region:       "Northern Europe",

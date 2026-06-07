@@ -6,7 +6,7 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 window.TIN_COUNTRIES['DK'] = {
 
   name: "Denmark",
-  flag: "../assets/countries/003-dk-denmark.png",
+  flag: "../assets/countries/003-dk-denmark.webp",
 
   metadata: {
     region:       "Northern Europe",

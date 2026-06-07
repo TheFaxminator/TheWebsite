@@ -7,7 +7,7 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 window.TIN_COUNTRIES['US'] = {
 
   name: "United States",
-  flag: "../assets/countries/043-us-usa.png",
+  flag: "../assets/countries/043-us-usa.webp",
 
   metadata: {
     region:       "North America",

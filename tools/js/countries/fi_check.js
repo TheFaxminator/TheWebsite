@@ -7,7 +7,7 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 window.TIN_COUNTRIES['FI'] = {
 
   name: "Finland",
-  flag: "../assets/countries/004-fi-finland.png",
+  flag: "../assets/countries/004-fi-finland.webp",
 
   metadata: {
     region:       "Northern Europe",

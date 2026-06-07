@@ -7,7 +7,7 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 window.TIN_COUNTRIES['NO'] = {
 
   name: "Norway",
-  flag: "../assets/countries/001-no-norway.png",
+  flag: "../assets/countries/001-no-norway.webp",
 
   metadata: {
     region:       "Northern Europe",
