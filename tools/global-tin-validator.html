@@ -420,7 +420,7 @@
       const info = document.getElementById('result-tin-info');
       if (r.tinName) {
         // Only show "full guide" link for countries that have a page
-        const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI'];
+        const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB'];
         const hasPage = SUPPORTED_COUNTRIES.includes(r.countryCode);
         const guideLink = hasPage ? `
           <a href="countries.html?country=${r.countryCode}"

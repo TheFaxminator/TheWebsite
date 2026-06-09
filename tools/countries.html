@@ -328,9 +328,9 @@
       <p class="section-label">Overview</p>
       <p class="title-font" style="font-size:1.5rem; margin:0 0 0.6rem; letter-spacing:2px;">Tax Identification Numbers by Country</p>
       <p style="color:var(--slate-400); font-size:0.9rem; line-height:1.7; margin:0; max-width:680px;">
-        Click any country flag below to explore its TIN structure, format rules, and interesting facts.
-        Each country has its own unique approach to tax identification — from Norway's birth-date-encoded
-        personal number to the USA's Social Security Number system.
+        Click on any country flag below to look at TIN structure and format rules for this TIN validator.
+        Each country has its own approach to tax identification numbers — from Norway's birth-date-encoded
+        personal number to the USA's Social Security Number system. This page will be updated with more countries. 
       </p>
     </div>
 
@@ -375,7 +375,7 @@
   <!-- Load country modules — single source of truth for all TIN data -->
   <script>
     // Supported countries: add more codes here as _check.js files are created
-    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI'];
+    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH'];
 
     // Load all country scripts and then render the grid
     let loaded = 0;
