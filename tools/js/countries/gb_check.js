@@ -39,6 +39,7 @@ window.TIN_COUNTRIES['GB'] = {
         if (/\s/.test(tin)) {
           return { valid: false, message: "TIN must not contain spaces." };
         }
+        tin = tin.toUpperCase();
         const utr  = /^(?!([0-9])\1{9}$)\d{10}$/.test(tin);
         const nino = /^(?!([A-Z0-9])\1{8}$)[A-Z]{2}\d{6}[ABCD]$/.test(tin);
         if (!utr && !nino) {
