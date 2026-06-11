@@ -25,14 +25,21 @@ window.TIN_COUNTRIES['NO'] = {
     Individual: {
       name: "Fødselsnummer / D-nummer",
       format: "DDMMYYNNNNN",
-      description: "The Norwegian personal identification number (fødselsnummer or D-number) consists of 11 digits. " +
-        "The first six digits represent the date of birth (DDMMYY), followed by five additional digits.\n\n" +
-        "D-numbers are assigned to individuals who need and are entitled to a Norwegian identification number but do not meet the criteria " +
-        "for receiving a national identity number. They may be issued in connection with applications for tax deduction cards or at the " +
-        "request of other authorities for various purposes. In a D-number, the first digit of the day of birth is increased by 4 " +
-        "(for example, 01 becomes 41). Both fødselsnummer and D-numbers are issued by the Norwegian Tax Administration (Skatteetaten).\n\n" +
-        "Validation scope: This validation checks whether the entered value matches the expected Norwegian TIN format. " +
-        "It does not verify any check digits, the number has been issued or is valid in official records.",
+      description: "Norway issues two types of Taxpayer Identification Numbers for individuals: Fødselsnummer (National Identity Number) and D-nummer.\n" +
+        "• Fødselsnummer: A permanent, lifelong identifier assigned to citizens and permanent residents registered in the National Population Register.\n" +
+        "• D-nummer: A temporary identification number assigned to foreign nationals or non-residents who work short-term, pay taxes, or open bank accounts in Norway.\n\n" +
+        
+		"Formatting & Rules\n" +
+        "• Length: Exactly 11 continuous digits.\n" +
+        "• Separators: No spaces or punctuation are allowed.\n" +
+        "• The first 6 digits correspond to a date of birth (DDMMYY).\n" +
+        "• For D-numbers, the very first digit is increased by 4 (e.g., a day of birth on the 15th becomes 55).\n" +
+        "• The 9th digit indicates gender (even for female, odd for male).\n\n" +
+        
+		"Validation Scope\n" + 
+		"This check verifies that the input follows the Norwegian 11-digit structural format.\n" +
+        "• Syntax Check: Verifies that the first 6 digits represent a valid calendar date (including D-number offsets) and contain no spaces or unexpected characters.\n" +
+        "• Exclusions: This is a format-only check. It does not perform Modulus 11 mathematical checksums, nor does it verify if the number is active or assigned to a real person in official records.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -49,13 +56,19 @@ window.TIN_COUNTRIES['NO'] = {
     Entity: {
       name: "Organisasjonsnummer",
       format: "[8,9]NNNNNNNN or [8,9]NNNNNNNN[MVA]",
-      description: "A Norwegian organisation number (organisasjonsnummer) consists of 9 digits and is assigned to businesses, " +
-        "organizations, and other registered entities by the Brønnøysund Register Centre (Brønnøysundregistrene). " +
-        "Organisation numbers typically begin with 8 or 9.\n\n" +
-        "Entities that are registered for VAT use the same organisation number followed by the suffix MVA " +
-        "(for example, 999999999MVA). The MVA suffix is optional.\n\n" +
-        "Validation scope: This check verifies only that the value follows the expected organisation number format. " +
-        "It does not confirm that the organisation exists, that the number is active, or that VAT registration status is valid.",
+      description: "Businesses and organizations in Norway are identified by a 9-digit Organisasjonsnummer (Organization Number).\n" +
+        "• Issuance: Numbers are issued by the Brønnøysundregistrene upon registration of the entity.\n" +
+        "• Purpose: Used for tax filing, invoicing, and identifying the legal entity in all official Norwegian registries.\n\n" +
+        
+		"Formatting & Rules\n" +
+        "• Structure: 9 continuous digits.\n" +
+        "• Prefixes: The identification number begins with the digit 8 or 9.\n" +
+        "• VAT Identification: If the business is VAT-registered, the number is often written with the suffix MVA (e.g., 999888777MVA), though the base TIN remains the 9 digits.\n\n" +
+        
+		"Validation Scope\n" + 
+		"This check verifies that the input follows the Norwegian 9-digit structural format. It includes validation support for the optional trailing suffix \"MVA\".\n" +
+        "• Syntax Check: Confirms the base input starts with 8 or 9, consists of exactly 9 digits and contains no spaces or unexpected characters.\n" +
+        "• Exclusions: This check does not calculate the Modulus 11 check digit (the 9th digit), nor does it query government databases to see if the business is currently active or legally registered.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

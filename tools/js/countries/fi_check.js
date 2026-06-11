@@ -23,11 +23,21 @@ window.TIN_COUNTRIES['FI'] = {
     Individual: {
       name: "Social Security number",
       format: "DDMMYY[+\\-YXWVUABCDEF]NNNA",
-      description: "The Finnish Personal Identity Code is an identifier assigned to individuals registered in Finland. " +
-        "The first six characters represent the date of birth (DDMMYY), followed by a character (+, -, Y, X, W, V, U, A, B, C, D, E, or F) " +
-        "and four additional characters.\n\n" +
-        "Validation scope: This check verifies only that the value follows the expected Personal Identity Code format. " +
-        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
+      description: "Finland issues one type of Taxpayer Identification Number for individuals: Henkilötunnus (Personal Identity Code).\n" +
+        "• Henkilötunnus: A number issued to all individuals registered in Finland. Serves as personal ID and tax identification number.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: Exactly 11 characters.\n" +
+        "• The first 6 digits represent the date of birth (DDMMYY).\n" +
+        "• The 7th character is a century separator: '+' for 1800s, '-' for 1900s, and Y/X/W/V/U/A/B/C/D/E/F for 2000s onwards.\n" +
+        "• Digits 8–10 are a 3-digit individual number.\n" +
+        "• The 11th character is an alphanumeric check character.\n" +
+        "• Separators: No spaces or extra punctuation allowed.\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows the Finnish 11-character structural format.\n" +
+        "• Syntax Check: Verifies the format matches the expected structure with a valid century separator character.\n" +
+        "• Exclusions: This is a format-only check. It does not validate the check character, nor does it verify if the number is active or assigned to a real person in official records.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -45,10 +55,19 @@ window.TIN_COUNTRIES['FI'] = {
     Entity: {
       name: "Business Identity Code",
       format: "NNNNNNN-N",
-      description: "The Finnish Business ID is an 8-character identifier assigned to companies, organisations, " +
-        "and other legal entities registered in Finland.\n\n" +
-        "Validation scope: This check verifies only that the value follows the expected Business ID format. " +
-        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
+      description: "Finland issues one type of Taxpayer Identification Number for entities: Y-tunnus (Business Identity Code).\n" +
+        "• Y-tunnus: An identifier assigned to companies, organisations, associations, and other legal entities registered in Finland.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: Exactly 9 characters including the hyphen separator.\n" +
+        "• Format: 7 digits, a hyphen, and 1 check digit.\n" +
+        "• Separators: Hyphen (-) is required between the 7-digit number and the check digit. No spaces or other punctuation.\n" +
+        "• Only digits 0–9 are permitted (plus the required hyphen).\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows the Finnish Y-tunnus structural format.\n" +
+        "• Syntax Check: Verifies exactly 7 digits, a hyphen, and 1 control mark with no extra characters.\n" +
+        "• Exclusions: This is a format-only check. It does not verify if the number is active, issued, or belongs to a real entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

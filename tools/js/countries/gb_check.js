@@ -24,16 +24,19 @@ window.TIN_COUNTRIES['GB'] = {
     Individual: {
       name: "UTR / NINO",
       format: "NNNNNNNNNN or LLNNNNNNL",
-      description: 
-        "The Unique Taxpayer Reference (UTR) is a 10-digit number automatically allocated by HM Revenue & Customs (HMRC) to individuals " +
-        "who are required to submit a tax return. It is used on tax returns (form SA100) and HMRC correspondence, but is not evidenced " +
-        "on any official identity document.\n\n" +
-        "The National Insurance Number (NINO) consists of two letters, six digits, and a suffix letter A, B, C or D — for example DQ123456C. " +
-        "It is issued automatically to young people in the UK when they approach the age of 16, and can also be applied for by eligible " +
-        "individuals. The NINO appears on PAYE coding notices, payslips, and correspondence from HMRC and the Department for Work and " +
-        "Pensions (DWP). It is not proof of identity. Not all residents are issued with both a UTR and a NINO.\n\n" +
-        "Validation scope: This validation checks whether the entered value matches either the UTR or NINO format. It does not verify " +
-        "whether the number has been issued or is valid in official records.",
+      description: "The United Kingdom issues two types of Taxpayer Identification Numbers for individuals: UTR and NINO.\n" +
+        "• UTR (Unique Taxpayer Reference): Automatically allocated by HMRC to individuals required to submit a tax return. Not all residents are issued both a UTR and a NINO.\n" +
+        "• NINO (National Insurance Number): Issued automatically to young people in the UK approaching age 16, and available to other eligible individuals. Appears on PAYE coding notices, payslips, and HMRC/DWP correspondence. Not proof of identity.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• UTR: Exactly 10 numeric digits. No separators.\n" +
+        "• NINO: Exactly 9 characters — 2 uppercase letters, followed by 6 digits, and a suffix letter (A, B, C, or D). Example: DQ123456C.\n" +
+        "• Separators: None allowed (no hyphens, no spaces) for either format.\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input matches either the UK UTR or NINO structural format.\n" +
+        "• Syntax Check: Verifies the input matches either the 10-digit UTR pattern or the NINO pattern (2 letters + 6 digits + suffix A–D).\n" +
+        "• Exclusions: This is a format-only check. It does not verify if the number has been issued, is active, or belongs to a real person in official records.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -52,12 +55,17 @@ window.TIN_COUNTRIES['GB'] = {
     Entity: {
       name: "UTR",
       format: "NNNNNNNNNN",
-      description: "Entities required to submit a UK tax return are allocated a Unique Taxpayer Reference (UTR) by HM Revenue & " +
-        "Customs (HMRC). The UTR is a 10-digit number used on corporation tax returns (form CT600) and HMRC correspondence. " +
-        "It is not evidenced on any official document.\n\n" +
-        "Not all UK resident entities are automatically issued a UTR — for example, TINs are not issued to all UK resident trusts.\n\n" +
-        "Validation scope: This validation checks whether the entered value matches the 10-digit UTR format. It does not verify " +
-        "whether the number has been issued or is active in official records.",
+      description: "The United Kingdom issues one type of Taxpayer Identification Number for entities: UTR (Unique Taxpayer Reference).\n" +
+        "• UTR: Allocated by HMRC to entities required to submit a UK tax return. Not all UK resident entities are automatically issued a UTR — for example, TINs are not issued to all UK resident trusts.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: Exactly 10 numeric digits.\n" +
+        "• Separators: None allowed (no hyphens, no spaces).\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows the UK UTR structural format.\n" +
+        "• Syntax Check: Verifies exactly 10 numeric digits with no separators or extra characters.\n" +
+        "• Exclusions: This is a format-only check. It does not verify if the number has been issued, is active, or belongs to a real entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

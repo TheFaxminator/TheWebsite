@@ -24,13 +24,21 @@ window.TIN_COUNTRIES['ES'] = {
     Individual: {
       name: "NIF / DNI / NIE",
       format: "NNNNNNNNL  or  [KLM]NNNNNNNL  or  [XYZ]NNNNNNNL",
-      description: "The Spanish Tax Identification Number (Número de Identificación Fiscal, NIF) is assigned to individuals " +
-        "for tax and identification purposes. Spanish nationals typically use a National Identity Document number (DNI) as their NIF, " +
-        "while foreign nationals use a Foreign Identity Number (NIE).\n\n" +
-        "For Spanish nationals, the NIF consists of 8 digits followed by a letter. For foreign nationals, the NIF begins with a letter, " +
-        "followed by 7 digits, and ends with a letter.\n\n" +
-        "Validation scope: This check verifies only that the value follows the expected NIF format. " +
-        "It does not confirm that the number has been issued, is active, or belongs to the individual.",
+      description: "Spain issues several types of Taxpayer Identification Numbers for individuals: NIF/DNI for Spanish nationals and NIE for foreign nationals.\n" +
+        "• NIF/DNI: Assigned to Spanish nationals. Consists of 8 digits followed by a check letter.\n" +
+        "• NIE (KLM): Special NIFs assigned to certain Spanish citizens (e.g., minors or citizens abroad without a DNI).\n" +
+        "• NIE (XYZ): Assigned to foreign nationals. Begins with X, Y, or Z, followed by 7 digits and a check letter.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: Exactly 9 characters for all formats.\n" +
+        "• NIF/DNI: 8 numeric digits followed by 1 uppercase check letter.\n" +
+        "• NIE: 1 uppercase letter prefix (K, L, M, X, Y, or Z), followed by 7 digits and 1 uppercase check letter.\n" +
+        "• Separators: None allowed (no hyphens, no spaces).\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows one of the expected Spanish individual TIN formats.\n" +
+        "• Syntax Check: Verifies the format matches one of the three accepted patterns (NIF/DNI or NIE).\n" +
+        "• Exclusions: This is a format-only check. It does not verify if the number is active or assigned to a real person in official records.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -38,10 +46,9 @@ window.TIN_COUNTRIES['ES'] = {
         }
 
         const dniPattern = /^(?!([0-9])\1{7}[A-Z]$)\d{8}[A-Z]$/;
-        const nieKLM     = /^(?!([KLM])\1{7}[A-Z]$)[KLM]\d{7}[A-Z]$/;
-        const nieXYZ     = /^(?!([XYZ])\1{7}[A-Z]$)[XYZ]\d{7}[A-Z]$/;
+        const niePattern = /^(?![KLMXYZ](\d)\1{6}[A-Z]$)[KLMXYZ]\d{7}[A-Z]$/;
 
-        if (dniPattern.test(tin) || nieKLM.test(tin) || nieXYZ.test(tin)) {
+        if (dniPattern.test(tin) || niePattern.test(tin)) {
           return { valid: true, message: "Valid Tax Identification Number." };
         }
 
@@ -52,12 +59,20 @@ window.TIN_COUNTRIES['ES'] = {
     Entity: {
       name: "NIF",
       format: "LNNNNNNNA",
-      description: "The Spanish Tax Identification Number (Número de Identificación Fiscal, NIF) is assigned to companies, " +
-        "organisations, and other legal entities registered in Spain.\n\n" +
-        "Entity NIFs begin with a letter that identifies the type of entity, followed by 7 digits. Depending on the type of entity, " +
-        "the identifier may end with either a letter or a digit.\n\n" +
-        "Validation scope: This check verifies only that the value follows the expected entity NIF format. " +
-        "It does not confirm that the number has been issued, is active, or belongs to the entity.",
+      description: "Spain issues one type of Taxpayer Identification Number for entities: NIF (also known as CIF, Código de Identificación Fiscal).\n" +
+        "• NIF: Assigned to companies, organisations, associations, and other legal entities registered in Spain.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: Exactly 9 characters.\n" +
+        "• The first character is an uppercase letter identifying the entity type (A, B, C, D, E, F, G, H, J, P, Q, R, S, U, V, W, or N).\n" +
+        "• Characters 2–8 are 7 numeric digits.\n" +
+        "• The 9th character is either a letter or a digit, depending on the entity type.\n" +
+        "• Separators: None allowed (no hyphens, no spaces).\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows the expected Spanish entity NIF structural format.\n" +
+        "• Syntax Check: Verifies the entity type letter, 7 numeric digits, and a valid alphanumeric check character.\n" +
+        "• Exclusions: This is a format-only check. It does not validate the control character, nor does it verify if the number is active, issued, or belongs to a real entity.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

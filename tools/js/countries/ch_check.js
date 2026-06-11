@@ -25,16 +25,21 @@ window.TIN_COUNTRIES['CH'] = {
     Individual: {
       name: "AHV/AVS Number",
       format: "756.NNNN.NNNN.NN or 756NNNNNNNNNN",
-      description: "The AHV/AVS number is a 13-digit personal identification number assigned to every individual registered " +
-        "in the Swiss social security system. It is used for social security, health insurance, and tax purposes, and is " +
-        "issued by the Central Compensation Office.\n\n" +
-        "The number is structured as follows: the first three digits are always 756, Switzerland's ISO 3166-1 numeric country code. " +
-        "This is followed by seven randomly assigned digits and a final check digit, giving 13 digits in total. " +
-        "In formatted form the digits are grouped as 756.XXXX.XXXX.XX, where the last group of two contains the check digit. " +
-        "The unformatted variant is the same 13 digits written without separators.\n\n" +
-        "Validation scope: This validation checks whether the entered value matches the expected AHV/AVS number format, " +
-        "accepting both the dotted and unformatted variants. It does not verify the check digit or confirm that the number " +
-        "has been issued or is active in official records.",
+      description: "Switzerland issues one type of Taxpayer Identification Number for individuals: the AHV/AVS number.\n" +
+        "• AHV/AVS: A 13-digit personal identification number assigned to every individual registered in the Swiss social security system. Used for social security, health insurance, and tax purposes. Issued by the Central Compensation Office.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: Exactly 13 digits, or 16 characters in the dotted formatted variant.\n" +
+        "• The first 3 digits are always 756 (Switzerland's ISO 3166-1 numeric country code).\n" +
+        "• Followed by 9 randomly assigned digits and 1 final check digit.\n" +
+        "• Formatted variant: Digits grouped as 756.XXXX.XXXX.XX with dots as separators.\n" +
+        "• Unformatted variant: The same 13 digits written without any separators.\n" +
+        "• Separators: Dots (.) are used only in the formatted variant. No spaces or other punctuation.\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows one of the expected Swiss AHV/AVS structural formats.\n" +
+        "• Syntax Check: Verifies the input matches either the dotted (756.XXXX.XXXX.XX) or plain (756XXXXXXXXXX) format.\n" +
+        "• Exclusions: This is a format-only check. It does not validate the check digit, nor does it verify if the number has been issued or is active in official records.",
 
       validate(tin) {
         if (/\s/.test(tin)) {
@@ -52,16 +57,21 @@ window.TIN_COUNTRIES['CH'] = {
     Entity: {
       name: "UID / IDE / IDI",
       format: "CHE-NNN.NNN.NNN or CHENNNNNNNNN",
-      description: "The UID (also known as IDE or IDI depending on language region) is a unique identifier assigned to " +
-        "businesses, associations, foundations, and other legal entities registered in Switzerland. It is administered by " +
-        "the Federal Statistical Office and is used across VAT registration, official government filings, and business correspondence.\n\n" +
-        "The number is structured as follows: the prefix CHE — Switzerland's ISO 3166-1 alpha-3 country code — is followed by " +
-        "eight assigned digits and a final modulo-11 check digit, giving nine digits in total after the prefix. " +
-        "In formatted form the digits are grouped as CHE-XXX.XXX.XXX, where the last group of three ends with the check digit. " +
-        "The unformatted variant omits the hyphen and dots.\n\n" +
-        "Validation scope: This validation checks whether the entered value matches the expected UID format, " +
-        "accepting both the formatted and unformatted variants. It does not verify the check digit or confirm that the entity " +
-        "is active or appears in official registers.",
+      description: "Switzerland issues one type of Taxpayer Identification Number for entities: UID (also known as IDE in French or IDI in Italian).\n" +
+        "• UID: A unique identifier assigned to businesses, associations, foundations, and other legal entities registered in Switzerland. Administered by the Federal Statistical Office and used for VAT registration, government filings, and business correspondence.\n\n" +
+
+        "Formatting & Rules\n" +
+        "• Length: 12 characters in the formatted variant (CHE-NNN.NNN.NNN), or 12 characters in the unformatted variant (CHENNNNNNNNN).\n" +
+        "• The prefix CHE is Switzerland's ISO 3166-1 alpha-3 country code.\n" +
+        "• Followed by 8 assigned digits and 1 final modulo-11 check digit (9 digits total after the prefix).\n" +
+        "• Formatted variant: Digits grouped as CHE-NNN.NNN.NNN (hyphen after prefix, dots between digit groups).\n" +
+        "• Unformatted variant: Same number without hyphen or dots (CHENNNNNNNNN).\n" +
+        "• Separators: Hyphen and dots are used only in the formatted variant. No spaces.\n\n" +
+
+        "Validation Scope\n" +
+        "This check verifies that the input follows one of the expected Swiss UID structural formats.\n" +
+        "• Syntax Check: Verifies the input matches either the formatted (CHE-NNN.NNN.NNN) or unformatted (CHENNNNNNNNN) variant.\n" +
+        "• Exclusions: This is a format-only check. It does not validate the check digit, nor does it verify if the entity is active or appears in official registers.",
 
       validate(tin) {
         if (/\s/.test(tin)) {

@@ -405,7 +405,7 @@
             </div>
           </div>`;
       } else {
-        const title = r.status === 'missing' ? 'Missing Input' : 'Unknown';
+        const title = r.status === 'missing' ? 'Missing Input' : r.status === 'no-tin' ? 'No TIN Issued' : 'Unknown';
         badge.innerHTML = `
           <div class="status-badge" style="background:rgba(251,191,36,0.12); border:1px solid var(--amber-400);">
             <span class="status-icon">⚠</span>
@@ -420,7 +420,7 @@
       const info = document.getElementById('result-tin-info');
       if (r.tinName) {
         // Only show "full guide" link for countries that have a page
-        const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB'];
+        const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE'];
         const hasPage = SUPPORTED_COUNTRIES.includes(r.countryCode);
         const guideLink = hasPage ? `
           <a href="countries.html?country=${r.countryCode}"
@@ -464,7 +464,14 @@
     }
 
     function formatDesc(str) {
-      return escapeHtml(str).replace(/\n\n/g, '<br><br>');
+      return escapeHtml(str).split('\n').map(line => {
+        if (line === '') return '<br>';
+        if (line.startsWith('• '))
+          return '<div style="padding-left:1.1em;text-indent:-1.1em;margin:0;">' + line + '</div>';
+        if (/^[  ]{2,}[◦○]/.test(line))
+          return '<div style="padding-left:2.4em;text-indent:-1.1em;margin:0;">◦ ' + line.replace(/^[\s ]+[◦○]\s?/, '') + '</div>';
+        return '<div style="margin:0;">' + line + '</div>';
+      }).join('');
     }
 
     function resetSingle() {

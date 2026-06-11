@@ -375,7 +375,7 @@
   <!-- Load country modules — single source of truth for all TIN data -->
   <script>
     // Supported countries: add more codes here as _check.js files are created
-    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH'];
+    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE'];
 
     // Load all country scripts and then render the grid
     let loaded = 0;
@@ -427,7 +427,12 @@
           <span class="tin-type-badge ${typeName.toLowerCase()}">${typeName}</span>
           <div class="tin-name">${t.name}</div>
           <div class="tin-format">${t.format}</div>
-          <div class="tin-desc">${t.description.replace(/\n\n/g, '<br><br>')}</div>
+          <div class="tin-desc">${t.description.split('\n').map(line => {
+            if (line === '') return '<br>';
+            if (line.startsWith('• ')) return '<div style="padding-left:1.1em;text-indent:-1.1em;margin:0;">' + line + '</div>';
+            if (/^[  ]{2,}[◦○]/.test(line)) return '<div style="padding-left:2.4em;text-indent:-1.1em;margin:0;">◦ ' + line.replace(/^[\s ]+[◦○]\s?/, '') + '</div>';
+            return '<div style="margin:0;">' + line + '</div>';
+          }).join('')}</div>
         </div>
       `).join('');
 

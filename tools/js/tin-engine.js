@@ -73,7 +73,7 @@ const TINEngine = (() => {
     const result = typeData.validate(tin);
 
     return {
-      status:      result.valid ? 'valid' : 'invalid',
+      status:      result.noTin ? 'no-tin' : result.valid ? 'valid' : 'invalid',
       valid:       result.valid,
       message:     result.message,
       countryCode,
