@@ -375,7 +375,7 @@
   <!-- Load country modules — single source of truth for all TIN data -->
   <script>
     // Supported countries: add more codes here as _check.js files are created
-    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE'];
+    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE', 'AT', 'BE', 'BG', 'HR', 'CY'];
 
     // Load all country scripts and then render the grid
     let loaded = 0;
@@ -399,7 +399,8 @@
       const label = document.getElementById('grid-label');
       const countries = SUPPORTED_COUNTRIES
         .filter(code => window.TIN_COUNTRIES[code])
-        .map(code => ({ code, ...window.TIN_COUNTRIES[code] }));
+        .map(code => ({ code, ...window.TIN_COUNTRIES[code] }))
+        .sort((a, b) => a.name.localeCompare(b.name));
 
       label.textContent = `Select a Country — ${countries.length} supported`;
 
