@@ -89,6 +89,7 @@
       width: 100%;
       height: 110px;
       object-fit: cover;
+      object-position: center top;
       border-radius: 0.85rem;
       border: 1px solid rgba(255,255,255,0.18);
       box-shadow: 0 4px 20px rgba(0,0,0,0.6);
@@ -297,6 +298,56 @@
       display: block;
       margin-bottom: 0.4rem;
     }
+
+    /* ── Tabs ── */
+    .tab-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--slate-400);
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .tab-btn.active {
+      background: rgba(34,211,238,0.12);
+      border-color: rgba(34,211,238,0.40);
+      color: var(--cyan-300);
+    }
+    .tab-btn:not(.active):hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--slate-300);
+    }
+    .tab-count {
+      background: rgba(255,255,255,0.10);
+      border-radius: 9999px;
+      padding: 0.1rem 0.55rem;
+      font-size: 0.68rem;
+    }
+    .tab-btn.active .tab-count {
+      background: rgba(34,211,238,0.18);
+    }
+
+    /* ── Unsupported cards ── */
+    .country-card.unsupported img {
+      opacity: 0.72;
+      filter: saturate(0.8);
+    }
+    .country-card.unsupported:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 0 28px -4px rgba(251,191,36,0.45), 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .country-card.unsupported:hover img {
+      opacity: 0.95;
+      filter: saturate(1);
+    }
   </style>
 </head>
 <body>
@@ -337,7 +388,16 @@
     <!-- Countries grid -->
     <div class="glass" style="padding:2rem 2.5rem;">
       <p class="section-label" id="grid-label">Loading countries…</p>
-      <div class="countries-grid" id="countriesGrid"></div>
+      <div style="display:flex; gap:0.75rem; margin-bottom:1.75rem;">
+        <button id="tab-supported" class="tab-btn active" onclick="switchTab('supported')">
+          Supported <span class="tab-count" id="count-supported">—</span>
+        </button>
+        <button id="tab-unsupported" class="tab-btn" onclick="switchTab('unsupported')">
+          Not Supported <span class="tab-count" id="count-unsupported">—</span>
+        </button>
+      </div>
+      <div class="countries-grid" id="grid-supported"></div>
+      <div class="countries-grid" id="grid-unsupported" style="display:none;"></div>
     </div>
 
   </main>
@@ -374,55 +434,87 @@
 
   <!-- Load country modules — single source of truth for all TIN data -->
   <script>
-    // Supported countries: add more codes here as _check.js files are created
-    const SUPPORTED_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE', 'AT', 'BE', 'BG', 'HR', 'CY'];
+    // All countries with a _check.js file — supported flag inside each file determines which tab they appear in
+    const ALL_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE', 'AT', 'BE', 'BG', 'HR', 'CY', 'BM', 'AE', 'KY', 'CZ', 'FR', 'EE'];
 
-    // Load all country scripts and then render the grid
     let loaded = 0;
     window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 
     function onCountryLoaded() {
       loaded++;
-      if (loaded === SUPPORTED_COUNTRIES.length) renderGrid();
+      if (loaded === ALL_COUNTRIES.length) renderGrids();
     }
 
-    SUPPORTED_COUNTRIES.forEach(code => {
+    ALL_COUNTRIES.forEach(code => {
       const s = document.createElement('script');
       s.src = `js/countries/${code.toLowerCase()}_check.js`;
       s.onload  = onCountryLoaded;
-      s.onerror = onCountryLoaded; // still render even if one fails
+      s.onerror = onCountryLoaded;
       document.head.appendChild(s);
     });
 
-    function renderGrid() {
-      const grid  = document.getElementById('countriesGrid');
-      const label = document.getElementById('grid-label');
-      const countries = SUPPORTED_COUNTRIES
+    function renderGrids() {
+      const all = ALL_COUNTRIES
         .filter(code => window.TIN_COUNTRIES[code])
         .map(code => ({ code, ...window.TIN_COUNTRIES[code] }))
         .sort((a, b) => a.name.localeCompare(b.name));
 
-      label.textContent = `Select a Country — ${countries.length} supported`;
+      const supported   = all.filter(c => c.supported !== false);
+      const unsupported = all.filter(c => c.supported === false);
 
-      countries.forEach((c, i) => {
-        const card = document.createElement('div');
-        card.className = 'country-card';
-        card.style.animation = `fadeIn 0.4s ease ${i * 0.08}s both`;
-        card.innerHTML = `<img src="${c.flag}" alt="${c.name} flag" onerror="this.style.opacity='0.3'">`;
-        card.addEventListener('click', () => openModal(c));
-        grid.appendChild(card);
-      });
+      document.getElementById('count-supported').textContent   = supported.length;
+      document.getElementById('count-unsupported').textContent = unsupported.length;
+      document.getElementById('grid-label').textContent = `Select a Country — ${supported.length} supported`;
+
+      buildGrid('grid-supported',   supported,   true);
+      buildGrid('grid-unsupported', unsupported, false);
 
       // Auto-open modal if ?country=XX is in the URL (e.g. linked from the validator)
       const params = new URLSearchParams(window.location.search);
       const autoCode = params.get('country');
       if (autoCode && window.TIN_COUNTRIES[autoCode]) {
-        openModal({ code: autoCode, ...window.TIN_COUNTRIES[autoCode] });
+        const c = { code: autoCode, ...window.TIN_COUNTRIES[autoCode] };
+        if (c.supported === false) switchTab('unsupported');
+        openModal(c);
       }
+    }
+
+    function buildGrid(gridId, countries, isSupported) {
+      const grid = document.getElementById(gridId);
+      countries.forEach((c, i) => {
+        const card = document.createElement('div');
+        card.className = 'country-card' + (isSupported ? '' : ' unsupported');
+        card.style.animation = `fadeIn 0.4s ease ${i * 0.08}s both`;
+        card.innerHTML = `<img src="${c.flag}" alt="${c.name} flag" onerror="this.style.opacity='0.3'">`;
+        card.addEventListener('click', () => openModal(c));
+        grid.appendChild(card);
+      });
+    }
+
+    function switchTab(tab) {
+      const isSupported = tab === 'supported';
+      document.getElementById('grid-supported').style.display   = isSupported ? 'grid' : 'none';
+      document.getElementById('grid-unsupported').style.display = isSupported ? 'none' : 'grid';
+      document.getElementById('tab-supported').classList.toggle('active',   isSupported);
+      document.getElementById('tab-unsupported').classList.toggle('active', !isSupported);
+      const count = isSupported
+        ? document.getElementById('count-supported').textContent
+        : document.getElementById('count-unsupported').textContent;
+      document.getElementById('grid-label').textContent = isSupported
+        ? `Select a Country — ${count} supported`
+        : `Select a Country — ${count} not supported`;
     }
 
     function openModal(c) {
       const m = c.metadata || {};
+      const isUnsupported = c.supported === false;
+
+      const unsupportedBanner = isUnsupported ? `
+        <div style="background:rgba(251,191,36,0.08); border:1px solid rgba(251,191,36,0.25); border-radius:1rem; padding:0.9rem 1.25rem; margin-bottom:1.75rem; display:flex; align-items:center; gap:0.75rem;">
+          <span style="color:var(--amber-400); font-size:1.1rem;">⚠</span>
+          <span style="font-size:0.82rem; color:var(--amber-400); line-height:1.5;">No TIN issued — validation is not available for this jurisdiction.</span>
+        </div>` : '';
+
       const tinsHtml = Object.entries(c.tin_types || {}).map(([typeName, t]) => `
         <div class="tin-block">
           <span class="tin-type-badge ${typeName.toLowerCase()}">${typeName}</span>
@@ -446,6 +538,8 @@
           </div>
         </div>
 
+        ${unsupportedBanner}
+
         ${m.capital ? `
         <div class="stat-grid">
           <div class="stat-card"><div class="stat-label">Capital</div><div class="stat-value">${m.capital}</div></div>
@@ -456,7 +550,7 @@
 
         <p class="section-label">TIN Information</p>
         ${tinsHtml}
-        ${TINFormatLegend.renderCard()}
+        ${isUnsupported ? '' : TINFormatLegend.renderCard()}
 
         ${m.funFact ? `
         <div class="fun-fact-box">

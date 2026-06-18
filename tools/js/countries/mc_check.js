@@ -5,6 +5,8 @@ window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
 
 window.TIN_COUNTRIES['MC'] = {
 
+  supported: false,
+
   name: "Monaco",
   flag: "../assets/countries/130-mc-monaco.webp",
 
