@@ -435,7 +435,7 @@
   <!-- Load country modules — single source of truth for all TIN data -->
   <script>
     // All countries with a _check.js file — supported flag inside each file determines which tab they appear in
-    const ALL_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE', 'AT', 'BE', 'BG', 'HR', 'CY', 'BM', 'AE', 'KY', 'CZ', 'FR', 'EE'];
+    const ALL_COUNTRIES = ['NO', 'US', 'SE', 'DK', 'IS', 'ES', 'FI', 'GB', 'CH', 'MC', 'DE', 'AT', 'BE', 'BG', 'HR', 'CY', 'BM', 'AE', 'KY', 'CZ', 'FR', 'EE', 'MV', 'MD', 'MN', 'MS', 'UZ', 'VE', 'GR'];
 
     let loaded = 0;
     window.TIN_COUNTRIES = window.TIN_COUNTRIES || {};
@@ -512,7 +512,7 @@
       const unsupportedBanner = isUnsupported ? `
         <div style="background:rgba(251,191,36,0.08); border:1px solid rgba(251,191,36,0.25); border-radius:1rem; padding:0.9rem 1.25rem; margin-bottom:1.75rem; display:flex; align-items:center; gap:0.75rem;">
           <span style="color:var(--amber-400); font-size:1.1rem;">⚠</span>
-          <span style="font-size:0.82rem; color:var(--amber-400); line-height:1.5;">No TIN issued — validation is not available for this jurisdiction.</span>
+          <span style="font-size:0.82rem; color:var(--amber-400); line-height:1.5;">${c.unsupportedNote || 'No TIN issued — validation is not available for this jurisdiction.'}</span>
         </div>` : '';
 
       const tinsHtml = Object.entries(c.tin_types || {}).map(([typeName, t]) => `
