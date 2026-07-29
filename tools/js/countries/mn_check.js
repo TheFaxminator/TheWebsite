@@ -16,10 +16,7 @@ window.TIN_COUNTRIES['MN'] = {
   metadata: {
     region:       "Eastern Asia",
     capital:      "Ulaanbaatar",
-    population:   "3.5M",
     currency:     "MNT",
-    gdpPerCapita: "$5,900",
-    funFact: "Mongolia is the world's most sparsely populated sovereign country — roughly 3.5 million people spread across 1.56 million km² — and around a quarter of its population still lives a nomadic or semi-nomadic herding lifestyle."
   },
 
   tin_types: {

@@ -16,10 +16,7 @@ window.TIN_COUNTRIES['UZ'] = {
   metadata: {
     region:       "Central Asia",
     capital:      "Tashkent",
-    population:   "36M",
     currency:     "UZS",
-    gdpPerCapita: "$2,500",
-    funFact: "Uzbekistan is one of only two doubly landlocked countries on Earth (the other being Liechtenstein) — every one of its neighbours is itself landlocked, so goods must cross at least two borders to reach an ocean."
   },
 
   tin_types: {

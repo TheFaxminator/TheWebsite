@@ -12,12 +12,7 @@ window.TIN_COUNTRIES['IS'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "Reykjavík",
-    population:   "370K",
     currency:     "ISK",
-    gdpPerCapita: "$76,000",
-    funFact: "Iceland has no public railway system and hasn't had a passenger train in its entire modern history. " +
-      "Because of the island's tiny population, massive volcanic fields, and constant geothermal shifting, building a train network has never been practical or safe. " +
-      "Instead, locals and tourists rely entirely on a single main highway, Route 1 (the Ring Road), to drive around the country."
   },
 
   tin_types: {

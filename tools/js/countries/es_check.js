@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['ES'] = {
   metadata: {
     region:       "Southern Europe",
     capital:      "Madrid",
-    population:   "47.4M",
     currency:     "EUR",
-    gdpPerCapita: "$32,000",
-    funFact: "Every year, the small Spanish town of Buñol hosts La Tomatina, the world's largest organized food fight. For exactly one hour, over 20,000 festival-goers pelt each other with roughly 120 tons of overripe, squashed tomatoes. The chaotic tradition started completely by accident in 1945 during a parade scuffle and has grown into a massive global attraction. Once the hour is up, fire trucks hose down the streets, and the natural acidity of the tomatoes leaves the town's historic pathways incredibly clean."
   },
 
   tin_types: {

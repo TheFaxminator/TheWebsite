@@ -11,11 +11,7 @@ window.TIN_COUNTRIES['DK'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "Copenhagen",
-    population:   "5.9M",
     currency:     "DKK",
-    gdpPerCapita: "$68,000",
-    funFact: "The most staggering fraud in Denmark's history is a tax heist where a small network of foreign traders " +
-      "essentially treated the Danish treasury like a free ATM, stealing over $1.4 billion (DKK 12.7 billion)."
   },
 
   tin_types: {

@@ -280,24 +280,6 @@
       line-height: 1.65;
     }
 
-    .fun-fact-box {
-      background: rgba(168,85,247,0.08);
-      border: 1px solid rgba(168,85,247,0.20);
-      border-radius: 1rem;
-      padding: 1rem 1.25rem;
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: var(--slate-300);
-      line-height: 1.6;
-    }
-    .fun-fact-box strong {
-      color: var(--purple-400);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      display: block;
-      margin-bottom: 0.4rem;
-    }
 
     /* ── Tabs ── */
     .tab-btn {
@@ -543,20 +525,12 @@
         ${m.capital ? `
         <div class="stat-grid">
           <div class="stat-card"><div class="stat-label">Capital</div><div class="stat-value">${m.capital}</div></div>
-          <div class="stat-card"><div class="stat-label">Population</div><div class="stat-value">${m.population}</div></div>
           <div class="stat-card"><div class="stat-label">Currency</div><div class="stat-value">${m.currency}</div></div>
-          <div class="stat-card"><div class="stat-label">GDP per Capita</div><div class="stat-value">${m.gdpPerCapita}</div></div>
         </div>` : ''}
 
         <p class="section-label">TIN Information</p>
         ${tinsHtml}
         ${isUnsupported ? '' : TINFormatLegend.renderCard()}
-
-        ${m.funFact ? `
-        <div class="fun-fact-box">
-          <strong>Did you know?</strong>
-          ${m.funFact}
-        </div>` : ''}
       `;
 
       document.getElementById('modalOverlay').classList.add('open');

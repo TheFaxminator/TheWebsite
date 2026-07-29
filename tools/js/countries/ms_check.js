@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['MS'] = {
   metadata: {
     region:       "Caribbean",
     capital:      "Brades (de facto)",
-    population:   "4.4K",
     currency:     "XCD",
-    gdpPerCapita: "$12,000",
-    funFact: "Montserrat's former capital, Plymouth, was buried by eruptions of the Soufrière Hills volcano in the 1990s and lies inside an exclusion zone — making it the world's only de jure capital city that is an abandoned ghost town."
   },
 
   tin_types: {

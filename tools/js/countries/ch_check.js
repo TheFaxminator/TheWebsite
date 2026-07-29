@@ -12,12 +12,7 @@ window.TIN_COUNTRIES['CH'] = {
   metadata: {
     region:       "Central Europe",
     capital:      "Bern",
-    population:   "8.7M",
     currency:     "CHF",
-    gdpPerCapita: "$92,400",
-    funFact: "Switzerland has four official national languages — German, French, Italian, and Romansh — and the country's own ISO " +
-      "alpha-3 code (CHE) comes not from any of its names, but from its Latin name Confoederatio Helvetica, the same root that " +
-      "gives the Swiss franc its currency symbol CHF.",
   },
 
   tin_types: {

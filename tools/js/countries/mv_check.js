@@ -16,10 +16,7 @@ window.TIN_COUNTRIES['MV'] = {
   metadata: {
     region:       "Southern Asia",
     capital:      "Malé",
-    population:   "521K",
     currency:     "MVR",
-    gdpPerCapita: "$12,500",
-    funFact: "The Maldives is the world's lowest-lying country — its average ground level sits only about 1.5 metres above sea level, and its highest natural point reaches barely 2.4 metres, the lowest maximum elevation of any nation on Earth."
   },
 
   tin_types: {

@@ -16,10 +16,7 @@ window.TIN_COUNTRIES['MD'] = {
   metadata: {
     region:       "Eastern Europe",
     capital:      "Chișinău",
-    population:   "2.4M",
     currency:     "MDL",
-    gdpPerCapita: "$7,700",
-    funFact: "Moldova is home to Mileștii Mici, holder of the Guinness World Record for the world's largest wine collection — over 1.5 million bottles stored along roughly 200 km of underground limestone tunnels."
   },
 
   tin_types: {

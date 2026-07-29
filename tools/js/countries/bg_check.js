@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['BG'] = {
   metadata: {
     region:       "Eastern Europe",
     capital:      "Sofia",
-    population:   "6.5M",
     currency:     "BGN",
-    gdpPerCapita: "$16,000",
-    funFact: "Bulgaria is the oldest country in Europe that has never changed its name since its founding in 681 AD. It also gave the world the Cyrillic alphabet — developed by the Bulgarian scholars Saints Cyril and Methodius in the 9th century and now used by over 250 million people across Eastern Europe and Central Asia."
   },
 
   tin_types: {

@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['KY'] = {
   metadata: {
     region:       "Caribbean",
     capital:      "George Town",
-    population:   "69K",
     currency:     "KYD",
-    gdpPerCapita: "$58,000",
-    funFact: "The Cayman Islands is one of the world's largest offshore financial centres — a British Overseas Territory with no income tax, no corporate tax, and no capital gains tax, yet it hosts more than 100,000 registered companies, making it one of the most company-dense jurisdictions on the planet relative to its population."
   },
 
   tin_types: {

@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['AE'] = {
   metadata: {
     region:       "Middle East",
     capital:      "Abu Dhabi",
-    population:   "10M",
     currency:     "AED",
-    gdpPerCapita: "$49,000",
-    funFact: "The UAE is home to the world's tallest building, the Burj Khalifa, and despite having no personal income tax, generates the revenue to fund one of the most ambitious urban development programmes on the planet — largely through hydrocarbon exports and a thriving international business sector."
   },
 
   tin_types: {

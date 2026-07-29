@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['FR'] = {
   metadata: {
     region:       "Western Europe",
     capital:      "Paris",
-    population:   "68M",
     currency:     "EUR",
-    gdpPerCapita: "$43,000",
-    funFact: "France is the world's most visited country, attracting around 90 million tourists a year — more than its entire population. Yet despite this, France is also home to the most Michelin-starred restaurants of any nation, a distinction that reflects a cultural obsession with cuisine so deep that French gastronomy was inscribed on UNESCO's list of Intangible Cultural Heritage in 2010."
   },
 
   tin_types: {

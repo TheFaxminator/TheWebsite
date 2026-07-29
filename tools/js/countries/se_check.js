@@ -11,13 +11,7 @@ window.TIN_COUNTRIES['SE'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "Stockholm",
-    population:   "10.5M",
     currency:     "SEK",
-    gdpPerCapita: "$55,400",
-    funFact: "On September 3, 1967 (Dagen H), Sweden switched from left-hand to right-hand driving. " +
-      "Despite fears of total chaos on the roads, traffic accidents actually dropped to an all-time low with zero fatalities over the weekend. " +
-      "Because drivers were so anxious about the change, they paid hyper-focused attention and drove incredibly safely — " +
-      "though accident rates slowly returned to normal once everyone got comfortable."
   },
 
   tin_types: {

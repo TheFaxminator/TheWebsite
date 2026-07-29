@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['CY'] = {
   metadata: {
     region:       "Southern Europe",
     capital:      "Nicosia",
-    population:   "1.3M",
     currency:     "EUR",
-    gdpPerCapita: "$34,000",
-    funFact: "Cyprus is the only country in the world whose national flag depicts a map of the country itself. The copper-coloured outline on the flag is no coincidence either — the island gave copper its very name, as the Latin word for copper, cuprum, is derived directly from Kypros, the ancient name for Cyprus."
   },
 
   tin_types: {

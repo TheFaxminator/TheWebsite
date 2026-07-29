@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['HR'] = {
   metadata: {
     region:       "Southern Europe",
     capital:      "Zagreb",
-    population:   "3.9M",
     currency:     "EUR",
-    gdpPerCapita: "$23,000",
-    funFact: "Croatia is the birthplace of the necktie. The distinctive knotted cravat worn by Croatian soldiers in the Thirty Years' War (1618–1648) caught the eye of Parisian fashion, spreading across Europe and evolving into the modern tie — a $7 billion global industry today that still carries the name of its Croatian origins."
   },
 
   tin_types: {

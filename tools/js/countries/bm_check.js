@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['BM'] = {
   metadata: {
     region:       "North Atlantic Ocean",
     capital:      "Hamilton",
-    population:   "64K",
     currency:     "BMD",
-    gdpPerCapita: "$117,000",
-    funFact: "Bermuda is a British Overseas Territory with one of the highest GDP per capita figures in the world, largely due to its status as a major hub for international insurance and reinsurance — yet it levies no income tax, capital gains tax, or withholding tax on individuals or corporations."
   },
 
   tin_types: {

@@ -12,11 +12,7 @@ window.TIN_COUNTRIES['US'] = {
   metadata: {
     region:       "North America",
     capital:      "Washington, D.C.",
-    population:   "335M",
     currency:     "USD",
-    gdpPerCapita: "$80,300",
-    funFact: "The original Form 1040 from 1913 — the very first year of the modern US income tax — was only four pages long, including two pages of instructions! " +
-      "Today, the federal tax code has ballooned to over 75,000 pages, and the basic 1040 instruction booklet alone is over 100 pages long."
   },
 
   tin_types: {

@@ -11,10 +11,7 @@ window.TIN_COUNTRIES['GR'] = {
   metadata: {
     region:       "Southern Europe",
     capital:      "Athens",
-    population:   "10.4M",
     currency:     "EUR",
-    gdpPerCapita: "$23,500",
-    funFact: "Greece has one of the longest coastlines in the world — around 13,600 km — and roughly 6,000 islands and islets, yet only about 227 of them are inhabited.",
   },
 
   tin_types: {

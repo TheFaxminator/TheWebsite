@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['DE'] = {
   metadata: {
     region:       "Central Europe",
     capital:      "Berlin",
-    population:   "84.4M",
     currency:     "EUR",
-    gdpPerCapita: "$54,000",
-    funFact: "Germany is home to over 1,500 different types of beer and approximately 1,300 breweries — more than any other country on Earth. The tradition is so deeply embedded in culture that Bavaria even classifies beer as a staple food (Grundnahrungsmittel), a designation it held for centuries before modern food law caught up."
   },
 
   tin_types: {

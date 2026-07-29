@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['AT'] = {
   metadata: {
     region:       "Central Europe",
     capital:      "Vienna",
-    population:   "9.1M",
     currency:     "EUR",
-    gdpPerCapita: "$56,000",
-    funFact: "Austria is home to one of the oldest zoos in the world — the Tiergarten Schönbrunn in Vienna, founded in 1752 by Emperor Franz I as an imperial menagerie. It has operated continuously ever since and is consistently ranked among the best zoos in Europe."
   },
 
   tin_types: {

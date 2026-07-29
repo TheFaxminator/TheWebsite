@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['CZ'] = {
   metadata: {
     region:       "Central Europe",
     capital:      "Prague",
-    population:   "10.9M",
     currency:     "CZK",
-    gdpPerCapita: "$27,000",
-    funFact: "Czechia consistently ranks among the world's top beer-consuming nations per capita, brewing a tradition stretching back over 700 years — and it is home to Pilsen, the city that gave the world the Pilsner style of lager in 1842, a beer type that now accounts for the majority of all beer consumed globally."
   },
 
   tin_types: {

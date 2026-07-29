@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['BE'] = {
   metadata: {
     region:       "Western Europe",
     capital:      "Brussels",
-    population:   "11.6M",
     currency:     "EUR",
-    gdpPerCapita: "$55,000",
-    funFact: "Belgium holds the world record for the most comic strip artists per square kilometre. The country has produced globally beloved characters including Tintin, the Smurfs, and Lucky Luke — and Brussels alone has over 50 giant comic strip murals painted on building walls as part of its official Comic Strip Route."
   },
 
   tin_types: {

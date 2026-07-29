@@ -16,10 +16,7 @@ window.TIN_COUNTRIES['VE'] = {
   metadata: {
     region:       "South America",
     capital:      "Caracas",
-    population:   "28M",
     currency:     "VES",
-    gdpPerCapita: "$3,700",
-    funFact: "Venezuela is home to Angel Falls (Salto Ángel), the world's tallest uninterrupted waterfall — water plunges 979 metres from the top of Auyán-tepui, roughly 15 times the height of Niagara Falls."
   },
 
   tin_types: {

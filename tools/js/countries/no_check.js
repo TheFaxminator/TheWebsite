@@ -12,12 +12,7 @@ window.TIN_COUNTRIES['NO'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "Oslo",
-    population:   "5.5M",
     currency:     "NOK",
-    gdpPerCapita: "$101,800",
-    funFact: "When Disney was developing Frozen, the creative team took a research trip to Norway to soak up the landscape, culture, " + 
-	"and architecture. Rather than copying just one location, they stitched the fictional kingdom of Arendelle together from several " + 
-	"different Norwegian gems.",
   },
 
   tin_types: {

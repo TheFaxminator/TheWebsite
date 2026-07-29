@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['EE'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "Tallinn",
-    population:   "1.4M",
     currency:     "EUR",
-    gdpPerCapita: "$28,000",
-    funFact: "Estonia is widely regarded as the world's most advanced digital society — it was the first country to offer online voting in a national election (2005), and today almost every public service is available online. Citizens can even form a company, pay taxes, and access medical records digitally in minutes, all underpinned by a blockchain-secured national identity system that Estonians call X-Road."
   },
 
   tin_types: {

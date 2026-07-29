@@ -12,10 +12,7 @@ window.TIN_COUNTRIES['FI'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "Helsinki",
-    population:   "5.6M",
     currency:     "EUR",
-    gdpPerCapita: "$55,000",
-    funFact: "Did you know that Finland is the undisputed world capital of heavy metal? The country boasts over 50 bands per 100,000 citizens—more than anywhere else on Earth. Even their children's music scene features a wildly popular heavy metal band called Hevisaurus, whose members dress up as dinosaurs. This deep love for heavy riffs might just be the secret to their legendary happiness, as Finland has also been ranked the world's happiest country for several years in a row!"
   },
 
   tin_types: {

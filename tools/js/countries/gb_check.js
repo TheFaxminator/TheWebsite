@@ -12,11 +12,7 @@ window.TIN_COUNTRIES['GB'] = {
   metadata: {
     region:       "Northern Europe",
     capital:      "London",
-    population:   "67.7M",
     currency:     "GBP",
-    gdpPerCapita: "$46,125",
-    funFact: "The UK drives on the left side of the road, a practice dating back to medieval times when horse riders kept left " +
-      "to keep their sword arm — typically the right — free to face oncoming traffic.",
   },
 
   tin_types: {

@@ -13,10 +13,7 @@ window.TIN_COUNTRIES['MC'] = {
   metadata: {
     region:       "Southern Europe",
     capital:      "Monaco",
-    population:   "36K",
     currency:     "EUR",
-    gdpPerCapita: "$185,000",
-    funFact: "Monaco is the world's second smallest country by area, yet it has the highest population density of any sovereign nation on Earth — packing roughly 36,000 residents into just 2.08 km², most of them in high-rise apartments stacked up a steep Mediterranean hillside."
   },
 
   tin_types: {
