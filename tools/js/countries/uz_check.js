@@ -11,7 +11,7 @@ window.TIN_COUNTRIES['UZ'] = {
   flag: "../assets/countries/189-uz-uzbekistan.webp",
 
   // Shown in the "not supported" banner instead of the default "No TIN issued" wording.
-  unsupportedNote: "Uzbekistan does issue tax identifiers, but automated format validation is not yet supported.",
+  unsupportedNote: "Uzbekistan does issue TINs, but automated format validation is not yet supported.",
 
   metadata: {
     region:       "Central Asia",
