@@ -59,6 +59,48 @@
       filter: drop-shadow(0 0 8px #00f7ff);
     }
 
+    /* Prominent country button */
+    .country-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      background: linear-gradient(120deg, rgba(34,211,238,0.10), rgba(168,85,247,0.10));
+      border: 1px solid rgba(34, 211, 238, 0.40);
+      border-radius: 1.25rem;
+      padding: 1.35rem 1.75rem;
+      color: #fff;
+      text-decoration: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .country-cta:hover {
+      border-color: var(--cyan-400);
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+      transform: translateY(-2px);
+    }
+    .country-cta-left { display: flex; align-items: center; gap: 1.1rem; }
+    .country-cta-icon { font-size: 1.9rem; line-height: 1; }
+    .country-cta-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cyan-300);
+    }
+    .country-cta-arrow {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan-300);
+      white-space: nowrap;
+    }
+    @media (max-width: 640px) {
+      .country-cta-arrow { display: none; }
+    }
+
     /* Form fields */
     .tin-label {
       display: block;
@@ -253,6 +295,15 @@
 
   <!-- MAIN CONTENT -->
   <main style="max-width:1536px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem; flex:1; width:100%;">
+
+    <!-- TIN's by Country call-to-action -->
+    <a href="countries.html" class="country-cta" title="Browse TIN formats by country">
+      <span class="country-cta-left">
+        <span class="country-cta-icon">🌍</span>
+        <span class="country-cta-title">Explore TINs by Country — Formats, Structure and Syntax</span>
+      </span>
+      <span class="country-cta-arrow">→</span>
+    </a>
 
     <!-- SINGLE TIN VALIDATION -->
     <div class="glass neon-cyan" style="padding:2.5rem; background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none;">
