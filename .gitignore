@@ -1,0 +1,13 @@
+# Office temporary / lock files
+~$*
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
+
+# Working material — not part of the published site
+/references/
+/tools/js/countries/*.xlsx
+/Additional validation logics.docx
+
+# Draft pages — work in progress, not ready to publish
+/draft-*.html

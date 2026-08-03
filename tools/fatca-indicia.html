@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — FATCA US Indicia Checklist</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    :root {
+      --bg-page:     #05050f;
+      --slate-900:   #0f172a;
+      --slate-800:   #1e293b;
+      --slate-400:   #94a3b8;
+      --slate-300:   #cbd5e1;
+      --white:       #ffffff;
+      --cyan-300:    #67e8f9;
+      --cyan-400:    #22d3ee;
+      --purple-400:  #c084fc;
+      --purple-500:  #a855f7;
+      --emerald-400: #34d399;
+      --red-400:     #f87171;
+      --amber-400:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover { transform: scale(1.08); filter: drop-shadow(0 0 8px #00f7ff); }
+
+    .card {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2.5rem;
+      background: rgba(5, 5, 15, 0.55);
+    }
+    .card-cyan {
+      border-color: rgba(34, 211, 238, 0.30);
+      box-shadow: 0 0 30px -8px rgba(0, 247, 255, 0.35), 0 0 12px -4px rgba(0, 247, 255, 0.20);
+    }
+    .card-purple {
+      border-color: rgba(168, 85, 247, 0.30);
+      box-shadow: 0 0 30px -8px rgba(168, 85, 247, 0.35), 0 0 12px -4px rgba(168, 85, 247, 0.20);
+    }
+    .card-emerald {
+      border-color: rgba(52, 211, 153, 0.30);
+      box-shadow: 0 0 30px -8px rgba(52, 211, 153, 0.30), 0 0 12px -4px rgba(52, 211, 153, 0.18);
+    }
+
+    .section-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin: 0 0 1.25rem;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+
+    /* ── Tabs ─────────────────────────────────────────── */
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 0.75rem;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: var(--slate-400);
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      border-color: transparent;
+      color: #000;
+    }
+    .tab-btn:not(.active):hover { border-color: var(--cyan-400); color: var(--cyan-300); }
+
+    /* ── Field lists ──────────────────────────────────── */
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+      color: var(--slate-300);
+      line-height: 1.55;
+    }
+    .field-item:last-child { border-bottom: none; }
+    .field-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+    }
+    .field-note { font-size: 0.72rem; color: var(--slate-400); }
+
+    .callout {
+      font-size: 0.78rem;
+      color: var(--slate-400);
+      line-height: 1.65;
+      margin: 1rem 0 0;
+      padding: 0.8rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage01.webp" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../draft-fatca.html" class="home-btn" title="Back to FATCA Hub">
+        <img src="../assets/homebutton.webp" alt="Back to FATCA Hub" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(0.8rem, 3vw, 2.2rem); letter-spacing:3px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        US INDICIA CHECKLIST
+      </h1>
+      <span style="width:48px; flex-shrink:0;" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:960px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">What triggers a closer look</span>
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0;">
+        <strong style="color:var(--white);">US indicia</strong> are the facts in an account file that suggest the holder may be a US person. Finding one does not by itself make the account reportable — it means the FI must seek documentation to confirm or <em>cure</em> the indicium. If it cannot be cured, the account is treated as held by a US person. The individual indicia below track the FATCA electronic-search list; entity accounts and curing documentation follow.
+      </p>
+    </div>
+
+    <!-- 1 · INDIVIDUAL INDICIA -->
+    <div class="card card-cyan">
+      <span class="section-label" style="color:var(--cyan-400);">01 · Indicia by account type</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.5rem; line-height:1.65;">Select the account type to see the US indicia to search for.</p>
+
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <button id="tab-ind" class="tab-btn active" onclick="switchTab('ind')">Individual</button>
+        <button id="tab-ent" class="tab-btn"        onclick="switchTab('ent')">Entity</button>
+      </div>
+
+      <!-- Individual -->
+      <div id="panel-ind">
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US citizenship or residence.</strong> Identification of the holder as a US citizen or resident <span class="field-note">— including a US green card</span></div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US place of birth.</strong> An unambiguous indication of a place of birth in the United States</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US address.</strong> A current US mailing or residence address <span class="field-note">— including a US PO box</span></div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US telephone number.</strong> One or more current US telephone numbers <span class="field-note">(if the only telephone number is US, this is a stronger indicium)</span></div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">Standing instructions.</strong> Standing instructions to transfer funds to an account maintained in the United States</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">Power of attorney / signatory.</strong> A currently effective power of attorney or signatory authority granted to a person with a US address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">In-care-of / hold-mail address.</strong> An "in-care-of" or "hold mail" address that is the sole address on file for the holder</div></div>
+        <p class="callout">The last two — a US "hold mail / in-care-of" only address, and a US POA/signatory — are treated as weaker indicia under many IGAs and may be cured with less documentation than the first five.</p>
+      </div>
+
+      <!-- Entity -->
+      <div id="panel-ent" style="display:none;">
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US place of organisation.</strong> The entity is organised or incorporated in the United States — it may itself be a Specified US Person</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US address.</strong> A current US address in the entity's records</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">Passive NFFE status.</strong> The entity is a Passive NFFE — triggering a look-through to its Controlling Persons</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">US Controlling Persons.</strong> One or more Controlling Persons with US indicia (US citizenship/residence, birthplace, address, phone, etc.)</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div><strong style="color:var(--white);">Nonparticipating FFI.</strong> The account holder is an FFI that is not compliant — relevant for transitional-period reporting</div></div>
+        <p class="callout">For an entity, indicia work in two stages: first classify the entity (Specified US Person, FFI, Active or Passive NFFE), then, for a Passive NFFE, apply the individual indicia list to each Controlling Person. Use the <a href="fatca-reportability.html" style="color:var(--cyan-300);">Account Reportability</a> tool to walk this through.</p>
+      </div>
+    </div>
+
+    <!-- 2 · CURING INDICIA -->
+    <div class="card card-purple">
+      <span class="section-label" style="color:var(--purple-400);">02 · Curing US indicia</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">Where an indicium is found, the account is treated as a US Reportable Account <em>unless</em> the FI obtains and retains documentation that resolves it. Typical curing evidence:</p>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div><strong style="color:var(--white);">Non-US self-certification.</strong> A self-certification (Form W-8 or equivalent) establishing the holder's non-US status</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div><strong style="color:var(--white);">US place of birth.</strong> A self-certification of non-US status <em>plus</em> either a Certificate of Loss of Nationality, or a reasonable explanation of why US citizenship was never acquired / was renounced, together with a non-US passport</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div><strong style="color:var(--white);">US address / phone.</strong> A self-certification of non-US residence and documentary evidence of non-US status (e.g. a government-issued non-US ID)</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div><strong style="color:var(--white);">Standing instructions.</strong> A self-certification and documentary evidence establishing non-US status</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div><strong style="color:var(--white);">POA / hold-mail only.</strong> A self-certification, or documentary evidence, establishing the holder's non-US status</div></div>
+    </div>
+
+    <!-- 3 · PROCESS NOTES -->
+    <div class="card card-emerald">
+      <span class="section-label" style="color:var(--emerald-400);">03 · Points to watch</span>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Electronic vs paper search.</strong> Pre-existing high-value individual accounts also require a paper-record search and a relationship-manager enquiry, not just an electronic search.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Thresholds.</strong> IGAs allow certain pre-existing accounts below de-minimis thresholds to be excluded from review — confirm the thresholds that apply.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Change in circumstances.</strong> New indicia arising after onboarding trigger a fresh review and, if not cured, reporting.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Recordkeeping.</strong> Retain the self-certifications and documentary evidence relied on to cure any indicium.</div></div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:700px; margin:0 auto; padding-bottom:1rem;">
+      This checklist is for guidance purposes only and does not constitute legal or tax advice. The precise indicia, thresholds and curing procedures are set by the FATCA regulations and the applicable Intergovernmental Agreement — always confirm against the applicable rules.
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="../draft-home.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="../draft-fatca.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">FATCA Hub</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function switchTab(tab) {
+      ['ind','ent'].forEach(t => {
+        document.getElementById('panel-' + t).style.display = t === tab ? 'block' : 'none';
+        document.getElementById('tab-'   + t).classList.toggle('active', t === tab);
+      });
+    }
+  </script>
+
+</body>
+</html>

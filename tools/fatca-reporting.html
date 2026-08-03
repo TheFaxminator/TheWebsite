@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — FATCA Reporting Requirements</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    :root {
+      --bg-page:     #05050f;
+      --slate-900:   #0f172a;
+      --slate-800:   #1e293b;
+      --slate-400:   #94a3b8;
+      --slate-300:   #cbd5e1;
+      --white:       #ffffff;
+      --cyan-300:    #67e8f9;
+      --cyan-400:    #22d3ee;
+      --purple-400:  #c084fc;
+      --purple-500:  #a855f7;
+      --emerald-400: #34d399;
+      --red-400:     #f87171;
+      --amber-400:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover { transform: scale(1.08); filter: drop-shadow(0 0 8px #00f7ff); }
+
+    .card {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2.5rem;
+      background: rgba(5, 5, 15, 0.55);
+    }
+    .card-cyan {
+      border-color: rgba(34, 211, 238, 0.30);
+      box-shadow: 0 0 30px -8px rgba(0, 247, 255, 0.35), 0 0 12px -4px rgba(0, 247, 255, 0.20);
+    }
+    .card-purple {
+      border-color: rgba(168, 85, 247, 0.30);
+      box-shadow: 0 0 30px -8px rgba(168, 85, 247, 0.35), 0 0 12px -4px rgba(168, 85, 247, 0.20);
+    }
+    .card-emerald {
+      border-color: rgba(52, 211, 153, 0.30);
+      box-shadow: 0 0 30px -8px rgba(52, 211, 153, 0.30), 0 0 12px -4px rgba(52, 211, 153, 0.18);
+    }
+
+    .section-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin: 0 0 1.25rem;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+
+    /* ── Tabs ─────────────────────────────────────────── */
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 0.75rem;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: var(--slate-400);
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      border-color: transparent;
+      color: #000;
+    }
+    .tab-btn:not(.active):hover { border-color: var(--cyan-400); color: var(--cyan-300); }
+
+    /* ── Field lists ──────────────────────────────────── */
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+      color: var(--slate-300);
+      line-height: 1.55;
+    }
+    .field-item:last-child { border-bottom: none; }
+    .field-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+    }
+    .field-note { font-size: 0.72rem; color: var(--slate-400); }
+
+    .callout {
+      font-size: 0.78rem;
+      color: var(--slate-400);
+      line-height: 1.65;
+      margin: 1rem 0 0;
+      padding: 0.8rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage01.webp" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../draft-fatca.html" class="home-btn" title="Back to FATCA Hub">
+        <img src="../assets/homebutton.webp" alt="Back to FATCA Hub" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(0.85rem, 3vw, 2.2rem); letter-spacing:3px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        REPORTING REQUIREMENTS
+      </h1>
+      <span style="width:48px; flex-shrink:0;" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:960px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">What must be reported</span>
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0;">
+        For each <strong style="color:var(--white);">US Reportable Account</strong>, a Reporting FI submits a defined set of information — to its local tax authority under a <strong style="color:var(--white);">Model 1</strong> IGA, or directly to the IRS under a <strong style="color:var(--white);">Model 2</strong> IGA or an FFI Agreement. The data falls into three parts: <em>who</em> holds the account, the <em>account</em> itself, and the <em>financial activity</em> on it. The US TIN sits at the heart of FATCA reporting.
+      </p>
+    </div>
+
+    <!-- 1 · ACCOUNT-HOLDER IDENTITY -->
+    <div class="card card-cyan">
+      <span class="section-label" style="color:var(--cyan-400);">01 · Account-Holder Identity</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.5rem; line-height:1.65;">The identity information reported for each Specified US Person depends on whether they are an individual, an entity, or a Controlling Person of a Passive NFFE.</p>
+
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <button id="tab-ind" class="tab-btn active" onclick="switchTab('ind')">Individual</button>
+        <button id="tab-ent" class="tab-btn"        onclick="switchTab('ent')">Entity</button>
+        <button id="tab-cp"  class="tab-btn"        onclick="switchTab('cp')">Controlling Person</button>
+      </div>
+
+      <!-- Individual -->
+      <div id="panel-ind">
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>US Taxpayer Identification Number (US TIN)</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Date of birth <span class="field-note">— where the US TIN is not held for certain pre-existing accounts</span></div></div>
+        <p class="callout">A US TIN is central to FATCA. For pre-existing accounts, transitional relief allowed date of birth to stand in where a US TIN was not on record and reasonable efforts were made to obtain it — confirm the current position, as this relief has largely expired.</p>
+      </div>
+
+      <!-- Entity -->
+      <div id="panel-ent" style="display:none;">
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>US Taxpayer Identification Number (US TIN)</div></div>
+        <p class="callout">Where the entity is a Passive NFFE with one or more <strong style="color:var(--slate-300);">Reportable Controlling Persons</strong>, report the entity <em>and</em> each such Controlling Person — see the Controlling Person tab.</p>
+      </div>
+
+      <!-- Controlling Person -->
+      <div id="panel-cp" style="display:none;">
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Name</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Address</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>US Taxpayer Identification Number (US TIN)</div></div>
+        <div class="field-item"><div class="field-dot" style="background:var(--cyan-400);"></div><div>Date of birth <span class="field-note">— where required and the US TIN is not held</span></div></div>
+        <p class="callout">Controlling Person information is reported <strong style="color:var(--slate-300);">in addition to</strong> the entity (Passive NFFE) account information, not instead of it. Both the entity-level and Controlling Person-level fields go into the return.</p>
+      </div>
+    </div>
+
+    <!-- 2 · ACCOUNT DETAILS -->
+    <div class="card card-purple">
+      <span class="section-label" style="color:var(--purple-400);">02 · Account Details</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">Reported once for each US Reportable Account, regardless of who holds it.</p>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Account number <span class="field-note">— or functional equivalent where no account number exists</span></div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Name and identifying number (GIIN) of the Reporting Financial Institution</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>Account balance or value as at the end of the calendar year <span class="field-note">— or immediately before closure</span></div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--purple-400);"></div><div>If the account was closed or transferred during the year — a record of the closure</div></div>
+    </div>
+
+    <!-- 3 · FINANCIAL INFORMATION -->
+    <div class="card card-emerald">
+      <span class="section-label" style="color:var(--emerald-400);">03 · Financial Information</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">Report the gross amounts paid or credited during the calendar year. Which of these apply depends on the type of account, and Model 1 IGAs phased them in over the first reporting years.</p>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Custodial accounts:</strong> total gross interest, total gross dividends, and other income generated by the assets held</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Custodial accounts:</strong> total gross proceeds from the sale or redemption of property paid or credited to the account</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Depository accounts:</strong> total gross interest paid or credited</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--emerald-400);"></div><div><strong style="color:var(--white);">Other accounts:</strong> total gross amount paid or credited to the holder, including aggregate redemption payments</div></div>
+    </div>
+
+    <!-- MODEL 1 vs MODEL 2 -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">Model 1 vs Model 2 &amp; points to watch</span>
+      <div class="field-item"><div class="field-dot" style="background:var(--slate-400);"></div><div><strong style="color:var(--white);">Where it goes.</strong> Model 1 — report to your local tax authority, which exchanges with the IRS. Model 2 (and non-IGA PFFIs) — report directly to the IRS on Form 8966.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--slate-400);"></div><div><strong style="color:var(--white);">Currency.</strong> Amounts are reported in the currency in which they are denominated; identify the currency for each figure.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--slate-400);"></div><div><strong style="color:var(--white);">Missing US TIN.</strong> Follow the IRS TIN codes and your authority's guidance where a US TIN cannot be obtained; unresolved gaps can lead to significant-non-compliance findings.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--slate-400);"></div><div><strong style="color:var(--white);">Nonparticipating FFIs.</strong> Aggregate payments to Nonparticipating FFIs were reportable for the transitional years — check whether this still applies.</div></div>
+      <div class="field-item"><div class="field-dot" style="background:var(--slate-400);"></div><div><strong style="color:var(--white);">Nil returns.</strong> Some jurisdictions require a nil return even where there are no US Reportable Accounts — confirm against local rules.</div></div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:700px; margin:0 auto; padding-bottom:1rem;">
+      This information is for guidance purposes only and does not constitute legal or tax advice. The precise data elements, formats and timing are set by the FATCA regulations, the applicable IGA and the IRS Form 8966 / local schema — always confirm against the applicable rules.
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="../draft-home.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="../draft-fatca.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">FATCA Hub</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function switchTab(tab) {
+      ['ind','ent','cp'].forEach(t => {
+        document.getElementById('panel-' + t).style.display = t === tab ? 'block' : 'none';
+        document.getElementById('tab-'   + t).classList.toggle('active', t === tab);
+      });
+    }
+  </script>
+
+</body>
+</html>

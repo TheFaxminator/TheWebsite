@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — CRS Self-Certification Checker</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    :root {
+      --bg-page:     #05050f;
+      --slate-900:   #0f172a;
+      --slate-800:   #1e293b;
+      --slate-400:   #94a3b8;
+      --slate-300:   #cbd5e1;
+      --white:       #ffffff;
+      --cyan-300:    #67e8f9;
+      --cyan-400:    #22d3ee;
+      --purple-400:  #c084fc;
+      --purple-500:  #a855f7;
+      --emerald-400: #34d399;
+      --red-400:     #f87171;
+      --amber-400:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover { transform: scale(1.08); filter: drop-shadow(0 0 8px #00f7ff); }
+
+    .card {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2.5rem;
+      background: rgba(5, 5, 15, 0.55);
+    }
+    .card-cyan {
+      border-color: rgba(34, 211, 238, 0.30);
+      box-shadow: 0 0 30px -8px rgba(0, 247, 255, 0.35), 0 0 12px -4px rgba(0, 247, 255, 0.20);
+    }
+
+    .section-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin: 0 0 1.25rem;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    /* ── Tabs ─────────────────────────────────────────── */
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 0.75rem;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: var(--slate-400);
+    }
+    .tab-btn.active {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      border-color: transparent;
+      color: #000;
+    }
+    .tab-btn:not(.active):hover { border-color: var(--cyan-400); color: var(--cyan-300); }
+
+    /* ── Status bar ───────────────────────────────────── */
+    .status-bar {
+      position: sticky;
+      top: calc(80px + 1rem);
+      z-index: 40;
+      border-radius: 1rem;
+      padding: 1.1rem 1.35rem;
+      background: rgba(8, 10, 22, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+    .status-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .status-verdict {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .status-count {
+      font-size: 0.78rem;
+      color: var(--slate-300);
+      font-weight: 500;
+    }
+    .status-count strong { color: #fff; }
+    .meter {
+      height: 9px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 9999px;
+      background: linear-gradient(to right, var(--cyan-400), var(--emerald-400));
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+    .status-sub { font-size: 0.72rem; color: var(--slate-400); }
+
+    /* ── Checklist ────────────────────────────────────── */
+    .group-label {
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--cyan-300);
+      font-family: 'Cinzel Decorative', cursive;
+      font-weight: 700;
+      margin: 1.75rem 0 0.7rem;
+    }
+    .group-label:first-of-type { margin-top: 0; }
+
+    .check-list { display: flex; flex-direction: column; gap: 0.55rem; }
+
+    .check-row {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      padding: 0.75rem 0.95rem;
+      border-radius: 0.8rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .check-row:hover { border-color: rgba(34,211,238,0.35); }
+    .check-row:has(input:checked) {
+      border-color: rgba(52,211,153,0.45);
+      background: rgba(52,211,153,0.08);
+    }
+    .check-row input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 0.4rem;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.03);
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      transition: all 0.2s ease;
+    }
+    .check-row input[type="checkbox"]:checked {
+      border-color: var(--emerald-400);
+      background: var(--emerald-400);
+    }
+    .check-row input[type="checkbox"]:checked::after {
+      content: '✓';
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #041014;
+      line-height: 1;
+    }
+    .check-body { display: flex; flex-direction: column; gap: 0.2rem; }
+    .check-label {
+      font-size: 0.84rem;
+      color: var(--white);
+      line-height: 1.5;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .check-note { font-size: 0.73rem; color: var(--slate-400); line-height: 1.55; }
+
+    .tag {
+      font-size: 0.56rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+    .tag-req {
+      color: var(--cyan-300);
+      background: rgba(34,211,238,0.14);
+      border: 1px solid rgba(34,211,238,0.3);
+    }
+    .tag-opt {
+      color: var(--slate-400);
+      background: rgba(148,163,184,0.1);
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    /* ── Passive NFE toggle ───────────────────────────── */
+    .toggle-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 1rem 1.2rem;
+      border-radius: 0.9rem;
+      border: 1px dashed rgba(192,132,252,0.4);
+      background: rgba(168,85,247,0.07);
+      margin: 1.75rem 0 0.5rem;
+    }
+    .switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; margin-top: 0.1rem; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background: rgba(255,255,255,0.15);
+      border-radius: 9999px;
+      transition: 0.25s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.25s;
+    }
+    .switch input:checked + .slider { background: linear-gradient(to right, var(--purple-500), var(--cyan-400)); }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+
+    .cp-group { display: none; }
+    .cp-group.show { display: block; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+    .btn-text {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate-400);
+      transition: color 0.2s ease;
+    }
+    .btn-text:hover { color: var(--cyan-300); }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage01.webp" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../draft-crs.html" class="home-btn" title="Back to CRS Hub">
+        <img src="../assets/homebutton.webp" alt="Back to CRS Hub" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(0.85rem, 3vw, 2.2rem); letter-spacing:3px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        SELF-CERTIFICATION CHECKER
+      </h1>
+      <span style="width:48px; flex-shrink:0;" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:900px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">What this checks</span>
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0 0 1rem;">
+        A <strong style="color:var(--white);">self-certification</strong> is the declaration an account holder (or Controlling Person) gives a Reporting Financial Institution to confirm their jurisdiction(s) of tax residence and Tax Identification Number(s). Under CRS it is <strong style="color:var(--white);">mandatory for all new accounts at opening</strong>, and the RFI must confirm the certification is <em>reasonable</em> against the information collected during onboarding.
+      </p>
+      <p style="font-size:0.82rem; color:var(--slate-400); line-height:1.7; margin:0;">
+        Pick the account-holder type below and tick each field as you confirm it is captured. The status bar tracks whether every <span style="color:var(--cyan-300);">required</span> field is present — a self-certification is only valid once all required fields are complete.
+      </p>
+    </div>
+
+    <!-- CHECKER -->
+    <div class="card card-cyan">
+
+      <!-- Tabs -->
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <button id="tab-ind" class="tab-btn active" onclick="switchType('ind')">Individual</button>
+        <button id="tab-ent" class="tab-btn"        onclick="switchType('ent')">Entity</button>
+        <button id="tab-cp"  class="tab-btn"        onclick="switchType('cp')">Controlling Person</button>
+      </div>
+
+      <!-- Status bar -->
+      <div class="status-bar">
+        <div class="status-head">
+          <div id="status-verdict" class="status-verdict" style="color:var(--amber-400);">
+            <span id="verdict-icon">⚠</span><span id="verdict-text">Incomplete</span>
+          </div>
+          <div class="status-count">Required: <strong id="req-count">0 / 0</strong></div>
+        </div>
+        <div class="meter"><div id="meter-fill" class="meter-fill"></div></div>
+      </div>
+
+      <hr class="divider" style="margin:0 0 1.5rem;">
+
+      <!-- ───────── INDIVIDUAL ───────── -->
+      <div id="panel-ind" class="panel">
+        <div class="group-label">Identity &amp; Tax Residence</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Full name of the individual <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Current residential address <span class="tag tag-req">Required</span></div><div class="check-note">A permanent residential address — not a PO box or an "in-care-of" / hold-mail address.</div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Jurisdiction(s) of tax residence <span class="tag tag-req">Required</span></div><div class="check-note">All jurisdictions where the individual is tax resident must be listed.</div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Date of birth <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+
+        <div class="group-label">Tax Identification Number</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">TIN for each jurisdiction of tax residence <span class="tag tag-req">Required</span></div><div class="check-note">One TIN per jurisdiction listed above.</div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="0"><div class="check-body"><div class="check-label">Where no TIN is provided, a reason is given <span class="tag tag-opt">If applicable</span></div><div class="check-note">Reason A (jurisdiction issues no TIN), B (unable to obtain), or C (not required). Reason B needs an explanation.</div></div></label>
+        </div>
+
+        <div class="group-label">Declaration &amp; Signature</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Certification that the information is true, correct and complete <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Undertaking to notify the RFI of any change in circumstances <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Signature (or positive affirmation) of the account holder <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Date of signature <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+      </div>
+
+      <!-- ───────── ENTITY ───────── -->
+      <div id="panel-ent" class="panel" style="display:none;">
+        <div class="group-label">Identity &amp; Tax Residence</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Full legal name of the entity <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Registered / principal office address <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Jurisdiction(s) of tax residence <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+
+        <div class="group-label">Tax Identification Number</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">TIN for each jurisdiction of tax residence <span class="tag tag-req">Required</span></div><div class="check-note">Or a valid reason where no TIN is available.</div></div></label>
+        </div>
+
+        <div class="group-label">CRS Classification</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Entity's CRS classification is stated <span class="tag tag-req">Required</span></div><div class="check-note">Financial Institution, or Non-Financial Entity (NFE).</div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">For an NFE — Active or Passive is specified <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+
+        <!-- Passive NFE toggle -->
+        <div class="toggle-box">
+          <label class="switch">
+            <input type="checkbox" id="passive-toggle" onchange="togglePassive()">
+            <span class="slider"></span>
+          </label>
+          <div>
+            <div style="font-size:0.84rem; color:var(--white); font-weight:600; margin-bottom:0.2rem;">Is the entity a Passive NFE?</div>
+            <div style="font-size:0.74rem; color:var(--slate-400); line-height:1.55;">If yes, the Controlling Persons must be identified and self-certifications collected for each. Switch on to add those required fields.</div>
+          </div>
+        </div>
+
+        <div id="cp-group" class="cp-group">
+          <div class="group-label" style="color:var(--purple-400);">Controlling Persons (Passive NFE)</div>
+          <div class="check-list">
+            <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">All Controlling Persons identified <span class="tag tag-req">Required</span></div><div class="check-note">Natural persons with &gt; 25% ownership/control; for trusts, the settlor, trustee, protector, beneficiaries and any other controller.</div></div></label>
+            <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">A self-certification collected for each Controlling Person <span class="tag tag-req">Required</span></div><div class="check-note">Use the Controlling Person tab to check each one is complete.</div></div></label>
+            <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Type of each Controlling Person recorded <span class="tag tag-req">Required</span></div></div></label>
+          </div>
+        </div>
+
+        <div class="group-label">Declaration &amp; Signature</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Name &amp; capacity of the authorised signatory <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Certification that the information is true, correct and complete <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Undertaking to notify the RFI of any change in circumstances <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Signature and date <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+      </div>
+
+      <!-- ───────── CONTROLLING PERSON ───────── -->
+      <div id="panel-cp" class="panel" style="display:none;">
+        <div class="group-label">Identity &amp; Tax Residence</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Full name of the Controlling Person <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Current residential address <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Jurisdiction(s) of tax residence <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Date of birth <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+
+        <div class="group-label">Tax Identification Number</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">TIN for each jurisdiction of tax residence <span class="tag tag-req">Required</span></div><div class="check-note">One TIN per jurisdiction listed above.</div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="0"><div class="check-body"><div class="check-label">Where no TIN is provided, a reason is given <span class="tag tag-opt">If applicable</span></div><div class="check-note">Reason A (jurisdiction issues no TIN), B (unable to obtain), or C (not required). Reason B needs an explanation.</div></div></label>
+        </div>
+
+        <div class="group-label">Link to Entity &amp; Control</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Name of the Passive NFE / account the person controls <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Type of Controlling Person <span class="tag tag-req">Required</span></div><div class="check-note">e.g. control by ownership, control by other means, or senior managing official.</div></div></label>
+        </div>
+
+        <div class="group-label">Declaration &amp; Signature</div>
+        <div class="check-list">
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Certification that the information is true, correct and complete <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Undertaking to notify the RFI of any change in circumstances <span class="tag tag-req">Required</span></div></div></label>
+          <label class="check-row"><input type="checkbox" data-req="1"><div class="check-body"><div class="check-label">Signature and date <span class="tag tag-req">Required</span></div></div></label>
+        </div>
+      </div>
+
+      <hr class="divider" style="margin:1.75rem 0 1.25rem;">
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="btn-text" onclick="resetActive()">↺ Reset this checklist</button>
+      </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:700px; margin:0 auto; padding-bottom:1rem;">
+      This checklist is for guidance purposes only and does not constitute legal or tax advice. Self-certification field requirements can vary by jurisdiction and by the RFI's own onboarding forms — always confirm against your local implementing legislation and the OECD CRS.
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="../draft-home.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="../draft-crs.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">CRS Hub</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let activeType = 'ind';
+
+    function switchType(type) {
+      activeType = type;
+      ['ind','ent','cp'].forEach(t => {
+        document.getElementById('panel-' + t).style.display = t === type ? 'block' : 'none';
+        document.getElementById('tab-'   + t).classList.toggle('active', t === type);
+      });
+      updateStatus();
+    }
+
+    function togglePassive() {
+      const on = document.getElementById('passive-toggle').checked;
+      document.getElementById('cp-group').classList.toggle('show', on);
+      updateStatus();
+    }
+
+    // Count only checkboxes that are currently visible (offsetParent !== null)
+    function visibleBoxes(panel) {
+      return [...panel.querySelectorAll('input[type="checkbox"]')].filter(cb => cb.offsetParent !== null);
+    }
+
+    function updateStatus() {
+      const panel = document.getElementById('panel-' + activeType);
+      const boxes = visibleBoxes(panel);
+
+      const req    = boxes.filter(cb => cb.dataset.req === '1');
+      const reqOk  = req.filter(cb => cb.checked).length;
+
+      document.getElementById('req-count').textContent = reqOk + ' / ' + req.length;
+
+      const pct = req.length ? Math.round((reqOk / req.length) * 100) : 0;
+      const fill = document.getElementById('meter-fill');
+      fill.style.width = pct + '%';
+
+      const verdict = document.getElementById('status-verdict');
+      const icon    = document.getElementById('verdict-icon');
+      const text    = document.getElementById('verdict-text');
+      const complete = req.length > 0 && reqOk === req.length;
+
+      if (complete) {
+        verdict.style.color = 'var(--emerald-400)';
+        icon.textContent = '✓';
+        text.textContent = 'Valid — all required fields captured';
+        fill.style.background = 'linear-gradient(to right, var(--emerald-400), #10b981)';
+      } else {
+        verdict.style.color = 'var(--amber-400)';
+        icon.textContent = '⚠';
+        const missing = req.length - reqOk;
+        text.textContent = 'Incomplete — ' + missing + ' required field' + (missing === 1 ? '' : 's') + ' missing';
+        fill.style.background = 'linear-gradient(to right, var(--cyan-400), var(--emerald-400))';
+      }
+    }
+
+    function resetActive() {
+      const panel = document.getElementById('panel-' + activeType);
+      panel.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      if (activeType === 'ent') {
+        document.getElementById('passive-toggle').checked = false;
+        document.getElementById('cp-group').classList.remove('show');
+      }
+      updateStatus();
+    }
+
+    // Recompute whenever any checkbox changes
+    document.querySelectorAll('.panel input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', updateStatus);
+    });
+
+    updateStatus();
+  </script>
+
+</body>
+</html>

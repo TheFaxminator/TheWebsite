@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — FATCA IGA Model Finder</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    :root {
+      --bg-page:      #05050f;
+      --slate-900:    #0f172a;
+      --slate-800:    #1e293b;
+      --slate-400:    #94a3b8;
+      --slate-300:    #cbd5e1;
+      --white:        #ffffff;
+      --cyan-300:     #67e8f9;
+      --cyan-400:     #22d3ee;
+      --purple-400:   #c084fc;
+      --purple-500:   #a855f7;
+      --emerald-400:  #34d399;
+      --red-400:      #f87171;
+      --amber-400:    #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .glass {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover { transform: scale(1.08); filter: drop-shadow(0 0 8px #00f7ff); }
+
+    .neon-cyan { box-shadow: 0 0 25px -5px #00f7ff, 0 0 10px -2px #00f7ff; }
+
+    .tin-label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate-400);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    .tin-select {
+      width: 100%;
+      background: var(--slate-900);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      color: #fff;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .tin-select:focus { border-color: var(--cyan-400); }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+    }
+    .status-badge .status-icon { font-size: 1.75rem; line-height: 1; }
+    .status-badge .status-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .status-badge .status-msg { font-size: 0.875rem; color: var(--slate-300); margin-top: 0.25rem; }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 1rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      align-items: baseline;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate-400);
+      font-weight: 700;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+    .info-value { font-size: 0.875rem; color: var(--white); line-height: 1.6; }
+
+    .result-panel {
+      display: none;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(0, 0, 0, 0.40);
+    }
+
+    /* Model comparison */
+    .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 640px) { .model-grid { grid-template-columns: 1fr; } }
+    .model-card {
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .model-card h3 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.85rem; letter-spacing: 0.08em; margin: 0 0 0.75rem;
+    }
+    .model-card p { font-size: 0.8rem; color: var(--slate-300); line-height: 1.65; margin: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage01.webp" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../draft-fatca.html" class="home-btn" title="Back to FATCA Hub">
+        <img src="../assets/homebutton.webp" alt="Back to FATCA Hub" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(1rem, 3.5vw, 2.6rem); letter-spacing:4px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        IGA MODEL FINDER
+      </h1>
+      <span style="width:48px; flex-shrink:0;" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:960px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem; flex:1; width:100%;">
+
+    <!-- INTRO -->
+    <div class="glass" style="padding:2rem 2.5rem;">
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0;">
+        The US implements FATCA through <strong style="color:#fff;">Intergovernmental Agreements (IGAs)</strong>. Under a <strong style="color:#fff;">Model 1</strong> IGA, Financial Institutions report to their own tax authority, which exchanges the data with the IRS. Under a <strong style="color:#fff;">Model 2</strong> IGA, Financial Institutions report directly to the IRS. Pick a jurisdiction to see which model applies.
+      </p>
+    </div>
+
+    <!-- FINDER -->
+    <div class="glass neon-cyan" style="padding:2.5rem; background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none;">
+      <label class="tin-label" for="jur">Jurisdiction</label>
+      <select id="jur" class="tin-select" onchange="showModel()">
+        <option value="">Select a jurisdiction…</option>
+      </select>
+
+      <div id="result" class="result-panel"></div>
+    </div>
+
+    <!-- MODEL EXPLAINER -->
+    <div class="glass" style="padding:2.5rem;">
+      <span class="tin-label" style="color:var(--cyan-300); font-size:0.8rem; margin-bottom:1.25rem;">The two models at a glance</span>
+      <div class="model-grid">
+        <div class="model-card" style="border-color:rgba(34,211,238,0.30);">
+          <h3 style="color:var(--cyan-300);">Model 1 — report to your authority</h3>
+          <p>FIs identify US Reportable Accounts and report them to their <strong style="color:#fff;">local tax authority</strong>, which exchanges the information with the IRS. Most jurisdictions use Model 1. A <em>reciprocal</em> (1A) version has the US share information back; a <em>non-reciprocal</em> (1B) version does not.</p>
+        </div>
+        <div class="model-card" style="border-color:rgba(168,85,247,0.30);">
+          <h3 style="color:var(--purple-400);">Model 2 — report to the IRS</h3>
+          <p>FIs register with and report US accounts <strong style="color:#fff;">directly to the IRS</strong>, supplemented by government-to-government exchange of information on request. A smaller group of jurisdictions uses Model 2.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:720px; margin:0 auto; padding-bottom:1rem;">
+      For reference only. IGA status and models change over time — always confirm against the US Treasury's official
+      <a href="https://home.treasury.gov/policy-issues/tax-policy/foreign-account-tax-compliance-act" style="color:var(--cyan-300);" target="_blank" rel="noopener">FATCA resource center</a>
+      and the applicable agreement. This list covers the model type; it does not state exact in-force dates.
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem; flex-shrink:0;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="../draft-home.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="../draft-fatca.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">FATCA Hub</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Model type by jurisdiction. 1 = Model 1 IGA, 2 = Model 2 IGA.
+    const IGA = {
+      "Algeria":1,"Angola":1,"Anguilla":1,"Antigua and Barbuda":1,"Armenia":2,"Australia":1,
+      "Austria":2,"Azerbaijan":1,"Bahamas":1,"Bahrain":1,"Barbados":1,"Belarus":1,"Belgium":1,
+      "Bermuda":2,"Brazil":1,"British Virgin Islands":1,"Bulgaria":1,"Cambodia":1,"Canada":1,
+      "Cabo Verde":1,"Cayman Islands":1,"Chile":2,"China":1,"Colombia":1,"Costa Rica":1,"Croatia":1,
+      "Curaçao":1,"Cyprus":1,"Czechia":1,"Denmark":1,"Dominica":1,"Dominican Republic":1,"Estonia":1,
+      "Finland":1,"France":1,"Georgia":1,"Germany":1,"Gibraltar":1,"Greece":1,"Greenland":1,"Grenada":1,
+      "Guernsey":1,"Guyana":1,"Haiti":1,"Holy See (Vatican City)":1,"Honduras":1,"Hong Kong":2,
+      "Hungary":1,"Iceland":1,"India":1,"Indonesia":1,"Iraq":2,"Ireland":1,"Isle of Man":1,"Israel":1,
+      "Italy":1,"Jamaica":1,"Japan":2,"Jersey":1,"Kazakhstan":1,"Kosovo":1,"Kuwait":1,"Latvia":1,
+      "Liechtenstein":1,"Lithuania":1,"Luxembourg":1,"Macao":2,"Malaysia":1,"Malta":1,"Mauritius":1,
+      "Mexico":1,"Moldova":2,"Montenegro":1,"Montserrat":1,"Netherlands":1,"New Zealand":1,
+      "Nicaragua":2,"Norway":1,"Panama":1,"Paraguay":2,"Peru":1,"Philippines":1,"Poland":1,"Portugal":1,
+      "Qatar":1,"Romania":1,"Saint Kitts and Nevis":1,"Saint Lucia":1,"Saint Vincent and the Grenadines":1,
+      "San Marino":2,"Saudi Arabia":1,"Serbia":1,"Seychelles":1,"Singapore":1,"Slovakia":1,"Slovenia":1,
+      "South Africa":1,"South Korea":1,"Spain":1,"Sweden":1,"Switzerland":2,"Taiwan":2,"Thailand":1,
+      "Trinidad and Tobago":1,"Tunisia":1,"Turkey":1,"Turkmenistan":1,"Turks and Caicos Islands":1,
+      "Ukraine":1,"United Arab Emirates":1,"United Kingdom":1,"Uzbekistan":1,"Vietnam":1
+    };
+
+    // Populate the dropdown, alphabetically.
+    (function () {
+      const sel = document.getElementById('jur');
+      Object.keys(IGA).sort((a, b) => a.localeCompare(b)).forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name; opt.textContent = name;
+        sel.appendChild(opt);
+      });
+    })();
+
+    function showModel() {
+      const name  = document.getElementById('jur').value;
+      const panel = document.getElementById('result');
+
+      if (!name) { panel.style.display = 'none'; panel.innerHTML = ''; return; }
+
+      const model = IGA[name];
+      panel.style.display = 'block';
+
+      const isM1 = model === 1;
+      const accent = isM1 ? 'var(--cyan-400)' : 'var(--purple-400)';
+      const bg     = isM1 ? 'rgba(34,211,238,0.12)' : 'rgba(168,85,247,0.12)';
+      const modelName = isM1 ? 'Model 1 IGA' : 'Model 2 IGA';
+      const reportTo  = isM1
+        ? 'Financial Institutions report US Reportable Accounts to the local tax authority, which exchanges the data with the IRS.'
+        : 'Financial Institutions register with and report US Reportable Accounts directly to the IRS, backed by government-to-government exchange on request.';
+      const nextSteps = isM1
+        ? 'A Reporting FI here files under the local FATCA return / schema. Register for a GIIN unless the IGA exempts the entity.'
+        : 'A Reporting FI here files Form 8966 with the IRS and must register for a GIIN.';
+
+      panel.innerHTML = `
+        <div class="status-badge" style="background:${bg}; border:1px solid ${accent};">
+          <span class="status-icon">${isM1 ? '①' : '②'}</span>
+          <div>
+            <div class="status-title" style="color:${accent};">${name} — ${modelName}</div>
+            <div class="status-msg">${reportTo}</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <div class="info-row"><span class="info-label">Jurisdiction</span><span class="info-value">${name}</span></div>
+          <div class="info-row"><span class="info-label">IGA Model</span><span class="info-value">${modelName}</span></div>
+          <div class="info-row"><span class="info-label">Report to</span><span class="info-value">${isM1 ? 'Local tax authority (onward exchange to the IRS)' : 'Directly to the IRS (Form 8966)'}</span></div>
+          <div class="info-row"><span class="info-label">Next steps</span><span class="info-value">${nextSteps}</span></div>
+        </div>
+        <p style="margin-top:1rem; font-size:0.75rem; color:var(--slate-400); line-height:1.65;">
+          Model shown for reference — confirm the current status and exact terms against the US Treasury FATCA resource center and the applicable agreement.
+        </p>
+      `;
+    }
+  </script>
+
+</body>
+</html>

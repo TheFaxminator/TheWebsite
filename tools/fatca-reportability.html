@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEFAXMINATOR — FATCA Account Reportability</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    :root {
+      --bg-page:     #05050f;
+      --slate-900:   #0f172a;
+      --slate-800:   #1e293b;
+      --slate-400:   #94a3b8;
+      --slate-300:   #cbd5e1;
+      --white:       #ffffff;
+      --cyan-300:    #67e8f9;
+      --cyan-400:    #22d3ee;
+      --purple-400:  #c084fc;
+      --purple-500:  #a855f7;
+      --emerald-400: #34d399;
+      --red-400:     #f87171;
+      --amber-400:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #05050f;
+    }
+
+    .title-font { font-family: 'Cinzel Decorative', cursive; font-weight: 700; }
+
+    .home-btn { transition: transform 0.2s ease, filter 0.2s ease; }
+    .home-btn:hover { transform: scale(1.08); filter: drop-shadow(0 0 8px #00f7ff); }
+
+    .card {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 2.5rem;
+      background: rgba(5, 5, 15, 0.55);
+    }
+    .card-cyan {
+      border-color: rgba(34, 211, 238, 0.30);
+      box-shadow: 0 0 30px -8px rgba(0, 247, 255, 0.35), 0 0 12px -4px rgba(0, 247, 255, 0.20);
+    }
+    .card-purple {
+      border-color: rgba(168, 85, 247, 0.30);
+      box-shadow: 0 0 30px -8px rgba(168, 85, 247, 0.35), 0 0 12px -4px rgba(168, 85, 247, 0.20);
+    }
+
+    .section-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin: 0 0 1.25rem;
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin: 0;
+    }
+
+    /* ── Wizard ───────────────────────────────────────── */
+    .wizard { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .step-indicator {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+    }
+    .tree-question {
+      font-size: 1rem;
+      color: var(--white);
+      line-height: 1.65;
+      font-weight: 500;
+      margin: 0;
+    }
+    .tree-hint {
+      font-size: 0.79rem;
+      color: var(--slate-400);
+      line-height: 1.65;
+      padding: 0.8rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    .btn-yes {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      color: #000; border: none; border-radius: 0.875rem;
+      padding: 0.9rem; font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive; transition: opacity 0.2s ease;
+    }
+    .btn-yes:hover { opacity: 0.85; }
+    .btn-no {
+      background: none; border: 1px solid rgba(255,255,255,0.22); color: #fff;
+      border-radius: 0.875rem; padding: 0.9rem; font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive; transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .btn-no:hover { border-color: var(--purple-400); color: var(--purple-400); }
+
+    .btn-start {
+      background: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+      color: #000; border: none; border-radius: 0.875rem;
+      padding: 0.9rem 1.5rem; font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive; transition: opacity 0.2s ease;
+      align-self: flex-start;
+    }
+    .btn-start:hover { opacity: 0.85; }
+
+    .btn-text {
+      background: none; border: none; padding: 0; cursor: pointer;
+      font-family: 'Cinzel Decorative', cursive; font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--slate-400);
+      transition: color 0.2s ease;
+    }
+    .btn-text:hover { color: var(--cyan-300); }
+    .nav-row { display: flex; justify-content: space-between; align-items: center; }
+
+    .outcome-panel {
+      border-radius: 0.875rem; padding: 1.4rem 1.6rem;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .outcome-icon  { font-size: 1.5rem; line-height: 1; }
+    .outcome-title {
+      font-family: 'Cinzel Decorative', cursive; font-size: 0.9rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .outcome-msg { font-size: 0.84rem; color: var(--slate-300); line-height: 1.7; }
+    .outcome-msg a { color: var(--cyan-300); }
+
+    .answer-path {
+      font-size: 0.68rem; color: var(--slate-400);
+      font-family: 'Cinzel Decorative', cursive;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .yes-ans { color: var(--cyan-300); }
+    .no-ans  { color: var(--slate-400); }
+
+    /* ── Reference list ───────────────────────────────── */
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+      color: var(--slate-300);
+      line-height: 1.55;
+    }
+    .field-item:last-child { border-bottom: none; }
+    .field-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+      background: var(--purple-400);
+    }
+    .field-note { font-size: 0.72rem; color: var(--slate-400); }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND IMAGE -->
+  <div style="position:fixed; inset:0; z-index:-1; overflow:hidden;">
+    <img src="../assets/backgroundimage01.webp" alt="" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
+
+  <!-- HEADER -->
+  <header style="border-bottom:1px solid rgba(255,255,255,0.10); background:transparent; position:fixed; top:0; left:0; right:0; z-index:50; height:80px;">
+    <div style="max-width:1536px; margin:0 auto; padding:0 2.5rem; height:100%; display:flex; align-items:center; gap:1.5rem;">
+      <a href="../draft-fatca.html" class="home-btn" title="Back to FATCA Hub">
+        <img src="../assets/homebutton.webp" alt="Back to FATCA Hub" style="height:48px; width:auto; display:block;">
+      </a>
+      <h1 class="title-font" style="font-size:clamp(0.8rem, 3vw, 2rem); letter-spacing:3px; text-shadow:0 0 30px #00f7ff, 0 0 60px #00f7ff; color:#00f7ff; margin:0; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+        ACCOUNT REPORTABILITY
+      </h1>
+      <span style="width:48px; flex-shrink:0;" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="max-width:820px; margin:0 auto; padding:2.5rem; padding-top:calc(80px + 2.5rem); display:flex; flex-direction:column; gap:2rem;">
+
+    <!-- INTRO -->
+    <div class="card">
+      <span class="section-label" style="color:var(--cyan-400);">Is the account reportable?</span>
+      <p style="font-size:0.875rem; color:var(--slate-300); line-height:1.75; margin:0;">
+        A Reporting FI must report its <strong style="color:var(--white);">US Reportable Accounts</strong> — those held by one or more <strong style="color:var(--white);">Specified US Persons</strong>, or by a <strong style="color:var(--white);">Passive NFFE</strong> with one or more Controlling Persons who are Specified US Persons. This tool works through an individual or entity account to reach a reportability outcome. It assumes you have already established that the holder is at a Reporting or Participating FFI.
+      </p>
+    </div>
+
+    <!-- WIZARD -->
+    <div class="card card-cyan">
+      <span class="section-label" style="color:var(--cyan-400);">Assess an account</span>
+      <hr class="divider" style="margin:0 0 1.5rem;">
+      <div id="wizard" class="wizard"></div>
+    </div>
+
+    <!-- SPECIFIED US PERSON REFERENCE -->
+    <div class="card card-purple">
+      <span class="section-label" style="color:var(--purple-400);">Who is NOT a Specified US Person</span>
+      <p style="font-size:0.82rem; color:var(--slate-400); margin:0 0 1.25rem; line-height:1.65;">A US person is a Specified US Person <em>unless</em> it falls within one of the excepted categories below. An account held by an excepted US person is generally not reportable.</p>
+      <div class="field-item"><div class="field-dot"></div><div>A corporation whose stock is <strong style="color:var(--white);">regularly traded</strong> on an established securities market, and its affiliates</div></div>
+      <div class="field-item"><div class="field-dot"></div><div>The <strong style="color:var(--white);">United States</strong> or any of its wholly owned agencies or instrumentalities</div></div>
+      <div class="field-item"><div class="field-dot"></div><div>Any <strong style="color:var(--white);">State</strong>, US territory, political subdivision or wholly owned agency thereof</div></div>
+      <div class="field-item"><div class="field-dot"></div><div>A <strong style="color:var(--white);">bank</strong>, <strong style="color:var(--white);">REIT</strong>, <strong style="color:var(--white);">regulated investment company</strong> or registered <strong style="color:var(--white);">dealer</strong> in securities/commodities</div></div>
+      <div class="field-item"><div class="field-dot"></div><div>A <strong style="color:var(--white);">tax-exempt organisation</strong> (501(a)), individual retirement plan, common trust fund or exempt trust</div></div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p style="font-size:0.75rem; color:var(--slate-400); text-align:center; line-height:1.7; max-width:700px; margin:0 auto; padding-bottom:1rem;">
+      This walkthrough is a simplified guide and does not constitute legal or tax advice. Reportability turns on the detailed FATCA definitions, the applicable IGA and your jurisdiction's guidance — always confirm the outcome against the applicable rules or a qualified adviser.
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.70); padding:1.25rem 2.5rem; color:var(--slate-400); font-size:0.875rem;">
+    <div style="max-width:1536px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0.6rem; text-align:center;">
+      <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:center; font-size:0.8rem;">
+        <span class="title-font" style="color:#fff; font-size:0.75rem; letter-spacing:2px;">THEFAXMINATOR 2.0</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="../draft-home.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <span style="color:rgba(255,255,255,0.2);">·</span>
+        <a href="../draft-fatca.html" style="color:var(--slate-400); text-decoration:none;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">FATCA Hub</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const TREE = {
+      description: "Determine whether an individual or entity account is a US Reportable Account under FATCA. Start by choosing the account-holder type.",
+      start: "q_type",
+      nodes: {
+        q_type: {
+          question: "Is the account held by an individual (a natural person)?",
+          hint: "Choose Yes for individuals and sole proprietors. Choose No for entities — companies, partnerships, trusts, foundations and similar.",
+          yes: "qi1", no: "qe1"
+        },
+
+        /* ── Individual branch ── */
+        qi1: {
+          question: "Is the account holder a US citizen or a US tax resident (including a US green-card holder)?",
+          hint: "US citizens are US persons wherever they live. US residence includes lawful permanent residents and those meeting the substantial-presence test.",
+          yes: "qi_sp", no: "qi2"
+        },
+        qi2: {
+          question: "Does the file contain any unresolved US indicia — US place of birth, US address or phone, standing instructions to a US account, a US power of attorney / signatory, or a US in-care-of / hold-mail address?",
+          hint: "See the US Indicia Checklist for the full list. Any single indicium is enough to require follow-up.",
+          yes: "qi_cure", no: "out_notReportable_ind"
+        },
+        qi_cure: {
+          question: "Has the US indicium been cured with acceptable documentary evidence that the holder is not a US person?",
+          hint: "Curing evidence includes a valid non-US self-certification plus, for a US place of birth, a Certificate of Loss of Nationality or a reasonable explanation of why citizenship was not obtained. Without it, the account is treated as held by a US person.",
+          yes: "out_notReportable_ind", no: "qi_sp"
+        },
+        qi_sp: {
+          question: "Is the holder a Specified US Person — i.e. NOT within an excepted category (publicly traded corporation, government, bank, REIT, RIC, tax-exempt organisation, etc.)?",
+          hint: "Most private individuals who are US persons are Specified US Persons. See the reference list below for who is excepted.",
+          yes: "out_reportable_ind", no: "out_excepted"
+        },
+
+        /* ── Entity branch ── */
+        qe1: {
+          question: "Is the entity itself a Specified US Person?",
+          hint: "A US-organised entity that is not within an excepted category (publicly traded corporation, government, bank, REIT, RIC, tax-exempt organisation, etc.).",
+          yes: "out_reportable_ent", no: "qe2"
+        },
+        qe2: {
+          question: "Is the entity a Financial Institution (FFI)?",
+          hint: "Use the FFI Classification tool if unsure. If it is not an FFI, it is a Non-Financial Foreign Entity (NFFE).",
+          yes: "qe_ffi", no: "qe3"
+        },
+        qe_ffi: {
+          question: "Is that FFI a Nonparticipating FFI?",
+          hint: "A Nonparticipating FFI is not participating, deemed-compliant, exempt or covered by an IGA. During the FATCA transitional period, foreign reportable amounts paid to it may need to be reported.",
+          yes: "out_reportable_npffi", no: "out_notReportable_ffi"
+        },
+        qe3: {
+          question: "Is the NFFE a Passive NFFE?",
+          hint: "A Passive NFFE is an NFFE that is not an Active NFFE (i.e. it fails the active tests — less than 50% passive income and less than 50% passive assets — and is not otherwise excepted).",
+          yes: "qe_cp", no: "out_notReportable_active"
+        },
+        qe_cp: {
+          question: "Does the Passive NFFE have one or more Controlling Persons (substantial US owners) who are Specified US Persons?",
+          hint: "Controlling Persons are the natural persons who exercise control over the entity; for a trust, the settlor, trustees, protector, beneficiaries and other controllers. Under the US regulations the test is a >10% substantial US owner.",
+          yes: "out_reportable_passive", no: "out_notReportable_passive"
+        }
+      },
+      outcomes: {
+        out_reportable_ind: {
+          color: "emerald", icon: "✓",
+          title: "Reportable — Specified US Person",
+          message: "The individual account is a US Reportable Account. Report the holder's name, address, US TIN, account number, balance/value and the relevant income. Use the <a href='fatca-reporting.html'>Reporting Requirements</a> tool for the full data set."
+        },
+        out_reportable_ent: {
+          color: "emerald", icon: "✓",
+          title: "Reportable — Specified US Person (Entity)",
+          message: "The entity is itself a Specified US Person, so the account is a US Reportable Account. Report the entity's name, address, US TIN, account number, balance/value and income."
+        },
+        out_reportable_passive: {
+          color: "emerald", icon: "✓",
+          title: "Reportable — Passive NFFE with US Controlling Persons",
+          message: "The account is a US Reportable Account. Report the Passive NFFE <strong>and</strong> each Controlling Person who is a Specified US Person, including their name, address and US TIN, alongside the account details."
+        },
+        out_reportable_npffi: {
+          color: "amber", icon: "⊘",
+          title: "Nonparticipating FFI — transitional reporting",
+          message: "The account holder is a Nonparticipating FFI. It is not a US Reportable Account in the ordinary sense, but foreign reportable amounts paid to it may be reportable on an aggregate basis during the FATCA transitional period. Confirm the current requirement under the applicable IGA or regulations."
+        },
+        out_notReportable_ind: {
+          color: "slate", icon: "○",
+          title: "Not Reportable",
+          message: "On these answers the individual account is not a US Reportable Account. Keep the self-certification and any curing documentation on file, and re-test if the circumstances or indicia change."
+        },
+        out_excepted: {
+          color: "slate", icon: "○",
+          title: "Not Reportable — Excepted US Person",
+          message: "The holder is a US person but falls within an excepted category, so it is not a Specified US Person and the account is not reportable. Document the exception (e.g. publicly traded corporation, governmental entity, bank, REIT, RIC or tax-exempt organisation)."
+        },
+        out_notReportable_ffi: {
+          color: "slate", icon: "○",
+          title: "Not Reportable — Compliant FFI",
+          message: "The account holder is an FFI that is participating, deemed-compliant, exempt or covered by an IGA. The account is not a US Reportable Account of this FI — the account holder handles its own FATCA obligations."
+        },
+        out_notReportable_active: {
+          color: "slate", icon: "○",
+          title: "Not Reportable — Active NFFE",
+          message: "The entity is an Active NFFE, so there are no Controlling Persons to look through and the account is not a US Reportable Account. Keep the self-certification supporting the Active NFFE status on file."
+        },
+        out_notReportable_passive: {
+          color: "slate", icon: "○",
+          title: "Not Reportable — no US Controlling Persons",
+          message: "The Passive NFFE has no Controlling Persons who are Specified US Persons, so the account is not a US Reportable Account. Keep the self-certification identifying the Controlling Persons on file and re-test if control changes."
+        }
+      }
+    };
+
+    const state = { phase: 'idle', currentNode: null, history: [], outcome: null };
+
+    function startTree() {
+      state.phase = 'active';
+      state.currentNode = TREE.start;
+      state.history = [];
+      state.outcome = null;
+      render();
+    }
+
+    function answer(val) {
+      const node = TREE.nodes[state.currentNode];
+      const next = val === 'yes' ? node.yes : node.no;
+      state.history.push({ nodeId: state.currentNode, answer: val });
+      if (TREE.outcomes[next]) {
+        state.phase = 'done'; state.outcome = next; state.currentNode = null;
+      } else {
+        state.currentNode = next;
+      }
+      render();
+    }
+
+    function goBack() {
+      if (state.history.length === 0) return;
+      const prev = state.history.pop();
+      state.currentNode = prev.nodeId;
+      state.phase = 'active';
+      state.outcome = null;
+      render();
+    }
+
+    function resetTree() {
+      state.phase = 'idle';
+      state.currentNode = null;
+      state.history = [];
+      state.outcome = null;
+      render();
+    }
+
+    function outcomeStyle(color) {
+      switch (color) {
+        case 'emerald': return { bg: 'rgba(52,211,153,0.10)',  border: 'rgba(52,211,153,0.35)',  text: 'var(--emerald-400)' };
+        case 'amber':   return { bg: 'rgba(251,191,36,0.10)',  border: 'rgba(251,191,36,0.35)',  text: 'var(--amber-400)'   };
+        case 'red':     return { bg: 'rgba(248,113,113,0.10)', border: 'rgba(248,113,113,0.35)', text: 'var(--red-400)'     };
+        default:        return { bg: 'rgba(148,163,184,0.06)', border: 'rgba(148,163,184,0.22)', text: 'var(--slate-300)'   };
+      }
+    }
+
+    function render() {
+      const el = document.getElementById('wizard');
+      let html = '';
+
+      if (state.phase === 'idle') {
+        html = `
+          <p style="font-size:0.85rem; color:var(--slate-300); line-height:1.75; margin:0;">${TREE.description}</p>
+          <button class="btn-start" onclick="startTree()">Start Assessment</button>
+        `;
+      } else if (state.phase === 'active') {
+        const node = TREE.nodes[state.currentNode];
+        const stepNum = state.history.length + 1;
+        html = `
+          <div class="step-indicator">Question ${stepNum}</div>
+          <p class="tree-question">${node.question}</p>
+          ${node.hint ? `<div class="tree-hint">${node.hint}</div>` : ''}
+          <div class="btn-row">
+            <button class="btn-yes" onclick="answer('yes')">Yes</button>
+            <button class="btn-no"  onclick="answer('no')">No</button>
+          </div>
+          <div class="nav-row">
+            ${state.history.length > 0 ? `<button class="btn-text" onclick="goBack()">← Back</button>` : '<span></span>'}
+            <button class="btn-text" onclick="resetTree()">✕ Start Over</button>
+          </div>
+        `;
+      } else if (state.phase === 'done') {
+        const outcome = TREE.outcomes[state.outcome];
+        const style = outcomeStyle(outcome.color);
+        const path = state.history.map(h =>
+          `<span class="${h.answer === 'yes' ? 'yes-ans' : 'no-ans'}">${h.answer.toUpperCase()}</span>`
+        ).join(' <span style="color:rgba(255,255,255,0.2);">›</span> ');
+        html = `
+          <div class="outcome-panel" style="background:${style.bg}; border:1px solid ${style.border};">
+            <div class="outcome-icon">${outcome.icon}</div>
+            <div class="outcome-title" style="color:${style.text};">${outcome.title}</div>
+            <div class="outcome-msg">${outcome.message}</div>
+          </div>
+          <div class="answer-path">Path: ${path}</div>
+          <div class="nav-row">
+            <button class="btn-text" onclick="goBack()">← Revise Last Answer</button>
+            <button class="btn-text" onclick="resetTree()">↺ Start Over</button>
+          </div>
+        `;
+      }
+
+      el.innerHTML = html;
+    }
+
+    render();
+  </script>
+
+</body>
+</html>
