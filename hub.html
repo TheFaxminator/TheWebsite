@@ -419,11 +419,7 @@
         <span style="color:rgba(255,255,255,0.2);">|</span>
         <a href="index.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Home</a>
         <span style="color:rgba(255,255,255,0.2);">·</span>
-        <a href="tools/global-tin-validator.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Global TIN Validator</a>
-        <span style="color:rgba(255,255,255,0.2);">·</span>
-        <a href="tools/countries.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">TIN's by Country</a>
-        <span style="color:rgba(255,255,255,0.2);">·</span>
-        <a href="tools/other-tools.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Other Tools</a>
+        <a href="hub.html" style="color:var(--slate-400); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#94a3b8'">Hub</a>
         <span style="color:rgba(255,255,255,0.2);">|</span>
         <span>© 2026</span>
       </div>
@@ -444,9 +440,11 @@
         <h2 class="title-font" style="font-size:1.5rem; letter-spacing:3px; color:#00f7ff; text-shadow:0 0 20px #00f7ff; margin:0 0 0.75rem;">THEFAXMINATOR</h2>
         <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0;">
           TheFaxminator is an alias created so I could play COD. The alias have now expanded
-		  to become a website. The main purpose of the website is to try to make available
-		  different types of tools that people/companies can utilise if they find them useful.
-          There is no separate server and the tools will not collect any data.
+          to become an informational website. The main purpose of the website is to make available
+          different types of tools that people/companies can utilise if they find them useful for
+          reporting/analysis purposes. From a design and coding perspective I do get a lot of help
+          from (A)nne (I)ngeborg to develop this. There is no separate server involved for any of the
+          functionality or downloadable tools and the site will not collect any data.
         </p>
       </div>
 
@@ -455,30 +453,21 @@
         <p class="about-section-label">Information</p>
         <div class="about-section-title">What's on the Website</div>
         <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0 0 1rem;">
-          The website currently offers a tin validator and information about the supported TIN's, with more planned as it's under development:
+          The website currently offers a tin validator and other downloadable tools, with more planned as the
+          website is under development. Information about the current functionality is shown below.
         </p>
-        <span class="tool-pill">Global TIN Validator</span>
-        <span class="tool-pill">TIN's by Country</span>
         <p style="font-size:0.8rem; color:#94a3b8; line-height:1.7; margin:1rem 0 0;">
           The <strong style="color:#fff;">Global TIN Validator</strong> lets you validate any tax identification
-          number against regular expression rules. Though a number of countries do have check digit algorithms as
-		  part of the TIN structure, this is not included here. The formats supported by THEFAXMINATOR is shown
-		  in the TIN information cards. The validator will instantly flag valid or invalid TIN's.<br><br>
-          <strong style="color:#fff;">TIN's by Country</strong> is a growing reference library where each
-          supported country has a dedicated profile covering its TIN types, formats, issuing authority,
-          and some other facts.
-        </p>
-      </div>
-
-      <!-- Data -->
-      <div class="about-section">
-        <p class="about-section-label">Data & Architecture</p>
-        <div class="about-section-title">Single Source of Truth</div>
-        <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0;">
-          All TIN data — descriptions, format rules, validation logic, and country metadata — lives in
-          dedicated per-country modules. Both the validator and the country reference pages read from
-          the same source, so information is always consistent across the platform.
-          New countries are added by creating a single file.
+          number against regular expression rules within the browser. Though a number of countries do have check
+          digit algorithms and checks on date of birth as part of the TIN structure, this is not included here.
+          The formats supported by TheFaxminator is shown in the TIN information cards. The validator will flag
+          valid or invalid TIN's when a TIN is entered into the validator. There is also a page that shows the
+          countries currently supported and not supported.<br><br>
+          The <strong style="color:#fff;">Other Tools</strong> page is where you will find different downloadable
+          tools you can use. When you select one of these tools, a zip file will be downloaded to your pc. The zip
+          file includes a pdf user guide and the program to run the tool locally on your machine. Example
+          functionality available are XML viewer, XSD validator and a downloadable TIN validator. This page will
+          continue to expand once more tools become available.
         </p>
       </div>
 
@@ -488,7 +477,8 @@
         <div class="about-section-title">TheFaxminator 2.0</div>
         <p style="font-size:0.875rem; color:#cbd5e1; line-height:1.75; margin:0;">
           Built as a self-contained web platform, no external dependencies.
-          Runs entirely in the browser. Country coverage is actively expanding.
+          Runs entirely in the browser. There are no separate servers where data is collected and stored.
+          Coverage of tin validation and other tools is actively expanding.
         </p>
       </div>
 
